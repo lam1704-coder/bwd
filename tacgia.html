@@ -1,0 +1,316 @@
+    <!DOCTYPE html>
+    <html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Giao diện Tác giả</title>
+        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+        <style>
+            /* --- CSS CƠ BẢN --- */
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body { font-family: 'Quicksand', sans-serif; background-color: #fff5f7; color: #333; overflow-x: hidden; }
+            .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+            /* --- PHẦN 1: TÁC GIẢ NỔI BẬT (GIỮ NGUYÊN) --- */
+            .hero-section { padding: 60px 0; text-align: left; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffdae9" fill-opacity="1" d="M0,128L80,117.3C160,107,320,85,480,96C640,107,800,149,960,154.7C1120,160,1280,128,1360,112L1440,96L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path></svg>') top center no-repeat; background-size: contain; }
+            .hero-text { max-width: 500px; position: relative; margin-top: 50px; }
+            .font-handwriting { font-family: 'Dancing Script', cursive; font-size: 5rem; color: #326c2a; line-height: 0.8; }
+            .font-bold { font-size: 4rem; color: #1c6912; margin-bottom: 20px; }
+            .description { color: #555; line-height: 1.6; margin-bottom: 30px; font-size: 14px; }
+            
+            .btn-more { display: inline-flex; align-items: center; background: white; padding: 5px 15px; border-radius: 50px; border: 1px solid #eee; cursor: pointer; position: absolute; right: -150px; top: 150px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+            .btn-more img { width: 40px; margin-right: 10px; }
+
+            /* --- PHẦN 2: 3 Ô TĨNH (GIỮ NGUYÊN) --- */
+            .inspiration-static { text-align: center; padding: 40px 0; }
+            .section-title { color: #2D5A27; font-size: 2rem; margin-bottom: 40px; }
+            .static-cards { display: flex; justify-content: center; gap: 30px; align-items: center; }
+            .card-pink { width: 180px; height: 240px; background: #fce4ec; border: 1px solid #f8bbd0; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #f8bbd0; box-shadow: inset 0 0 20px rgba(0,0,0,0.02); }
+            .nav-arrow-static { font-size: 2rem; color: #2D5A27; margin: 0 20px; cursor: default; opacity: 0.5; }
+
+            /* --- PHẦN 3: SLIDER POLAROID (THÊM HIỆU ỨNG Ở ĐÂY) --- */
+            .gallery-slider-section { background-color: #ffe4eb; padding: 60px 0; position: relative; }
+            .slider-controls { display: flex; align-items: center; justify-content: center; gap: 20px; }
+            
+            .polaroid-viewport { width: 1000px; overflow: hidden; }
+            .polaroid-track { display: flex; gap: 25px; transition: transform 0.5s ease-in-out; padding: 20px 0; }
+
+            .polaroid-item { flex: 0 0 calc(25% - 20px); position: relative; padding-top: 25px; }
+            .pin-flower { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 45px; z-index: 5; }
+            .photo-card { background: white; padding: 10px 10px 30px 10px; box-shadow: 0 8px 15px rgba(0,0,0,0.05); transform: rotate(-2deg); transition: 0.3s; }
+            .photo-card:hover { transform: rotate(0deg) scale(1.05); }
+            .photo-card img { width: 100%; height: 220px; object-fit: cover; display: block; margin-bottom: 12px; background: #eee; }
+            .photo-card p { font-size: 13px; font-weight: bold; color: #555; text-align: center; }
+
+            .btn-nav { background: none; border: none; font-size: 2.5rem; color: #2D5A27; cursor: pointer; transition: 0.3s; }
+            .btn-nav:hover { transform: scale(1.2); color: #f06292; }
+
+            /* --- FOOTER --- */
+            .footer { padding: 40px 0; background: white; font-size: 12px; color: #999; }
+            .footer-flex { display: flex; justify-content: space-between; }
+            .footer-col ul { list-style: none; margin-top: 10px; }
+            .footer-col ul li { margin-bottom: 5px; }
+        </style>
+    </head>
+    <body>
+
+       <!-- Đoạn CSS nhúng và cấu hình font chữ -->
+<style>
+    /* 1. Nhúng font Anton và Montserrat từ Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+    /* 2. Nhúng font 1FTV Eastin Hikary từ thư mục local của bạn */
+    @font-face {
+        font-family: '1FTV Eastin Hikary';
+        src: url('fonts/1FTV-Eastin-Hikary.ttf') format('truetype'); /* Bạn nhớ kiểm tra lại đường dẫn file .ttf này nhé */
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    /* 3. Định nghĩa font chữ cho các class */
+    .font-handwriting {
+        font-family: '1FTV Eastin Hikary', cursive !important;
+    }
+
+    .font-bold {
+        font-family: 'Anton', sans-serif !important;
+        text-transform: uppercase; /* Font Anton viết hoa toàn bộ trông sẽ cân đối và đẹp nhất */
+    }
+
+    .description {
+        font-family: 'Montserrat', sans-serif !important;
+    }
+
+    /* Đồng bộ font Montserrat cho cả chữ "Xem thêm..." */
+    .btn-more span {
+        font-family: 'Montserrat', sans-serif;
+    }
+</style>
+
+<section class="hero-section">
+    <div class="container">
+        <div class="hero-text">
+            <h2 class="font-handwriting">Tác giả</h2>
+            <h1 class="font-bold">nổi bật</h1>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 40px; margin-top: 20px;">
+                
+                <p class="description" style="margin: 0; max-width: 55%; line-height: 1.6;">
+                    Một tâm hồn say mê con chữ, luôn đi tìm vẻ đẹp ẩn mình trong những điều bình dị nhất. Họ gieo vào lòng người đọc những nhành xanh hy vọng qua từng trang viết đậm chất tự sự.
+                </p>
+                
+                <div class="btn-more" style="
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; /* Giúp căn giữa tất cả thành phần bên trong */
+    background-color: #fff0f3; 
+    padding: 6px 24px 6px 6px; /* Chỉnh lại padding trên dưới đều nhau */
+    border-radius: 50px; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+    cursor: pointer;
+    white-space: nowrap; 
+    margin-right: 10%;
+    height: 45px; /* Cố định chiều cao nút để tính toán căn giữa chính xác */
+    box-sizing: border-box; /* Đảm bảo padding không làm lệch chiều cao */
+">
+    <img src="bông hoa (1).png" alt="icon" style="
+        width: 50px; 
+        height: 50px; /* Định dạng khung vuông để hoa không bị móp */
+        object-fit: contain;
+        margin-left: -12px; 
+        margin-right: 8px;
+        filter: drop-shadow(3px 4px 3px rgba(0, 0, 0, 0.18)) 
+                drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.12));
+    ">
+    
+    <span style="
+        font-size: 14px; 
+        color: #2e6f21; 
+        font-weight: 500; 
+        font-family: 'Montserrat', sans-serif;
+        display: inline-block;
+        line-height: 1; /* Triệt tiêu khoảng trống thừa của font chữ */
+    ">Xem thêm...</span>
+</div>
+</section>
+
+        <section class="inspiration-static">
+           <h3 class="section-title" style="font-family: 'Anton', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; color: #2e6f21;">
+    Người truyền cảm hứng
+</h3>
+<div class="static-cards" style="
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    gap: 40px; /* Khoảng cách rộng rãi giữa các thẻ và mũi tên */
+    padding: 30px;
+    width: 100%;
+    box-sizing: border-box;
+">
+    <div class="nav-arrow-static" style="
+        width: 0; 
+        height: 0; 
+        border-top: 12px solid transparent;
+        border-bottom: 12px solid transparent;
+        border-right: 18px solid #739d6f; /* Tạo tam giác quay sang trái */
+        cursor: pointer;
+        user-select: none;
+    "></div>
+    
+    <div style="display: flex; gap: 30px;">
+        
+        <div class="card-pink" style="
+            width: 150px; 
+            height: 180px; 
+            background-color: #ffd6e0; /* Màu hồng phấn chuẩn mẫu */
+            border-radius: 4px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        ">
+            <div style="
+                width: 110px; 
+                height: 110px; 
+                border: 2px solid rgba(255, 255, 255, 0.6); 
+                box-shadow: inset 0 0 4px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            ">
+                <img src="bông hoa (1).png" alt="hoa" style="
+                    width: 50px; 
+                    height: auto;
+                    filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.15));
+                ">
+            </div>
+        </div>
+
+        <div class="card-pink" style="
+            width: 150px; 
+            height: 180px; 
+            background-color: #ffd6e0; 
+            border-radius: 4px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        ">
+            <div style="width: 110px; height: 110px; border: 2px solid rgba(255, 255, 255, 0.6); box-shadow: inset 0 0 4px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center;">
+                <img src="bông hoa (1).png" alt="hoa" style="width: 50px; height: auto; filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.15));">
+            </div>
+        </div>
+
+        <div class="card-pink" style="
+            width: 150px; 
+            height: 180px; 
+            background-color: #ffd6e0; 
+            border-radius: 4px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        ">
+            <div style="width: 110px; height: 110px; border: 2px solid rgba(255, 255, 255, 0.6); box-shadow: inset 0 0 4px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center;">
+                <img src="bông hoa (1).png" alt="hoa" style="width: 50px; height: auto; filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.15));">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="nav-arrow-static" style="
+        width: 0; 
+        height: 0; 
+        border-top: 12px solid transparent;
+        border-bottom: 12px solid transparent;
+        border-left: 18px solid #739d6f; /* Tạo tam giác quay sang phải */
+        cursor: pointer;
+        user-select: none;
+    "></div>
+</div>
+        </section>
+
+        <section class="gallery-slider-section">
+        <div class="slider-controls">
+            <button class="btn-nav" onclick="moveSlide(-1)">❮</button>
+            
+            <div class="polaroid-viewport">
+                <div class="polaroid-track" id="track">
+                    
+                    <div class="polaroid-item">
+                        <a href="truclinh.html" class="polaroid-link">
+                            <img src="bông hoa (1).png" class="pin-flower">
+                            <div class="photo-card">
+                                <img src="vo.jpg" alt="1">
+                                <p>Võ Phạm Trúc Linh</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="polaroid-item">
+                        <a href="suongmai.html" class="polaroid-link">
+                            <img src="bông hoa (1).png" class="pin-flower">
+                            <div class="photo-card" style="transform: rotate(2deg);">
+                                <img src="pmai (1).jpg" alt="2">
+                                <p>Cô Sương Mai</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="polaroid-item">
+                        <a href="rubik.html" class="polaroid-link">
+                            <img src="bông hoa (1).png" class="pin-flower">
+                            <div class="photo-card">
+                                <img src="rubik.jpg" alt="3">
+                                <p>RUBIK Văn Chương</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="polaroid-item">
+                        <a href="tramvan.html" class="polaroid-link">
+                            <img src="bông hoa (1).png" class="pin-flower">
+                            <div class="photo-card" style="transform: rotate(3deg);">
+                                <img src="pvan'.jpg" alt="4">
+                                <p>Trạm Văn</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="polaroid-item">
+                        <a href="star.html" class="polaroid-link">
+                            <img src="bông hoa (1).png" class="pin-flower">
+                            <div class="photo-card">
+                                <img src="https://via.placeholder.com/200x250" alt="5">
+                                <p>star</p>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            <button class="btn-nav" onclick="moveSlide(1)">❯</button>
+        </div>
+    </section>
+
+   
+
+        <script>
+            let currentPos = 0;
+            const track = document.getElementById('track');
+            const itemWidth = 250; // Chiều rộng mỗi card + gap
+
+            function moveSlide(dir) {
+                const maxScroll = track.scrollWidth - track.parentElement.clientWidth;
+                currentPos += dir * itemWidth;
+
+                if (currentPos < 0) currentPos = 0;
+                if (currentPos > maxScroll) currentPos = maxScroll;
+
+                track.style.transform = `translateX(-${currentPos}px)`;
+            }
+        </script>
+
+    </body>
+    </html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giao diện TTS - Portfolio</title>
+    <style>
+        /* TỔNG QUAN & MÀU SẮC */
+        :root {
+            --primary-green: #6d8c5d; /* Màu xanh lá chuẩn mẫu */
+            --bg-light: #f4f7f2;
+            --text-dark: #333;
+            --text-muted: #777;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: var(--text-dark);
+        }
+
+        /* BANNER PHÍA TRÊN */
+        .hero {
+            position: relative;
+            height: 580px;
+            background: url('banner.png') center/cover no-repeat;
+            display: flex;
+            align-items: flex-end;
+            padding: 0 10% 80px;
+        }
+
+        /* Hiệu ứng mờ dần (Gradient) ở chân banner */
+        .hero::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(transparent, rgb(255, 255, 255));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 90px;
+            color: var(--primary-green);
+            margin: 0;
+            letter-spacing: -2px;
+        }
+
+        .hero-content p {
+            font-size: 24px;
+            font-style: italic;
+            color: #555;
+            margin: 5px 0 0 5px;
+        }
+
+        /* CHỈ SỐ THỐNG KÊ (STATS) */
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            padding: 40px 10%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-item strong {
+            display: block;
+            font-size: 20px;
+            color: var(--primary-green);
+            margin-bottom: 5px;
+        }
+
+        .stat-item span {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        /* PHẦN GIỚI THIỆU */
+        .intro {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 50px;
+            padding: 40px 10%;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .intro img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .intro p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        /* LƯỚI 9 ẢNH (3x3) */
+        .grid-main {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px 10%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .img-card {
+            aspect-ratio: 4 / 3;
+            overflow: hidden;
+            border-radius: 4px;
+            background: #f0f0f0;
+        }
+
+        .img-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .img-card:hover img {
+            transform: scale(1.08);
+        }
+
+        /* DÒNG CHỮ CHẠY NGANG GIỮA */
+        .quote-divider {
+            padding: 60px 15%;
+            text-align: center;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: #045420;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* LƯỚI 4 ẢNH PHỤ (1x4) */
+        .grid-footer {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 0 10% 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid #eee;
+            padding: 60px 10%;
+            display: flex;
+            justify-content: space-between;
+            background: #fafafa;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 80px;
+        }
+
+        .footer-col h4 {
+            font-size: 14px;
+            color: #bbb;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .footer-col p {
+            font-size: 14px;
+            margin: 5px 0;
+            color: #666;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .grid-main { grid-template-columns: repeat(2, 1fr); }
+            .grid-footer { grid-template-columns: repeat(2, 1fr); }
+            .intro { grid-template-columns: 1fr; }
+            .stats { flex-wrap: wrap; gap: 20px; }
+           
+        }
+    </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-content">
+        <h1 style="font-family: 'Anton', sans-serif; font-size: 64px; color: #2e6f21; margin-bottom: 10px;">
+            TTS
+        </h1>
+        
+        <p style="font-family: '1FTV Eastin Hikary', sans-serif; font-size: 44px; color: #006231; margin: 0;">
+            Võ Phạm Trúc Linh
+        </p>
+    </div>
+</header>
+
+    <section class="stats" style="
+    display: flex; 
+    justify-content: space-around; 
+    align-items: center; 
+    padding: 30px 10px; 
+    background-color: #fff; /* Hoặc màu nền tùy chọn của bạn */
+    font-family: 'Montserrat', sans-serif; /* Áp dụng font Montserrat cho toàn bộ stats */
+">
+    <div class="stat-item" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <strong style="font-size: 22px; color: #2e6f21; font-weight: 700; margin-bottom: 5px;">Hơn 8 năm</strong>
+        <span style="font-size: 12px; color: #666; font-weight: 400;">Kinh nghiệm giảng dạy</span>
+    </div>
+    
+    <div class="stat-item" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <strong style="font-size: 22px; color: #2e6f21; font-weight: 700; margin-bottom: 5px;">1000+</strong>
+        <span style="font-size: 12px; color: #666; font-weight: 400;">Học viên tin tưởng</span>
+    </div>
+    
+    <div class="stat-item" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <strong style="font-size: 22px; color: #2e6f21; font-weight: 700; margin-bottom: 5px;">2 điểm 10</strong>
+        <span style="font-size: 12px; color: #666; font-weight: 400;">Kỳ thi THPT Quốc gia</span>
+    </div>
+    
+    <div class="stat-item" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <strong style="font-size: 22px; color: #2e6f21; font-weight: 700; margin-bottom: 5px;">500+</strong>
+        <span style="font-size: 12px; color: #666; font-weight: 400;">Học sinh đạt điểm giỏi</span>
+    </div>
+</section>
+
+<section class="intro" style="
+    display: flex; 
+    align-items: center; 
+    gap: 40px; 
+    padding: 40px 20px; 
+    max-width: 1000px; 
+    margin: 0 auto;
+    font-family: 'Montserrat', sans-serif; /* Áp dụng font Montserrat cho toàn bộ intro */
+">
+    <img src="l1.jpg" alt="Author" style="width: 300px; height: auto; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+    
+    <p style="
+        font-size: 16px; 
+        color: #444; 
+        font-weight: 400; 
+        line-height: 1.7; /* Tăng giãn dòng giúp chữ Montserrat dễ đọc và thơ hơn */
+        margin: 0;
+    ">
+        Văn chương không chỉ là những con chữ, đó là sự thưởng thức tâm hồn. Qua góc nhìn của Võ Phạm Trúc Linh, những tác phẩm kinh điển trở nên gần gũi và đầy sức sống. Đây là không gian để chúng ta cùng dừng lại, lắng nghe hơi thở của ngôn từ.
+    </p>
+</section>
+
+    <section class="grid-main">
+        <div class="img-card"><img src="l2.jpg"></div>
+        <div class="img-card"><img src="l3.jpg"></div>
+        <div class="img-card"><img src="l4.jpg"></div>
+        
+        <div class="img-card"><img src="l5.jpg"></div>
+        <div class="img-card"><img src="l6.jpg"></div> <div class="img-card"><img src="l14.jpg"></div>
+        
+        <div class="img-card"><img src="l7.jpg"></div>
+        <div class="img-card"><img src="l8.jpg"></div>
+        <div class="img-card"><img src="l9.jpg"></div>
+    </section>
+
+  <div class="quote-divider" style="
+    font-family: 'Montserrat', sans-serif; 
+    font-size: 12px; 
+    font-weight: 500; /* Độ dày vừa phải giúp chữ thanh thoát */
+    font-style: italic; /* Chữ nghiêng tạo cảm giác trích dẫn nhẹ nhàng */
+    color: #4f6f4c; /* Màu xanh rêu nhẹ nhàng, hợp với tone tổng thể của bạn */
+    line-height: 1.8; 
+    text-align: center; /* Căn giữa câu trích dẫn cho cân đối màn hình */
+    max-width: 800px; 
+    margin: 40px auto; /* Tạo khoảng cách thoáng ở trên và dưới đoạn trích */
+    padding: 0 20px;
+">
+    "Tôi viết thêm, tôi viết kỹ, tôi viết mới, tôi viết khác về những tác phẩm cũ, qua những tác phẩm cũ, từ những tác phẩm cũ, rút ra những cái gì là ngây ngô, dại khờ và cả cái gì là đáng quý..."
+</div>
+
+    <section class="grid-footer">
+        <div class="img-card"><img src="l10.jpg"></div>
+        <div class="img-card"><img src="l11.jpg"></div>
+        <div class="img-card"><img src="l12.jpg"></div>
+        <div class="img-card"><img src="l13.jpg"></div>
+    </section>
+
+   
+
+</body>
+</html>

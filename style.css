@@ -1,0 +1,1042 @@
+/* ========================================= */
+/* Container chứa logo */
+.logo-box {
+    display: flex;          /* Giúp căn giữa ảnh dễ dàng */
+    justify-content: center; /* Căn giữa ảnh theo chiều ngang */
+    align-items: center;     /* Căn giữa ảnh theo chiều dọc (nếu logo-box có chiều cao) */
+}
+
+/* Ảnh logo thực tế */
+.logo-image {
+    /* CÁCH 1: Điều chỉnh scale bằng Width (CỐ ĐỊNH) */
+    width: 150px;           /* Bạn tăng/giảm con số này để logo to hoặc nhỏ theo ý muốn */
+    height: auto;           /* BẮT BUỘC có dòng này để giữ đúng tỷ lệ, ảnh không bị méo */
+    
+    /* CÁCH 2: Phóng to theo tỷ lệ (TRANSFORM SCALE) */
+    /* Nếu bạn muốn dùng scale gốc, hãy comment width ở trên và uncomment 2 dòng dưới */
+    /* transform: scale(1.2); /* Phóng to lên 1.2 lần so với kích thước gốc của ảnh */
+    /* transform-origin: center; /* Scale từ tâm ảnh */
+
+    max-width: 100%;        /* Đảm bảo logo không bao giờ to quá khung chứa nó ( Responsive) */
+    display: block;         /* Loại bỏ khoảng trống thừa phía dưới ảnh */
+}
+/* Nền cho Dòng chảy sáng tạo - Dùng ảnh giấy cũ/giấy da */
+.creative-flow {
+    background-image: url('nen1.jpg'); /* Thay tên file ảnh của bạn */
+    background-size: cover;      /* Ảnh phủ kín toàn bộ vùng nền */
+    background-position: center; /* Căn ảnh ở chính giữa */
+    background-attachment: scroll; /* Ảnh cuộn theo trang */
+    padding: 100px 0;
+    border-radius: 20px;
+}
+
+/* Nền cho Góc tác phẩm - Dùng ảnh mờ hoặc texture nhẹ */
+.tac-pham-tabs {
+    background-image: url(''); 
+    background-size: cover;
+    background-position: center;
+    padding: 60px 0;
+}
+
+/* Nền cho Tác giả nổi bật - Dùng ảnh phong cảnh hoặc trừu tượng */
+.top-authors {
+    /* Kết hợp cả ảnh và một lớp phủ mờ (overlay) để chữ dễ đọc hơn */
+    background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(240, 242, 245, 0.9)), 
+                url('nen1.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 60px 0;
+}
+/* CÀI ĐẶT CHUNG */
+
+/* ========================================= */
+
+html { scroll-behavior: smooth; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Be Vietnam Pro', sans-serif; }
+
+body { background-color: #fbcbe9; color: #333; overflow-x: hidden; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+.section-heading { text-align: center; font-size: 22px; font-weight: 600; color: #4a5d23; margin: 60px 0 30px 0; text-transform: uppercase; }
+
+
+
+/* ========================================= */
+.header-container {
+    text-align: center; /* Căn giữa ảnh */
+    padding: 20px;
+}
+
+.title-image {
+    width: 50%; /* Ảnh sẽ luôn chiếm 50% chiều rộng của thẻ cha */
+    height: auto; /* Giữ đúng tỷ lệ ảnh, không bị méo */
+}
+.subtitle-image {
+    max-width: 200px; /* Điều chỉnh chiều rộng ảnh tiêu đề phụ */
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+/* HEADER & HERO & NAVBAR */
+.logo {
+    display: flex;
+    justify-content: center; /* Căn giữa ảnh theo chiều ngang */
+    align-items: center;     /* Căn giữa ảnh theo chiều dọc */
+}
+
+.logo-img {
+    /* CÁCH 1: Dùng Width để định kích thước chính xác */
+    width: 100px; 
+    height: auto;
+
+    /* CÁCH 2: Dùng Transform Scale để phóng tỉ lệ (ví dụ 1.2 là 120%) */
+    /* transform: scale(1.2); */
+
+    transition: transform 0.3s ease; /* Tạo hiệu ứng mượt khi thay đổi */
+}
+
+/* Hiệu ứng phóng to nhẹ khi di chuột vào (tùy chọn) */
+.logo-img:hover {
+    transform: scale(0.9); 
+}
+.footer-logo-img {
+    width: 150px; /* Kích thước trên máy tính */
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .footer-logo-img {
+        width: 120px; /* Tự động nhỏ lại khi xem trên điện thoại */
+    }
+}
+/* ========================================= */
+
+.hero-section {
+    /* 1. Gộp chung background và thêm !important để ép trình duyệt nhận ảnh */
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), 
+                url('e614cc75b93da4bfe1b35914b733e5bd.jpg') no-repeat center center/cover !important;
+    
+    /* 2. Tăng chiều cao lên một chút cho thoáng ảnh */
+    height: 550px; 
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Căn giữa nội dung theo chiều dọc */
+}
+
+.navbar {
+    background-color: rgba(251, 208, 224, 0.85);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 50px; color: white;
+    position: fixed; top: 0; left: 0; width: 100%;
+    z-index: 1000; transition: all 0.3s ease-in-out;
+}
+
+.navbar.scrolled {
+    background-color: rgba(251, 208, 224, 0.85);
+    padding: 10px 50px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.logo { font-family: 'Dancing Script', cursive; font-size: 28px; }
+
+.nav-links { list-style: none; display: flex; gap: 30px; }
+
+.nav-links a { text-decoration: none; color: white; font-weight: 500; font-size: 15px; }
+
+.hero-content { 
+    text-align: center; 
+    color: white; 
+    /* Bỏ padding-top cũ vì đã dùng justify-content ở trên */
+}
+
+.title-script { 
+    font-family: 'Dancing Script', cursive; 
+    font-size: 80px; 
+    text-shadow: 2px 2px 15px rgba(0,0,0,0.5); /* Tăng bóng đổ để nổi bật trên nền ảnh */
+}
+
+.subtitle { 
+    font-size: 32px; 
+    font-weight: 400; 
+    margin-bottom: 25px; 
+    text-shadow: 1px 1px 10px rgba(0,0,0,0.4);
+}
+
+.btn-primary { 
+    padding: 12px 35px; 
+    border-radius: 50px; 
+    border: none; 
+    background: white; 
+    color: #4a5d23; 
+    font-weight: 600; 
+    font-size: 16px; 
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* TÌM KIẾM & ICONS */
+
+.search-wrapper { text-align: center; transform: translateY(-50%); position: relative; z-index: 10; }
+
+.search-bar { width: 60%; max-width: 600px; padding: 16px 25px; border-radius: 50px; border: 1px solid #ddd; background: #eef2e6; outline: none; }
+
+.category-section { display: flex; justify-content: center; flex-wrap: wrap; gap: 25px; margin-top: -10px; margin-bottom: 50px; }
+
+.icon-item { text-align: center; width: 80px; }
+
+.icon-item img { width: 65px; height: 65px; border-radius: 14px; object-fit: cover; margin-bottom: 10px; background-color: #ddd; }
+
+.icon-item p { font-size: 12px; color: #666; }
+
+
+
+/* GRID BÀI VIẾT & TÁC GIẢ */
+
+.grid-3-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+
+.post-card { background: #fff; display: flex; flex-direction: column; }
+
+.post-img { width: 100%; height: 220px; object-fit: cover; border-radius: 12px; background-color: #ddd; }
+
+.post-text { font-size: 13px; color: #444; margin: 15px 0 10px 0; line-height: 1.6; }
+
+.post-author { font-size: 11px; color: #888; font-style: italic; }
+
+
+
+.grid-5-cols { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
+
+.author-card { text-align: center; cursor: pointer; transition: 0.3s; }
+
+.author-card:hover { transform: translateY(-5px); }
+
+.author-card img { width: 100%; height: 250px; object-fit: cover; border-radius: 12px; background-color: #ddd;}
+
+.author-name { font-weight: 600; font-size: 14px; margin-top: 15px; color: #333; }
+
+.author-followers { font-size: 11px; color: #777; margin-top: 5px; }
+
+
+
+/* TABS TÁC PHẨM */
+
+.tac-pham-tabs { margin-top: 50px; padding-top: 80px; margin-top: -30px; }
+
+.tab-buttons { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
+
+.tab-btn { padding: 10px 20px; border: none; background: #eef2e6; border-radius: 30px; cursor: pointer; font-weight: 600; color: #555; transition: 0.3s; }
+
+.tab-btn.active, .tab-btn:hover { background: #4a5d23; color: white; }
+
+.tab-content { display: none; background: #fdfdfd; padding: 30px; border-radius: 15px; border: 1px solid #eee; animation: fadeIn 0.5s; }
+
+.tab-content.active { display: block; }
+
+.phan-tich { background: #fae8ef; padding: 15px; border-left: 4px solid #f7a8c4; margin-top: 15px; font-size: 14px; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+
+
+/* MODAL POPUP */
+
+.modal { display: none; position: fixed; z-index: 1001; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
+
+.modal-content { background-color: white; padding: 30px; border-radius: 15px; width: 90%; max-width: 500px; position: relative; }
+
+.close-btn { position: absolute; top: 10px; right: 20px; font-size: 28px; cursor: pointer; color: #888; }
+
+.close-btn:hover { color: red; }
+
+
+
+/* QUOTE & FOOTER */
+
+.quote-section { background-color: #fae8ef; text-align: center; padding: 40px 20px; border-radius: 20px; margin: 60px auto; max-width: 800px; }
+
+.quote-section p { font-size: 16px; color: #444; line-height: 1.8; font-weight: 500; }
+
+.site-footer { border-top: 1px solid #ddd; padding: 30px 0; margin-top: 40px; }
+
+.footer-links { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 20px; margin-bottom: 20px; }
+
+.footer-logo { font-family: 'Dancing Script', cursive; font-size: 24px; color: #4a5d23; }
+
+.footer-links a { text-decoration: none; color: #666; font-size: 13px; }
+
+.footer-info { font-size: 11px; color: #555; line-height: 1.6; }
+
+
+
+/* ========================================= */
+
+/* TRANG TÀI KHOẢN (AUTH) */
+
+/* ========================================= */
+
+.auth-body { background: radial-gradient(circle at top right, #ffe6f0, #ffb3d1, #ff80b3); min-height: 100vh; display: flex; justify-content: center; align-items: center; position: relative; }
+
+.back-home-btn { position: absolute; top: 20px; left: 20px; color: #fff; background: rgba(0,0,0,0.2); padding: 10px 15px; border-radius: 20px; text-decoration: none; font-weight: 600; transition: 0.3s; }
+
+.back-home-btn:hover { background: rgba(0,0,0,0.4); }
+
+.auth-wrapper { width: 100%; padding: 20px; display: flex; justify-content: center; }
+
+.auth-box { background: #ffffff; width: 100%; max-width: 450px; padding: 40px; border-radius: 5px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); }
+
+.logo-box { background: #e0e0e0; color: #333; text-align: center; padding: 15px; font-size: 20px; margin: 0 auto 30px auto; width: 150px; }
+
+.auth-form { display: none; animation: fadeIn 0.4s ease-in-out; }
+
+.auth-form.active { display: block; }
+
+.input-group { margin-bottom: 20px; }
+
+.input-group label { display: block; font-weight: 700; margin-bottom: 5px; font-size: 16px; color: #000; }
+
+.input-line { display: flex; align-items: center; border-bottom: 2px solid #ffccde; padding-bottom: 5px; }
+
+.icon-pink { color: #ff99c2; font-size: 20px; margin-right: 15px; }
+
+.input-line input { border: none; outline: none; width: 100%; font-size: 16px; color: #333; background: transparent; }
+
+.forgot-pass { text-align: right; margin-bottom: 30px; }
+
+.forgot-pass a { color: #555; font-size: 13px; font-style: italic; text-decoration: none; }
+
+.btn-auth, .btn-social { display: block; width: fit-content; margin: 0 auto; background: #ffccde; color: #1b5e20; border: none; padding: 12px 30px; border-radius: 30px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: 0.3s; }
+
+.btn-auth:hover, .btn-social:hover { background: #ffb3d1; transform: translateY(-2px); }
+
+.btn-social { margin-bottom: 30px; }
+
+.divider { text-align: center; margin: 25px 0; position: relative; }
+
+.divider::before, .divider::after { content: ""; position: absolute; top: 50%; width: 35%; height: 1px; background: #ffccde; }
+
+.divider::before { left: 0; }
+
+.divider::after { right: 0; }
+
+.divider span { color: #333; font-size: 14px; padding: 0 10px; }
+
+.divider span i { color: #ffccde; font-size: 12px; }
+
+.auth-footer { text-align: center; font-size: 12px; color: #333; }
+
+.link-switch { color: #1b5e20; font-weight: 700; cursor: pointer; }
+
+.terms-text { font-size: 10px; text-align: center; margin-bottom: 20px; }
+
+.terms-text a { color: #1b5e20; font-weight: 700; text-decoration: none; }
+
+
+
+/* ========================================= */
+
+/* TRANG DIỄN ĐÀN */
+
+/* ========================================= */
+
+.forum-page { background-color: #f5f7f2; }
+
+.forum-container { display: flex; gap: 30px; margin-top: 120px; padding-bottom: 60px; }
+
+.forum-sidebar { width: 25%; }
+
+.forum-categories { background: #fff; border-radius: 15px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+
+.forum-categories h3 { font-size: 16px; margin-bottom: 15px; color: #333; border-bottom: 2px solid #eef2e6; padding-bottom: 10px; }
+
+.forum-categories ul { list-style: none; }
+
+.forum-categories li { padding: 12px 10px; border-radius: 8px; cursor: pointer; transition: 0.3s; color: #555; font-size: 15px; margin-bottom: 5px; }
+
+.forum-categories li i { width: 25px; color: #ff99c2; }
+
+.forum-categories li:hover, .forum-categories li.active { background: #eef2e6; color: #4a5d23; font-weight: 600; }
+
+.forum-main { width: 75%; }
+
+.forum-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+
+.forum-header h2 { color: #4a5d23; font-size: 24px; }
+
+.forum-search { display: flex; background: #fff; border-radius: 30px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+
+.forum-search input { border: none; padding: 10px 20px; outline: none; width: 250px; }
+
+.forum-search button { background: #ffccde; border: none; padding: 0 20px; color: #fff; cursor: pointer; }
+
+.forum-post { background: #fff; border-radius: 15px; padding: 20px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.3s; cursor: pointer; }
+
+.forum-post:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
+
+.post-info { width: 85%; }
+
+.post-title { font-size: 18px; color: #333; margin-bottom: 8px; }
+
+.post-excerpt { font-size: 14px; color: #666; margin-bottom: 12px; line-height: 1.5; }
+
+.post-meta { font-size: 12px; color: #999; }
+
+.post-meta span { margin-right: 15px; }
+
+.post-stats { width: 15%; text-align: right; display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
+
+.stat-item { font-size: 14px; color: #888; background: #fdfdfd; padding: 5px 10px; border-radius: 20px; border: 1px solid #eee; }
+
+.stat-item i { color: #ff99c2; margin-right: 5px; }
+/* Reset cơ bản */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #fff0f3; /* Màu nền hồng nhạt */
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+}
+
+.avatar-circle {
+    width: 50px;
+    height: 50px;
+    background-color: #ccc;
+    border-radius: 50%;
+}
+
+.logo-text {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Input Section */
+.input-section {
+    margin: 40px 0 80px 0;
+}
+
+.input-card {
+    background: white;
+    padding: 40px;
+    border-radius: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.inner-input-box {
+    background-color: #fffafa;
+    border: 1px solid #ffe4e9;
+    border-radius: 20px;
+    padding: 30px;
+    min-height: 250px;
+    position: relative;
+}
+
+.inner-input-box textarea {
+    width: 100%;
+    border: none;
+    background: transparent;
+    resize: none;
+    font-size: 18px;
+    outline: none;
+    font-style: italic;
+    color: #888;
+}
+
+.input-icons {
+    position: absolute;
+    bottom: 20px;
+    width: calc(100% - 40px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.icon-plus { color: #fbc2eb; font-size: 24px; }
+.icon-arrow { color: #fbc2eb; font-size: 40px; }
+
+/* Content Layout */
+.content-grid {
+    display: flex;
+    gap: 60px;
+    align-items: flex-start;
+    padding-bottom: 100px;
+}
+
+.text-content { flex: 1; }
+.image-mockup { flex: 1; position: relative; height: 400px; }
+
+/* Text Side */
+.title {
+    color: #1a4d2e; /* Màu xanh lá đậm */
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.description {
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.btn-write {
+    background: white;
+    border: 1px solid #eee;
+    padding: 12px 35px;
+    border-radius: 50px;
+    color: #d63384;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    cursor: pointer;
+    margin-bottom: 40px;
+    transition: 0.3s;
+}
+
+.btn-write:hover { transform: translateY(-2px); }
+
+.feature-list { list-style: none; }
+
+.feature-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 2px solid #1a4d2e;
+    font-weight: 500;
+}
+
+.feature-list li i {
+    font-size: 14px;
+    color: #1a4d2e;
+}
+
+/* Image Mockup Side */
+.card {
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    position: absolute;
+    width: 80%;
+}
+
+.card-bottom {
+    top: 0;
+    left: 0;
+    z-index: 1;
+    transform: rotate(-2deg);
+}
+
+.card-top {
+    top: 60px;
+    right: 0;
+    z-index: 2;
+    transform: rotate(2deg);
+}
+
+.placeholder-img {
+    height: 200px;
+    border-radius: 10px;
+}
+
+.gray-bg { background-color: #f8f9fa; }
+.white-bg { background-color: #ffffff; border: 1px solid #f0f0f0; }
+
+.pink-arrow {
+    position: absolute;
+    bottom: -40px;
+    left: -30px;
+    font-size: 50px;
+    color: #ffc2d1;
+    transform: rotate(-15deg);
+}
+
+/* Footer */
+.main-footer {
+    background: white;
+    padding: 60px 0;
+    border-top: 1px solid #f0f0f0;
+}
+
+.footer-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    padding: 0 20px;
+}
+
+.footer-logo { margin-bottom: 20px; }
+.social-links { display: flex; gap: 15px; color: #aaa; }
+
+.footer-col h4 { margin-bottom: 20px; }
+.footer-col p { color: #888; margin-bottom: 10px; cursor: pointer; }
+
+/* Responsive cho mobile */
+@media (max-width: 768px) {
+    .content-grid { flex-direction: column; }
+    .footer-container { grid-template-columns: 1fr 1fr; gap: 30px; }
+    .image-mockup { height: 500px; margin-top: 50px; }
+}
+/* ... Giữ nguyên các phần CSS cũ ... */
+
+/* Thêm hiệu ứng cho nút mũi tên khi hiện ra */
+.icon-arrow {
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+.icon-arrow:hover {
+    transform: scale(1.2) translateX(5px);
+    color: #d63384;
+}
+
+/* Trang Kết Quả */
+.result-container {
+    padding: 20px;
+    animation: fadeIn 0.5s ease;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.result-card {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    min-height: 300px;
+}
+
+.result-card h4 {
+    color: #1a4d2e;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.improved {
+    border: 2px solid #fbc2eb;
+}
+
+.ai-suggestions {
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+
+.tag {
+    background: #fff0f3;
+    color: #d63384;
+    padding: 5px 12px;
+    border-radius: 15px;
+    display: inline-block;
+}
+
+.btn-small {
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: 1px solid #d63384;
+    background: transparent;
+    color: #d63384;
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive cho kết quả */
+@media (max-width: 768px) {
+    .result-grid { grid-template-columns: 1fr; }
+}
+/* Trạng thái ẩn/hiện bổ sung */
+#submit-btn {
+    opacity: 0; /* Mặc định ẩn nút mũi tên */
+    pointer-events: none;
+    transition: all 0.4s ease;
+}
+
+#result-page {
+    display: none; /* Mặc định ẩn trang kết quả */
+    animation: slideUp 0.6s ease-out;
+}
+
+.text-display {
+    white-space: pre-wrap; /* Giữ nguyên xuống dòng khi hiển thị */
+    color: #444;
+}
+
+.improved-card {
+    border: 1px solid #fbc2eb;
+    background-color: #fffafa;
+}
+
+/* Hiệu ứng chuyển cảnh */
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Container chia cột */
+.grid-3-cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 20px 0;
+}
+
+/* Hiệu ứng cho cả ô Card */
+.post-card {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: all 0.4s ease; /* Tạo chuyển động mượt */
+    cursor: pointer;
+    position: relative;
+    top: 0;
+}
+
+/* Khi di chuột vào: Ô nhấc lên và đổ bóng */
+.post-card:hover {
+    top: -10px; 
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+/* Khung chứa ảnh để xử lý hiệu ứng phóng to */
+.post-img-wrapper {
+    overflow: hidden; 
+    height: 220px;
+}
+
+.post-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease; /* Chuyển động phóng ảnh */
+}
+
+/* Khi di chuột vào: Ảnh bên trong to dần ra */
+.post-card:hover .post-img {
+    transform: scale(1.1);
+}
+
+/* Phần chữ bên dưới ảnh */
+.post-content {
+    padding: 20px;
+}
+
+.post-text {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.post-author {
+    font-size: 0.85rem;
+    color: #888;
+}.icon-item img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%; /* Làm icon hình tròn */
+    object-fit: cover;
+    background-color: #f0f0f0; /* Màu nền dự phòng nếu ảnh lỗi */
+    border: 2px solid #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin-bottom: 12px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}.author-card img {
+    width: 150px; /* Cố định chiều rộng */
+    height: 150px; /* Cố định chiều cao */
+    border-radius: 50%; /* Để ảnh tác giả hình tròn cho chuyên nghiệp */
+    object-fit: cover;
+    margin: 0 auto 15px auto;
+    border: 3px solid #4a5d23;
+    display: block;
+}
+
+.author-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #4a5d23;
+    margin-bottom: 5px;
+}.input-section {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.inner-input-box {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.inner-input-box textarea {
+    width: 100%;
+    height: 150px;
+    padding: 15px;
+    border: 1px solid #ffe4e9;
+    border-radius: 12px;
+    font-size: 16px;
+    outline: none;
+    background: #fffafa;
+}
+
+#name-input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ffe4e9;
+    border-radius: 8px;
+    outline: none;
+}
+
+.btn-write {
+    display: block;
+    margin: 20px auto 0 auto;
+    background: #4a5d23;
+    color: white;
+    padding: 12px 40px;
+    border-radius: 50px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}/* ========================================= */
+/* TÁC GIẢ NỔI BẬT (CHUYỂN ĐỘNG VÔ HẠN) */
+/* ========================================= */
+
+.top-authors {
+    padding-bottom: 80px;
+    background-color: #fcfdf9; /* Một chút màu nền nhẹ cho phần này */
+}
+
+/* Khung chứa ngoài cùng - Ẩn bất kỳ thứ gì tràn ra khỏi lề */
+.author-carousel-wrapper {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 20px 0;
+}
+
+/* Khung chứa các ô card - Đây là "băng chuyền" thực sự di chuyển */
+.author-carousel-track {
+    display: flex;
+    gap: 30px; /* Khoảng cách giữa các ô card */
+    
+    /* GỌI ANIMATION */
+    /* Tên: scroll, Thời gian: 25s (chậm/nhanh tùy chỉnh), 
+       Kiểu: linear (đều), Loop: infinite (vô hạn) */
+    animation: scroll_authors 25s linear infinite;
+    
+    /* Chiều rộng phải đủ chứa tất cả các card bao gồm cả khoảng cách gap */
+    /* Với 10 card (5 thật, 5 copy), độ rộng khoảng 2200px trở lên */
+    width: max-content; 
+}
+
+/* Hiệu ứng: Khi di chuột vào -> Tạm dừng chuyển động để người dùng click */
+.author-carousel-wrapper:hover .author-carousel-track {
+    animation-play-state: paused;
+}
+
+/* Ô card tác giả */
+.author-card {
+    flex: 0 0 190px; /* Cố định chiều rộng mỗi ô card là 190px, không co dãn */
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: #fff;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+/* Hiệu ứng khi hover vào từng ô */
+.author-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+/* Ô chứa ảnh để xử lý ảnh hỏng/chưa tải xong */
+.author-card img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%; /* Làm ảnh hình tròn cho chuyên nghiệp */
+    margin: 0 auto 15px auto;
+    display: block;
+    background-color: #e0e0e0; /* Màu nền xám khi ảnh lỗi */
+    border: 3px solid #eee;
+}
+
+.author-name {
+    font-weight: 700;
+    font-size: 16px;
+    color: #4a5d23;
+    margin-bottom: 5px;
+    white-space: nowrap; /* Không cho chữ xuống dòng */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Hiện ... nếu tên quá dài */
+}
+
+.author-followers {
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ========================================= */
+/* ĐỊNH NGHĨA ANIMATION CHUYỂN ĐỘNG */
+/* ========================================= */
+@keyframes scroll_authors {
+    0% {
+        /* Bắt đầu ở vị trí gốc */
+        transform: translateX(0);
+    }
+    100% {
+        /* Chuyển động một khoảng đúng bằng chiều rộng của 1 BỘ tác giả (5 ô) */
+        /* Chiều rộng 1 ô (190px) + Gap (30px) = 220px. 5 ô là 1100px */
+        /* Chúng ta dùng max-content ở trên, nên giá trị này sẽ tự điều chỉnh mượt mà */
+        /* translateX(-50%) có nghĩa là chuyển động sang trái một nửa chiều rộng dải */
+        transform: translateX(-50%);
+    }
+}
+/* Chỉ đẩy nội dung xuống đối với trang có class forum-page */
+body.forum-page {
+    padding-top: 80px; /* Hoặc con số nào vừa vặn với thanh menu của bạn */
+}
+
+/* Các trang khác không có class này sẽ không bị ảnh hưởng */
+/* Khung chứa các icon bên trong textarea */
+.input-icons {
+    display: flex;
+    justify-content: space-between; /* Đẩy dấu + sang trái, mũi tên sang phải */
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    bottom: 20px; /* Căn khoảng cách từ đáy khung lên */
+    left: 0;
+    padding: 0 25px; /* Tạo khoảng cách 2 bên mép */
+    pointer-events: none; /* Để không bị cản trở khi bấm vào textarea */
+}
+
+.input-icons i {
+    pointer-events: auto; /* Cho phép bấm lại vào icon */
+    cursor: pointer;
+}
+
+/* Tùy chỉnh riêng cho dấu mũi tên hồng */
+.arrow-wrapper {
+    background-color: #fde4ec; /* Màu nền hồng nhạt của nút */
+    padding: 8px 25px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-arrow {
+    color: #ff99bb; /* Màu hồng của mũi tên */
+    font-size: 1.5rem;
+}
+
+/* Tùy chỉnh dấu cộng */
+.icon-plus {
+    color: #ff99bb;
+    font-size: 1.8rem;
+    opacity: 0.8;
+}
+
+/* Đảm bảo khung cha có position relative */
+.inner-input-box {
+    position: relative;
+    width: 100%;
+}
+/* Container chính cho phần chấm bài */
+.cham-bai-section {
+    padding: 60px 20px;
+    background-color: #fff5f5; /* Màu nền hồng nhạt như trong hình */
+    text-align: center;
+}
+
+/* Định dạng Form */
+#formGhiBai {
+    max-width: 600px; /* Độ rộng tối đa của form */
+    margin: 0 auto;   /* Căn giữa form */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;        /* Khoảng cách giữa các ô nhập */
+}
+
+/* Định dạng ô nhập tên và ô văn bản */
+#formGhiBai input, 
+#formGhiBai textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px; /* Bo góc nhẹ */
+    font-family: 'Be Vietnam Pro', sans-serif;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#formGhiBai input:focus, 
+#formGhiBai textarea:focus {
+    border-color: #d4a373; /* Đổi màu viền khi nhấn vào */
+}
+
+/* Định dạng nút gửi */
+.btn-primary {
+    background-color: #5d6d3e; /* Màu xanh lá đậm như tiêu đề */
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s;
+    align-self: center; /* Căn nút ra giữa */
+}
+
+.btn-primary:hover {
+    background-color: #4a5732;
+}

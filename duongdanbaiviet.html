@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống phân tích bài viết</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Anton&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Montserrat', sans-serif; background-color: #fdf2f4; }
+        .tab-content { display: none; animation: fadeIn 0.4s ease-out; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .sidebar-item { 
+            padding: 1.2rem; border-radius: 1rem; transition: all 0.3s; 
+            text-align: center; color: #14532d; font-weight: 600; cursor: pointer;
+        }
+        .sidebar-item.active { background-color: white; shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+
+    <div class="w-full relative h-[450px] overflow-hidden">
+        <img src="https://img.freepik.com/free-vector/hand-painted-watercolor-nature-background_23-2148941599.jpg" class="w-full h-full object-cover">
+        
+        <div class="absolute inset-0 flex items-center justify-center">
+            <div class="bg-white/40 backdrop-blur-md p-10 md:p-16 rounded-[4rem] border border-white/50 shadow-2xl">
+                <h1 class="font-['Anton'] text-4xl md:text-7xl text-green-900 uppercase tracking-tighter text-center">
+                    Bài viết đạt giải nhất HSGQG
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-[1400px] mx-auto px-6 pb-20 -mt-24 relative z-10">
+        <div class="flex flex-col lg:flex-row gap-10 items-start">
+            
+            <aside class="w-full lg:w-1/3 flex flex-col items-center">
+                <div class="w-44 h-44 md:w-52 md:h-52 rounded-full bg-[#d1d5db] flex items-center justify-center border-[10px] border-white shadow-2xl z-20">
+                    <span class="text-black font-bold text-xl">LOGO</span>
+                </div>
+
+                <div class="bg-[#fce7f3]/70 backdrop-blur-md rounded-[2rem] p-6 pt-24 w-full -mt-24 shadow-sm border border-white/30">
+                    <nav class="flex flex-col gap-2">
+                        <button onclick="openTab(event, 'tong-quan')" class="sidebar-item active">Tổng quan bài viết</button>
+                        <button onclick="openTab(event, 'ngon-tu')" class="sidebar-item">Ngôn từ & hình ảnh</button>
+                        <button onclick="openTab(event, 'cach-viet')" class="sidebar-item">Cách viết mở/kết bài</button>
+                        <button onclick="openTab(event, 'lap-luan')" class="sidebar-item">Cách lập luận</button>
+<button onclick="openTab(event, 'dan-chung')" class="sidebar-item">Dẫn chứng & cách dùng</button>
+                        <button onclick="openTab(event, 'lat-nguoc')" class="sidebar-item">Lật ngược vấn đề</button>
+                    </nav>
+                </div>
+            </aside>
+
+            <article class="w-full lg:w-2/3 pt-32">
+                <div class="bg-white rounded-[1.5rem] p-10 md:p-14 shadow-2xl min-h-[700px] relative border border-gray-50">
+                    
+                    <div id="tong-quan" class="tab-content active prose prose-emerald max-w-none">
+                        <h2 class="text-3xl font-bold text-green-900 border-b pb-4 mb-6">Tổng quan bài viết</h2>
+                        <p class="text-gray-600 leading-loose text-justify">Nhập nội dung tổng quan về tác giả, tác phẩm và giá trị cốt lõi của bài viết vào đây...</p>
+                    </div>
+
+                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 p-6 md:p-10">
+<div class="grid grid-cols-2 gap-8 p-6 max-w-5xl mx-auto">
+
+    <div class="relative">
+        <div onclick="toggleDetail('detail-1', true)" class="group bg-[#729b52] rounded-lg shadow-xl flex items-center justify-center transition transform hover:scale-105 cursor-pointer w-full aspect-square">
+            <h3 class="text-white font-semibold text-sm md:text-base leading-tight text-center p-4">Cung đàn<br>cảm xúc</h3>
+        </div>
+        <div id="detail-1" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+            <div class="bg-[#fce4ec] border border-pink-200 rounded-3xl shadow-2xl p-8 w-full max-w-2xl relative animate-pop-up overflow-y-auto max-h-[90vh]">
+                <button onclick="toggleDetail('detail-1', false)" class="absolute top-4 right-6 text-gray-400 hover:text-red-500 text-4xl">&times;</button>
+                <h4 class="text-[#2e7d32] font-bold text-3xl text-center mb-6 border-b border-pink-200 pb-4">Cung đàn cảm xúc</h4>
+                <div class="text-lg text-gray-800 space-y-4 p-4 bg-white/50 rounded-xl">
+                    <p><strong>Phân tích:</strong> "Cung đàn" gợi âm thanh, nhịp điệu; "cảm xúc" hướng về thế giới nội tâm trừu tượng.</p>
+                    <p class="text-red-600 font-bold text-xl text-center">→ Kết hợp lại tạo thành: cảm xúc = thứ có thể rung lên, lan tỏa.</p>
+                    <p><strong>Hiệu quả:</strong> Khiến người đọc "nghe được cảm xúc" chứ không chỉ hiểu; gợi liên tưởng thơ là âm nhạc của tâm hồn.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="relative">
+        <div onclick="toggleDetail('detail-2', true)" class="group bg-[#729b52] rounded-lg shadow-xl flex items-center justify-center transition transform hover:scale-105 cursor-pointer w-full aspect-square">
+            <h3 class="text-white font-semibold text-sm md:text-base leading-tight text-center p-4">Mạch sữa<br>ngọt ngào</h3>
+        </div>
+        <div id="detail-2" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+            <div class="bg-[#fce4ec] border border-pink-200 rounded-3xl shadow-2xl p-8 w-full max-w-2xl relative animate-pop-up">
+                <button onclick="toggleDetail('detail-2', false)" class="absolute top-4 right-6 text-gray-400 hover:text-red-500 text-4xl">&times;</button>
+                <h4 class="text-[#2e7d32] font-bold text-3xl text-center mb-6 border-b border-pink-200 pb-4">Mạch sữa ngọt ngào</h4>
+                <div class="text-lg text-gray-800 p-4 bg-white/50 rounded-xl">
+                    <p>Cuộc đời là mạch sữa ngọt ngào tuôn chảy không ngừng để nuôi dưỡng thi ca.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="relative">
+        <div onclick="toggleDetail('detail-3', true)" class="group bg-[#729b52] rounded-lg shadow-xl flex items-center justify-center transition transform hover:scale-105 cursor-pointer w-full aspect-square">
+            <h3 class="text-white font-semibold text-sm md:text-base leading-tight text-center p-4">Nhịp cầu<br>vô hình</h3>
+        </div>
+        <div id="detail-3" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+            <div class="bg-[#fce4ec] border border-pink-200 rounded-3xl shadow-2xl p-8 w-full max-w-2xl relative animate-pop-up">
+                <button onclick="toggleDetail('detail-3', false)" class="absolute top-4 right-6 text-gray-400 hover:text-red-500 text-4xl">&times;</button>
+                <h4 class="text-[#2e7d32] font-bold text-3xl text-center mb-6 border-b border-pink-200 pb-4">Nhịp cầu vô hình</h4>
+                <div class="text-lg text-gray-800 p-4 bg-white/50 rounded-xl">
+                    <p>Văn chương là nhịp cầu vô hình kết nối những tâm hồn đồng điệu giữa người đọc và người viết.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="relative">
+        <div onclick="toggleDetail('detail-4', true)" class="group bg-[#729b52] rounded-lg shadow-xl flex items-center justify-center transition transform hover:scale-105 cursor-pointer w-full aspect-square">
+            <h3 class="text-white font-semibold text-sm md:text-base leading-tight text-center p-4">Cây non<br>èo uột</h3>
+        </div>
+        <div id="detail-4" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+            <div class="bg-[#fce4ec] border border-pink-200 rounded-3xl shadow-2xl p-8 w-full max-w-2xl relative animate-pop-up">
+                <button onclick="toggleDetail('detail-4', false)" class="absolute top-4 right-6 text-gray-400 hover:text-red-500 text-4xl">&times;</button>
+                <h4 class="text-[#2e7d32] font-bold text-3xl text-center mb-6 border-b border-pink-200 pb-4">Cây non èo uột</h4>
+                <div class="text-lg text-gray-800 p-4 bg-white/50 rounded-xl">
+                    <p>Nghệ thuật mà thiếu đi hơi thở của cuộc sống thực tế thì mãi mãi chỉ là một "cây non èo uột", không có sức sống.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="relative">
+        <div onclick="toggleDetail('detail-5', true)" class="group bg-[#729b52] rounded-lg shadow-xl flex items-center justify-center transition transform hover:scale-105 cursor-pointer w-full aspect-square">
+            <h3 class="text-white font-semibold text-sm md:text-base leading-tight text-center p-4">Chất quặng<br>cuộc đời</h3>
+        </div>
+        <div id="detail-5" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+            <div class="bg-[#fce4ec] border border-pink-200 rounded-3xl shadow-2xl p-8 w-full max-w-2xl relative animate-pop-up">
+                <button onclick="toggleDetail('detail-5', false)" class="absolute top-4 right-6 text-gray-400 hover:text-red-500 text-4xl">&times;</button>
+                <h4 class="text-[#2e7d32] font-bold text-3xl text-center mb-6 border-b border-pink-200 pb-4">Chất quặng cuộc đời</h4>
+                <div class="text-lg text-gray-800 p-4 bg-white/50 rounded-xl">
+                    <p>Cuộc đời là nơi chứa đựng "chất quặng" thô sơ, đòi hỏi nhà thơ phải khai thác và mài giũa để tạo nên vần thơ giá trị.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="relative">
+        <div onclick="toggleDetail('detail-6', true)" class="group bg-[#729b52] rounded-lg shadow-xl flex items-center justify-center transition transform hover:scale-105 cursor-pointer w-full aspect-square">
+            <h3 class="text-white font-semibold text-sm md:text-base leading-tight text-center p-4">Bông hồng<br>vàng</h3>
+        </div>
+        <div id="detail-6" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+            <div class="bg-[#fce4ec] border border-pink-200 rounded-3xl shadow-2xl p-8 w-full max-w-2xl relative animate-pop-up">
+                <button onclick="toggleDetail('detail-6', false)" class="absolute top-4 right-6 text-gray-400 hover:text-red-500 text-4xl">&times;</button>
+                <h4 class="text-[#2e7d32] font-bold text-3xl text-center mb-6 border-b border-pink-200 pb-4">Bông hồng vàng</h4>
+                <div class="text-lg text-gray-800 p-4 bg-white/50 rounded-xl">
+                    <p>Mỗi tác phẩm văn chương đích thực như một bông hồng vàng, được đúc kết từ những hạt bụi quý của đời sống.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    /* Khi Popup mở, đổi màu ô tương ứng sang hồng */
+    [id^="detail-"]:not(.hidden) ~ div[onclick^="toggleDetail"] {
+        background-color: #fce4ec !important;
+        border: 2px solid #f8bbd0;
+    }
+    [id^="detail-"]:not(.hidden) ~ div[onclick^="toggleDetail"] h3 {
+        color: #ce93d8 !important;
+    }
+
+    @keyframes popUp {
+        from { opacity: 0; transform: scale(0.8) translateY(30px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .animate-pop-up {
+        animation: popUp 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+</style>
+
+<script>
+    function toggleDetail(id, show) {
+        const el = document.getElementById(id);
+        if (show) {
+            el.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        } else {
+            el.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    // Đóng khi click ra ngoài bảng hồng
+    window.onclick = function(event) {
+        if (event.target.classList.contains('fixed')) {
+            event.target.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+    }
+</script>
+
+                    <div id="cach-viet" class="tab-content prose prose-emerald max-w-none">
+                        <h2 class="text-3xl font-bold text-green-900 border-b pb-4 mb-6">Mở bài & Kết bài</h2>
+                        <p class="text-gray-600 leading-loose text-justify">Chia sẻ công thức viết mở bài gây ấn tượng và kết bài đọng lại cảm xúc...</p>
+                    </div>
+
+                    <div id="lap-luan" class="tab-content prose prose-emerald max-w-none">
+                        <h2 class="text-3xl font-bold text-green-900 border-b pb-4 mb-6">Cách lập luận</h2>
+                        <div class="bg-green-50 p-6 rounded-xl italic text-green-800 mb-6">
+                            "Lập luận là xương sống của bài văn nghị luận."
+                        </div>
+                        <p class="text-gray-600 leading-loose">Tại đây cậu nhập các bước triển khai luận điểm, cách sắp xếp ý kiến sao cho logic và thuyết phục nhất...</p>
+                    </div>
+
+                    <div id="dan-chung" class="tab-content prose prose-emerald max-w-none">
+                        <h2 class="text-3xl font-bold text-green-900 border-b pb-4 mb-6">Dẫn chứng & Cách dùng</h2>
+                        <p class="text-gray-600 leading-loose">Dẫn chứng không chỉ là liệt kê, mà là cách 'luồn' dẫn chứng vào văn phong. Nhập các ví dụ cụ thể và cách phân tích dẫn chứng tại ô này...</p>
+                    </div>
+
+                    <div id="lat-nguoc" class="tab-content prose prose-emerald max-w-none">
+<h2 class="text-3xl font-bold text-green-900 border-b pb-4 mb-6">Lật ngược vấn đề</h2>
+                        <p class="text-gray-600 leading-loose">Tư duy phản biện (Counter-argument) giúp bài viết sâu sắc hơn. Hãy nhập cách nhìn nhận vấn đề từ nhiều chiều tại đây...</p>
+                    </div>
+
+                    <div class="absolute bottom-10 right-10">
+                        <button class="bg-[#14532d] text-white p-4 rounded-2xl hover:scale-110 transition-all shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) { tabcontent[i].classList.remove("active"); }
+            tablinks = document.getElementsByClassName("sidebar-item");
+            for (i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+            window.scrollTo({ top: 400, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

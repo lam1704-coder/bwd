@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tài khoản - Thơ ca</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-body">
+
+    <a href="index.html" class="back-home-btn"><i class="fa-solid fa-arrow-left"></i> Về trang chủ</a>
+
+    <div class="auth-wrapper">
+        <div class="auth-box">
+            <div class="logo-box" style="display: flex; justify-content: center; margin-bottom: 20px;">
+                <img src="Logo_.png" alt="Tên Website của bạn" class="logo-image" style="display: block; width: 140px; height: auto;">
+            </div>
+
+            <form id="formDangNhap" class="auth-form active">
+                <div class="input-group">
+                    <label>Email</label>
+                    <div class="input-line">
+                        <i class="fa-solid fa-envelope icon-pink"></i>
+                        <input type="email" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Mật khẩu</label>
+                    <div class="input-line">
+                        <i class="fa-solid fa-lock icon-pink"></i>
+                        <input type="password" required>
+                    </div>
+                </div>
+
+                <div class="forgot-pass"><a href="#">Quên mật khẩu?</a></div>
+                <button type="submit" class="btn-auth">Đăng nhập</button>
+
+                <div class="divider">
+                    <span><i class="fa-solid fa-heart"></i> Hoặc <i class="fa-solid fa-heart"></i></span>
+                </div>
+
+                <button type="button" class="btn-social">Tiếp tục với một tài khoản</button>
+                <p class="auth-footer">Đừng quên tạo một tài khoản? <span class="link-switch" onclick="chuyenForm()">Đăng ký</span></p>
+            </form>
+
+            <form id="formDangKy" class="auth-form">
+                <div class="input-group">
+                    <label>Họ và tên</label>
+                    <div class="input-line"><i class="fa-solid fa-user icon-pink"></i><input type="text" required></div>
+                </div>
+                <div class="input-group">
+                    <label>Email</label>
+                    <div class="input-line"><i class="fa-solid fa-envelope icon-pink"></i><input type="email" required></div>
+                </div>
+                <div class="input-group">
+                    <label>Mật khẩu</label>
+                    <div class="input-line"><i class="fa-solid fa-lock icon-pink"></i><input type="password" required></div>
+                </div>
+                <div class="input-group">
+                    <label>Nhập lại mật khẩu</label>
+                    <div class="input-line"><i class="fa-solid fa-lock icon-pink"></i><input type="password" required></div>
+                </div>
+
+                <p class="terms-text">Tôi đồng ý với <a href="#">Điều khoản dịch vụ</a> và <a href="#">Chính sách bảo mật</a></p>
+                <button type="submit" class="btn-auth">Đăng ký</button>
+
+                <div class="divider">
+                    <span><i class="fa-solid fa-heart"></i> Hoặc <i class="fa-solid fa-heart"></i></span>
+                </div>
+
+                <button type="button" class="btn-social">Tiếp tục với một tài khoản</button>
+                <p class="auth-footer">Đã có tài khoản? <span class="link-switch" onclick="chuyenForm()">Đăng nhập</span></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

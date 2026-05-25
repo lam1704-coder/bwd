@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chạm Văn Chương</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- KHU VỰC CSS NỘI BỘ (ISOLATED CSS) - KHÔNG DÙNG CHUNG FILE NGOÀI -->
+    <style>
+        /* 1. QUẢN LÝ NỀN & BACKGROUND */
+        .bg-main {
+            background-image: url('bg_header.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        .section-book {
+            background-image: url('bg_header.png');
+            background-size: cover;
+            background-position: center;
+        }
+        .section-podcast {
+            background-color: #ffd8dccc; 
+            height: 1000px;
+        }
+        .section-banner {
+            background-image: url('Frame 2 (2).png');
+            height: 1000px;
+            background-size: cover;
+            background-position: center;
+        }
+        .section-lens {
+            background-color: #ffd8dccc; 
+            height: 1000px;
+        }
+
+        /* 2. CÁC PHẦN TỬ DECOR FLOATING (HOA BAY) */
+        .super1 {
+            position: absolute; 
+            top: 500px;   
+            right: 1350px;  
+            z-index: 9999; 
+            width: 400px;
+            height: auto;
+            pointer-events: none; 
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+        }
+        .super2 {
+            position: absolute; 
+            top: 1950px;   
+            right: 10px;  
+            z-index: 9999; 
+            width: 600px;
+            height: auto;
+            pointer-events: none; 
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+        }
+
+        /* 3. UI COMPONENTS GIAO DIỆN */
+        :root {
+            --font-header: 'Anton', sans-serif;
+            --font-body: 'Montserrat', sans-serif;
+            --btn-green: #5b6b32; 
+        }
+        h2 { 
+            font-family: var(--font-header) !important; 
+            color: #1a4731; 
+            text-transform: uppercase; 
+            letter-spacing: 2px;
+        }
+        .btn-primary {
+            display: inline-block;
+            background-color: #166534; 
+            color: white;
+            padding: 1rem 3rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            transition: all 0.3s;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary:hover { 
+            background-color: #15803d; 
+            transform: translateY(-2px); 
+        }
+        .podcast-desc {
+            font-family: var(--font-body);
+            font-size: 1.25rem;
+            line-height: 1.625;
+            color: #1f2937;
+            text-align: justify;
+            margin-bottom: 2rem;
+        }
+        .podcast-img-box {
+            width: 600px;
+            height: 600px;
+            border-radius: 3rem;
+            overflow: hidden;
+            border: 15px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        /* 4. SLIDER & CARDS MANAGEMENT */
+        .book-card-item {
+            flex-shrink: 0;
+            width: 500px;
+            height: 600px;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 8px solid white;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .book-card-item img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+        }
+        .no-scrollbar::-webkit-scrollbar { 
+            display: none; 
+        }
+        .no-scrollbar { 
+            -ms-overflow-style: none; 
+            scrollbar-width: none; 
+        }
+        .arrow-btn {
+            width: 70px; 
+            height: 70px;
+            background-color: var(--btn-green);
+            border-radius: 50%;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            cursor: pointer; 
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            z-index: 10;
+        }
+        .arrow-btn:hover { 
+            transform: scale(1.1); 
+        }
+        .triangle { 
+            width: 0; 
+            height: 0; 
+            border-top: 12px solid transparent; 
+            border-bottom: 12px solid transparent; 
+            border-left: 20px solid #cbd5e0; 
+            margin-left: 6px; 
+        }
+        .left-tri { 
+            transform: rotate(180deg); 
+            margin-left: -6px; 
+        }
+
+        /* 5. LENS EFFECTS (HIỆU ỨNG LĂNG KÍNH) */
+        .lens-card { 
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
+            cursor: pointer; 
+            width: 450px; 
+        }
+        .lens-img-container { 
+            aspect-ratio: 1/1; 
+            width: 100%; 
+            border-radius: 1.5rem; 
+            overflow: hidden; 
+            border: 10px solid white; 
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1); 
+        }
+        .lens-img-container img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+        }
+        .lens-card p { 
+            margin-top: 2.5rem; 
+            font-family: var(--font-body);
+            font-weight: bold; 
+            text-align: center; 
+            color: #6b7280; 
+            text-transform: uppercase; 
+            font-size: 1.25rem; 
+            letter-spacing: 0.1em; 
+            opacity: 0.6; 
+        }
+        .lens-focused { 
+            transform: scale(1.15); 
+            z-index: 20; 
+        }
+        .lens-focused .lens-img-container { 
+            border-color: var(--btn-green); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2); 
+        }
+        .lens-focused p { 
+            opacity: 1; 
+            color: var(--btn-green); 
+        }
+    </style>
+</head>
+<body class="bg-main">
+
+    <!-- CÁC THÀNH PHẦN HOẠ TIẾT TRANG TRÍ CHẠY ĐỘC LẬP -->
+    <img src="hoa 2.png" class="super1" alt="decor">
+    <img src="hoa 1.png" class="super2" alt="decor">
+
+    <!-- BLOCK 1: KHU VỰC TRƯỢT SÁCH -->
+    <section class="section-book min-h-screen flex flex-col justify-center py-20 relative">
+        <div class="text-center mb-10 relative z-20">
+            <img src="CHỮ 2.png" alt="Logo" class="mx-auto w-[600px] h-[400px] object-cover object-center">
+        </div>
+
+        <div class="max-w-[1500px] mx-auto w-[90%] bg-white/10 backdrop-blur-xl border border-white/30 rounded-[3rem] p-10 shadow-2xl relative z-10">
+            <div class="flex items-center justify-between gap-5 md:gap-10">
+                <div id="prevBook" class="arrow-btn flex-shrink-0">
+                    <div class="triangle left-tri"></div>
+                </div>
+                
+                <div id="bookSlider" class="flex gap-10 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth py-5 px-5">
+                    <div class="snap-center book-card-item"><img src="anh1.jpg" alt="Book 1"></div>
+                    <div class="snap-center book-card-item"><img src="anh2.jpg" alt="Book 2"></div>
+                    <div class="snap-center book-card-item"><img src="anh3.jpg" alt="Book 3"></div>
+                    <div class="snap-center book-card-item"><img src="anh4.jpg" alt="Book 4"></div>
+                    <div class="snap-center book-card-item"><img src="anh5.jpg" alt="Book 5"></div>
+                </div>
+
+                <div id="nextBook" class="arrow-btn flex-shrink-0">
+                    <div class="triangle"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOCK 2: KHU VỰC KHÔNG GIAN PODCAST -->
+    <section class="section-podcast min-h-screen flex items-center py-20">
+        <div class="max-w-[1600px] mx-auto px-20 grid grid-cols-2 gap-32 items-center">
+            <div class="flex flex-col justify-center items-start">
+                <h2 class="text-[5rem] mb-6">PODCAST</h2>
+                <div class="podcast-desc">
+                    Chào mừng bạn đến với không gian Podcast của chúng mình. Tại đây, những trang sách không còn nằm yên trên giấy mà trở nên sống động qua từng giọng đọc và giai điệu.
+                </div>
+                <a href="xemthem.html" class="btn-primary">Xem thêm</a>
+            </div>
+            <div class="flex justify-center">
+                <div class="podcast-img-box">
+                    <img src="PODCAST.png" class="w-full h-full object-cover" alt="Podcast Thumb">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOCK 3: BANNER ĐIỀU HƯỚNG CHI TIẾT -->
+   <section class="section-banner w-full relative h-[1000px]">
+        <!-- Chỉ cần thay 'ten-trang-ban-muon-qua.html' bằng file html hoặc link web khác của bạn -->
+        <a href="XEMCHITIET.HTML" class="btn-primary absolute top-[650px] left-[20%] inline-block text-center">
+            XEM CHI TIẾT
+        </a>
+    </section>
+
+    <!-- BLOCK 4: HIỆU ỨNG SLIDER LĂNG KÍNH -->
+    <section class="section-lens min-h-screen py-20 overflow-hidden">
+        <div class="max-w-[1500px] mx-auto px-10">
+            <h2 class="text-6xl mb-20">Văn học là gì qua những lăng kính ?</h2>
+        </div>
+
+        <div id="lensSlider" class="flex gap-12 overflow-x-auto no-scrollbar snap-x snap-mandatory py-20 scroll-smooth">
+            <div class="flex-shrink-0 w-[calc((100vw-1500px)/2+40px)] md:block hidden"></div>
+            
+            <!-- Thẻ 1: Chuyển hướng sang trang mua-xuan.html -->
+<a href="mua-xuan.html" class="snap-center lens-card flex-shrink-0">
+    <div class="lens-img-container"><img src="B1.jpg" alt="Lens 1"></div>
+    <p>MÙA XUÂN NHỊP THỔ DỊU DÀNG TRONG THƠ CA</p>
+</a>
+
+<!-- Thẻ 2: Chuyển hướng sang trang ngon-hai-dang.html -->
+<a href="ngon-hai-dang.html" class="snap-center lens-card flex-shrink-0">
+    <div class="lens-img-container"><img src="B2.jpg" alt="Lens 2"></div>
+    <p>HÌNH ẢNH ẨN DỤ VỀ "NGỌN HẢI ĐĂNG"</p>
+</a>
+
+<!-- Thẻ 3: Chuyển hướng sang trang cay-tre.html -->
+<a href="cay-tre.html" class="snap-center lens-card flex-shrink-0">
+    <div class="lens-img-container"><img src="B3.jpg" alt="Lens 3"></div>
+    <p>KHÁM PHÁ BIỂU TƯỢNG CÂY TRE</p>
+</a>
+
+            <div class="flex-shrink-0 w-[40vw]"></div>
+        </div>
+    </section>
+
+    <!-- HỆ THỐNG KỊCH BẢN JAVASCRIPT ĐIỀU KHIỂN TRAO ĐỔI INTERACTION -->
+    <script>
+        // Điều hướng Slider Book
+        const bookSlider = document.getElementById('bookSlider');
+        document.getElementById('nextBook').onclick = () => bookSlider.scrollBy({ left: 340, behavior: 'smooth' });
+        document.getElementById('prevBook').onclick = () => bookSlider.scrollBy({ left: -340, behavior: 'smooth' });
+
+        // Xử lý Active/Focus Lăng kính văn học
+        function focusLens(el) {
+            document.querySelectorAll('.lens-card').forEach(c => c.classList.remove('lens-focused'));
+            el.classList.add('lens-focused');
+            el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+        
+        // Trạng thái khởi tạo mặc định ban đầu khi tải xong cấu trúc DOM
+        window.onload = () => { 
+            if(document.querySelector('.lens-card')) focusLens(document.querySelector('.lens-card')); 
+        }
+    </script>
+</body>
+</html>

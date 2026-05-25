@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách bài viết ấn tượng</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Anton&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Montserrat', sans-serif; background-color: #fdf2f4; }
+        .card-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); }
+        /* Hiệu ứng mờ cho ảnh ở phần 9 ô vuông */
+        .overlay-blur {
+            background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 50%);
+        }
+    </style>
+</head>
+<body class="py-10">
+
+    <div class="max-w-[1000px] mx-auto px-6">
+        <h1 class="font-['Anton'] text-3xl text-green-800 uppercase tracking-wider mb-10">
+            Bài viết ấn tượng 
+        </h1>
+
+        <div class="space-y-6 mb-12">
+    <a href="duongdanbaiviet.html" class="block bg-white rounded-[0.5rem] p-4 flex flex-col md:flex-row gap-6 items-center card-shadow transition hover:scale-[1.01] no-underline">
+        
+        <img src="khung1.jpg" class="w-full md:w-56 h-36 object-cover rounded-[0.5rem]" alt="Hình ảnh bài viết">
+        
+        <div class="flex-1 pr-4">
+            <h3 class="font-bold text-xl text-gray-800 mb-2">Bài viết đạt giải nhất HSGQG</h3>
+            <p class="text-sm text-gray-500 leading-relaxed line-clamp-2">
+                Bàn về thơ, nhà phê bình Nga Belinxki đã viết: "Thơ trước hết là cuộc đời, sau đó mới là nghệ thuật...
+            </p>
+        </div>
+        </a>
+</div>
+          <div class="space-y-6 mb-12">
+    <a href="duong-dan-bai-1.html" class="block bg-white rounded-[0.5rem] p-4 flex flex-col md:flex-row gap-6 items-center card-shadow transition hover:scale-[1.01] no-underline">
+        <img src="khung2.jpg" class="w-full md:w-56 h-36 object-cover rounded-[0.5rem]" alt="HSG 2015">
+        <div class="flex-1 pr-4">
+            <h3 class="font-bold text-xl text-gray-800 mb-2">Bài viết đạt giải nhất HSG 2015</h3>
+            <p class="text-sm text-gray-500 line-clamp-2">Nghị luận ý kiến: "Hình tượng nhân vật được sinh ra từ tâm trí của nhà văn nhưng chỉ thực sự sống bằng...</p>
+        </div>
+    </a>
+
+    <a href="duong-dan-bai-2.html" class="block bg-white rounded-[0.5rem] p-4 flex flex-col md:flex-row gap-6 items-center card-shadow transition hover:scale-[1.01] no-underline">
+        <img src="khung3.jpg" class="w-full md:w-56 h-36 object-cover rounded-[0.5rem]" alt="Điểm 10 THPTQG">
+        <div class="flex-1 pr-4">
+            <h3 class="font-bold text-xl text-gray-800 mb-2">Bài viết đạt điểm 10 THPTQG</h3>
+            <p class="text-sm text-gray-500 line-clamp-2">Bàn về truyện cổ tích và ca dao, có ý kiến cho rằng: "Các nhà văn học được văn trong truyện cổ tích và học...</p>
+        </div>
+    </a>
+
+    <a href="duong-dan-bai-3.html" class="block bg-white rounded-[0.5rem] p-4 flex flex-col md:flex-row gap-6 items-center card-shadow transition hover:scale-[1.01] no-underline">
+        <img src="khung4.webp" class="w-full md:w-56 h-36 object-cover rounded-[0.5rem]" alt="Điểm 10 THPTQG">
+        <div class="flex-1 pr-4">
+            <h3 class="font-bold text-xl text-gray-800 mb-2">Bài viết đạt điểm 10 THPTQG</h3>
+            <p class="text-sm text-gray-500 line-clamp-2">Nhà văn Bùi Hiển đã phát biểu khẳng định ý nghĩa đặc biệt của tiếng nói tri ân trong văn chương...</p>
+        </div>
+    </a>
+</div>
+
+        <div class="flex justify-center mb-16">
+            <button class="bg-[#fce7f3] text-green-900 font-bold px-12 py-3 rounded-full hover:bg-green-800 hover:text-white transition-all shadow-sm">
+                Xem thêm...
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mb-20">
+            
+            <div class="relative aspect-square rounded-[0.5rem] overflow-hidden group cursor-pointer card-shadow">
+                <img src="khung5.jpg" 
+                     class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                <div class="absolute inset-0 overlay-blur flex items-end p-5">
+                    <p class="text-white text-[12px] font-semibold leading-snug drop-shadow-md uppercase tracking-tight">
+                        Thơ và cuộc đời, <br> Belinxki...
+                    </p>
+                </div>
+            </div>
+
+            <div class="relative aspect-square rounded-[0.5rem] overflow-hidden group card-shadow">
+                <img src="khung6.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <div class="absolute inset-0 overlay-blur flex items-end p-5">
+                    <p class="text-white text-[12px] font-semibold uppercase">Khát vọng tự do... <br> Nóng...</p>
+                </div>
+            </div>
+
+            <div class="relative aspect-square rounded-[0.5rem] overflow-hidden group card-shadow">
+                <img src="khung7.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <div class="absolute inset-0 overlay-blur flex items-end p-5">
+                    <p class="text-white text-[12px] font-semibold uppercase">Khát vọng tự do là <br> THPTQG...</p>
+                </div>
+            </div>
+            
+            <div class="relative aspect-square rounded-[0.5rem] overflow-hidden group card-shadow">
+                <img src="khung8.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <div class="absolute inset-0 overlay-blur flex items-end p-5">
+                    <p class="text-white text-[12px] font-semibold uppercase">Khát vọng đời, hiểu <br> Quốc...</p>
+                </div>
+            </div>
+
+            <div class="relative aspect-square rounded-[0.5rem] overflow-hidden group card-shadow">
+                <img src="khung9.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <div class="absolute inset-0 overlay-blur flex items-end p-5">
+                    <p class="text-white text-[12px] font-semibold uppercase">Khát vọng đời, lý thoát <br> hướng...</p>
+                </div>
+            </div>
+
+            <div class="relative aspect-square rounded-[0.5rem] overflow-hidden group card-shadow">
+                <img src="khung10.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <div class="absolute inset-0 overlay-blur flex items-end p-5">
+                    <p class="text-white text-[12px] font-semibold uppercase">Khát vọng đời, liên <br> nhân...</p>
+                </div>
+            </div>
+
+            <div class="relative aspect-square rounded-[0.5rem] overflow-hidden group card-shadow">
+                <img src="khung 11.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <div class="absolute inset-0 overlay-blur flex items-end p-5">
+                    <p class="text-white text-[12px] font-semibold uppercase">Nhà văn Nga <br> Lê-ô-nít...</p>
+                </div>
+            </div>
+
+            <div class="relative aspect-square rounded-[0.5rem] overflow-hidden group card-shadow">
+                <img src="khung12.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <div class="absolute inset-0 overlay-blur flex items-end p-5">
+                    <p class="text-white text-[12px] font-semibold uppercase">Nhận xét sáng tác <br> của Thạch Lam...</p>
+                </div>
+            </div>
+
+            <div class="relative aspect-square rounded-[0.5rem] overflow-hidden group card-shadow">
+                <img src="khung13.webp" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                <div class="absolute inset-0 overlay-blur flex items-end p-5">
+                    <p class="text-white text-[12px] font-semibold uppercase">Thạch Lam là một nhà <br> văn quý mến cuộc sống...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kim Linh - Công cụ viết văn</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <style>
+        /* --- CẤU HÌNH HEADER CHUẨN --- */
+        header.main-header {
+            display: flex !important;
+            justify-content: space-between !important; /* Đẩy cụm Avatar-Tên sang trái, Logo vào giữa */
+            align-items: center !important;
+            padding: 15px 40px !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
+            background-color: #fee5f5 !important; /* Đồng bộ màu nền hồng nhạt */
+            border-top-left-radius: 30px !important; /* Bo góc header nhẹ nhàng theo hình mẫu */
+            border-top-right-radius: 30px !important;
+        }
+
+        /* Khối chứa Avatar tròn và Tên kế bên nhau */
+        header.main-header .profile-group {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+        }
+
+        /* Vòng tròn chứa ảnh cô gái */
+        header.main-header .avatar-circle {
+            width: 55px !important;
+            height: 55px !important;
+            border-radius: 50% !important; /* Ép tròn tuyệt đối */
+            overflow: hidden !important;
+            border: 2px solid #73937e !important; /* Đường viền xanh bo quanh ảnh */
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
+            display: block !important;
+        }
+
+        header.main-header .avatar-img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important; /* Không lo ảnh bị méo hay bẹp */
+            display: block !important;
+        }
+
+        /* Chữ Kim Linh cạnh avatar */
+        header.main-header .logo-text {
+            margin: 0 !important;
+            font-family: 'Montserrat', sans-serif !important;
+            font-weight: 600 !important;
+            font-size: 16px !important;
+            color: #333333 !important;
+        }
+
+        /* Khối Logo Thương Văn nằm chính giữa */
+        header.main-header .center-logo-wrapper {
+            position: absolute !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important; /* Căn thẳng hàng trung tâm tuyệt đối */
+            max-width: 140px !important; /* Khống chế logo vừa vặn xinh xắn */
+            height: auto !important;
+        }
+
+        header.main-header .header-logo-img {
+            width: 100% !important;
+            height: auto !important;
+            object-fit: contain !important;
+            display: block !important;
+        }
+
+        /* Thêm khoảng trống ẩn bên phải để giữ cấu trúc cân bằng */
+        header.main-header .header-spacer {
+            width: 130px !important;
+        }
+
+        /* --- SỬA LỖI NỀN ĐẬM KHU VỰC DÒNG CHẢY SÁNG TẠO --- */
+        section.creative-flow.container {
+            background: transparent !important; /* Khử sạch dải dẹt hồng đậm bọc ngoài */
+            background-image: none !important;
+            box-shadow: none !important;
+            border: none !important;
+            padding: 40px 0 !important;
+        }
+
+        .grid-3-cols {
+            background: transparent !important;
+            background-image: none !important;
+            padding: 10px 0 !important;
+        }
+
+        /* Giữ các ô bài viết màu trắng bo góc nổi bật trên nền hồng nhạt */
+        .post-card {
+            background: #fbd3ed !important;
+            border-radius: 16px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04) !important;
+            overflow: hidden !important;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="profile-group">
+            <div class="avatar-circle" id="home-btn">
+                <img src="tgia1.jpg" alt="Cô gái" class="avatar-img"> </div>
+            <h1 class="logo-text">Kim Linh</h1>
+        </div>
+
+        <a href="index.html" class="center-logo-wrapper">
+            <img src="Logo_.png" alt="Thương yêu" class="header-logo-img">
+        </a>
+
+        <div class="header-spacer"></div>
+    </header>
+
+
+
+       <main class="container">
+        
+        <section id="editor-section" class="input-section">
+            <div class="input-card">
+                <div class="inner-input-box">
+                    <textarea id="main-textarea" placeholder="Nhập văn bản của bạn tại đây để Admin và AI bắt đầu chữa bài..."></textarea>
+                    <div class="input-icons">
+                        <i class="fas fa-plus-circle icon-plus"></i> 
+                        <i id="submit-btn" class="fas fa-long-arrow-alt-right icon-arrow" onclick="kichHoatChuaBai()"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="intro-view" class="content-grid">
+            <div class="text-content">
+                <h2 class="title">Khơi nguồn cảm hứng thi ca</h2>
+                <p class="description">Thưởng Văn đồng hành cùng tâm hồn nghệ sĩ để giúp bạn mài giũa ngôn từ, trau chuốt ý thơ và kiến tạo những áng văn bất hủ chỉ trong khoảnh khắc. Chào mừng bạn đến với kỷ nguyên mới của sáng tạo văn chương.</p>
+                <button id="start-writing-btn" class="btn-write" onclick="focusEditor()">Viết ngay</button>
+
+                <ul class="feature-list">
+                    <li><span>Nhận các gợi ý viết nâng cao</span> <i class="fas fa-play"></i></li>
+                    <li><span>Đảm bảo tính nguyên bản với tính năng phát hiện AI</span> <i class="fas fa-play"></i></li>
+                    <li><span>Tạo nội dung hấp dẫn</span> <i class="fas fa-play"></i></li>
+                </ul>
+            </div>
+            <div class="image-mockup">
+                <img src="ANHMINHHOA.png" alt="Giao diện minh họa" style="width: 100%; border-radius: 12px;">
+            </div>
+        </section>
+
+        <section id="analysis-view" class="analysis-grid" style="display: none;">
+            <div class="content-left">
+                <div class="text-display-box">
+                    <p id="final-text-display">Sừng sững nơi đầu sóng, ngọn hải đăng khước từ chốn lặng tờ để phô diễn giá trị ánh sáng tại những tọa độ hiểm trở nhất. Con người cũng vậy, sự bản lĩnh không đo bằng sự bình yên hưởng lạc mà bằng tư thế hiên ngang trước cuồng phong số phận. Để trở thành điểm tựa, mỗi người phải tự rèn một trái tim gang thép để không bị nhấn chìm giữa muôn trùng sóng dữ.</p>
+                </div>
+                <div class="bottom-toolbar">
+                    <button class="toolbar-btn active">Viết tiếp</button>
+                    <button class="toolbar-btn">Tối ưu</button>
+                    <button class="toolbar-btn">Diễn đạt lại</button>
+                    <button class="toolbar-btn">Kiểm tra AI</button>
+                    <button class="toolbar-btn">...</button>
+                </div>
+            </div>
+            
+            <div class="content-right">
+                <div class="suggestion-card">
+                    <div class="tab-header">
+                        <span class="tab-item" onclick="doiTabChuaBai(this, 'chung')">Đánh giá chung</span>
+                        <span class="tab-item active" onclick="doiTabChuaBai(this, 'loi')">Lỗi cần sửa</span>
+                        <span class="tab-item" onclick="doiTabChuaBai(this, 'nangcap')">Gợi ý nâng cấp</span>
+                    </div>
+                    <div class="tab-content">
+                        <div class="suggestion-block">
+                            <p style="color: #666; font-size: 13px;"><strong>Dùng từ chưa sát nghĩa:</strong></p>
+                            <p class="origin-quote">Đoạn gốc: <span style="color: #ff4d4d; text-decoration: line-through;">"...ngọn hải đăng khước từ chốn lặng tờ..."</span></p>
+                            <p class="review-comment">Nhận xét: Từ <em>"lặng tờ"</em> gợi sự tĩnh mịch, đôi khi mang nghĩa tiêu cực (vắng lặng quá mức). Trong văn cảnh ca ngợi sự bản lĩnh, nên dùng từ ngữ mang sắc thái bình yên nhưng vẫn trang trọng.</p>
+                            <p class="suggest-fix">Gợi ý: Thay bằng từ <span style="color: #2e7d32; font-weight: 600;">"tĩnh lặng"</span> hoặc <span style="color: #2e7d32; font-weight: 600;">"an yên"</span>.</p>
+                            
+                            <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+                            
+                            <p style="color: #666; font-size: 13px;"><strong>Lỗi lặp cấu trúc (Tương quan liên từ):</strong></p>
+                            <p class="origin-quote">Đoạn gốc: <span style="color: #ff4d4d;">"Để trở thành điểm tựa, mỗi người phải tự rèn một trái tim gang thép để không bị nhấn chìm..."</span></p>
+                            <p class="review-comment">Nhận xét: Việc dùng hai từ <em>"để"</em> trong một câu ngắn làm nhịp văn bị trùng lặp, gây cảm giác nặng nề. Cần thay đổi liên từ thứ hai để câu văn thanh thoát hơn.</p>
+                            <p class="suggest-fix">Gợi ý: <span style="color: #2e7d32; font-weight: 500;">"Để trở thành điểm tựa, mỗi người phải tự rèn một trái tim gang thép, nhằm tránh bị nhấn chìm giữa muôn trùng sóng dữ."</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="status-footer">
+                        <div class="badge">XUẤT SẮC</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 95%;"></div>
+                            <i class="fas fa-star star-icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Hàm kích hoạt khi người dùng nhấn nút mũi tên để gửi bài chấm
+        function kichHoatChuaBai() {
+            var text = document.getElementById('main-textarea').value;
+            
+            // Nếu người dùng có nhập nội dung thực tế, cập nhật sang khung bên dưới
+            if(text.trim() !== "") {
+                document.getElementById('final-text-display').innerText = text;
+            }
+            
+            // Thực hiện hiệu ứng ẩn phần giới thiệu, hiển thị phần kết quả phân tích
+            document.getElementById('intro-view').style.display = 'none';
+            document.getElementById('analysis-view').style.display = 'grid';
+        }
+
+        // Hàm hỗ trợ cuộn/tập trung chuột vào ô nhập văn bản khi ấn nút "Viết ngay"
+        function focusEditor() {
+            document.getElementById('main-textarea').focus();
+        }
+
+        // Hàm xử lý giao diện chuyển đổi giữa các tab đánh giá
+        function doiTabChuaBai(element, tabName) {
+            var tabs = element.parentElement.getElementsByClassName('tab-item');
+            for(var i=0; i<tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            element.classList.add('active');
+            // Bạn có thể viết thêm logic thay đổi nội dung tab ở đây nếu cần thiết
+        }
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
