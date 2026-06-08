@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết quả chữa bài</title>
+    <style>
+        /* CSS Reset & Cơ bản */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #fcebf4; 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: #333;
+            padding: 40px 20px;
+        }
+
+        /* Container tổng */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            display: flex;
+            gap: 40px;
+            position: relative;
+        }
+
+        /* --- CỘT TRÁI: Nội dung bài viết --- */
+        .left-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .original-text {
+            font-size: 18px;
+            line-height: 1.8;
+            text-align: justify;
+            margin-bottom: 40px;
+            white-space: pre-wrap; /* Giữ nguyên khoảng trắng và xuống dòng của bài viết */
+        }
+        
+        /* Thanh công cụ */
+        .action-bar {
+            background: #fdf0f5;
+            border-radius: 50px;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.02);
+        }
+        .action-btn {
+            background: none;
+            border: none;
+            color: #2e7d32;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .action-btn:hover {
+            opacity: 0.7;
+        }
+
+        /* --- CỘT PHẢI: Khung kết quả chấm --- */
+        .right-column {
+            flex: 1;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #f0f0f0;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e0e0e0;
+            background: #fafafa;
+        }
+        .tab-item {
+            flex: 1;
+            text-align: center;
+            padding: 15px 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .tab-item.active {
+            color: #2e7d32;
+            border-bottom: 3px solid #2e7d32;
+            background: #fff;
+        }
+
+        /* Nội dung Tabs */
+        .tab-content {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+            max-height: 500px;
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Thẻ lỗi */
+        .feedback-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+        .card-title {
+            font-weight: bold;
+            font-size: 15px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .card-list {
+            list-style: none;
+            padding-left: 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .card-list li {
+            margin-bottom: 8px;
+            padding-left: 15px;
+            position: relative;
+        }
+        .card-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #666;
+        }
+        
+        .text-red { color: #d32f2f; font-style: italic; font-weight: 500;}
+        .text-green { color: #2e7d32; font-style: italic; font-weight: 500;}
+
+        /* Thanh tiến trình */
+        .score-footer {
+            padding: 20px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            background: #fff;
+        }
+        .badge {
+            background: #f4f4f4;
+            color: #333;
+            font-weight: bold;
+            font-size: 12px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-right: 15px;
+        }
+        .progress-line {
+            flex-grow: 1;
+            height: 4px;
+            background: #2e7d32;
+            position: relative;
+            border-radius: 2px;
+        }
+        .star-icon {
+            position: absolute;
+            right: -10px;
+            top: -12px;
+            color: #2e7d32;
+            font-size: 24px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+    
+    <div class="left-column">
+        <div class="original-text" id="baiLamGoc">
+            Đang tải dữ liệu bài viết...
+        </div>
+
+        <div class="action-bar">
+            <button class="action-btn">Viết tiếp</button>
+            <button class="action-btn">Tối ưu</button>
+            <button class="action-btn">Diễn đạt lại</button>
+            <button class="action-btn">Kiểm tra AI</button>
+            <button class="action-btn">•••</button>
+        </div>
+    </div>
+
+    <div class="right-column">
+        <div class="tabs">
+            <div class="tab-item" onclick="openTab('tab-danh-gia')">Đánh giá chung</div>
+            <div class="tab-item active" onclick="openTab('tab-loi')">Lỗi cần sửa</div>
+            <div class="tab-item" onclick="openTab('tab-goi-y')">Gợi ý nâng cấp</div>
+        </div>
+
+        <div class="tab-content active" id="tab-loi">
+            <div id="danhSachLoi"></div>
+        </div>
+
+        <div class="tab-content" id="tab-danh-gia">
+            <p id="noiDungDanhGia">Chưa có đánh giá.</p>
+        </div>
+
+        <div class="tab-content" id="tab-goi-y">
+            <p id="noiDungGoiY">Chưa có gợi ý.</p>
+        </div>
+
+        <div class="score-footer">
+            <div class="badge">XUẤT SẮC</div>
+            <div class="progress-line">
+                <div class="star-icon">★</div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    // 1. Chuyển Tab
+    function openTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.tab-item').forEach(item => item.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    // 2. Render Dữ liệu
+    function renderKetQua() {
+        // --- ĐỔ DỮ LIỆU BÀI GỐC CỦA NGƯỜI DÙNG VÀO CỘT TRÁI ---
+        const baiGoc = localStorage.getItem("baiChoChua");
+        if(baiGoc) {
+            document.getElementById("baiLamGoc").innerText = baiGoc;
+        } else {
+            // Hiển thị đoạn văn mẫu nếu localStorage rỗng (chưa nhập bài)
+            document.getElementById("baiLamGoc").innerText = "Sừng sững nơi đầu sóng, ngọn hải đăng khước từ chốn lặng tờ để phô diễn giá trị ánh sáng tại những tọa độ hiểm trở nhất. Con người cũng vậy, sự bản lĩnh không đo bằng sự bình yên hưởng lạc mà bằng tư thế hiên ngang trước cuồng phong số phận. Để trở thành điểm tựa, mỗi người phải tự rèn một trái tim gang thép để không bị nhấn chìm giữa muôn trùng sóng dữ.";
+        }
+
+        // --- ĐỔ DỮ LIỆU ADMIN ĐÃ CHẤM VÀO CỘT PHẢI ---
+        const containerLoi = document.getElementById("danhSachLoi");
+        let dataLoi = [];
+        
+        try {
+            const storedData = localStorage.getItem("danhSachLoiAdmin");
+            if(storedData) {
+                dataLoi = JSON.parse(storedData);
+            } else {
+                // Dữ liệu mẫu nếu Admin chưa chấm
+                dataLoi = [
+                    {
+                        tieuDe: "Dùng từ chưa sát nghĩa",
+                        doanGoc: "...ngọn hải đăng khước từ chốn lặng tờ...",
+                        nhanXet: "Từ 'lặng tờ' gợi sự tĩnh mịch, đôi khi mang nghĩa tiêu cực. Trong văn cảnh ca ngợi sự bản lĩnh nên dùng từ mang sắc thái bình yên nhưng vẫn trang trọng.",
+                        goiY: "Thay bằng từ 'tĩnh lặng' hoặc 'an yên'."
+                    }
+                ];
+            }
+        } catch (e) {
+            console.error("Lỗi đọc dữ liệu:", e);
+        }
+
+        let htmlContent = "";
+        if(dataLoi.length === 0) {
+            htmlContent = "<p style='color:#666;'>Không có lỗi nào cần sửa.</p>";
+        } else {
+            dataLoi.forEach(loi => {
+                htmlContent += `
+                    <div class="feedback-card">
+                        <div class="card-title">${loi.tieuDe}</div>
+                        <ul class="card-list">
+                            <li>Đoạn gốc: <span class="text-red">"${loi.doanGoc}"</span></li>
+                            <li><strong>Nhận xét:</strong> ${loi.nhanXet}</li>
+                            <li><strong>Gợi ý:</strong> <span class="text-green">"${loi.goiY}"</span></li>
+                        </ul>
+                    </div>
+                `;
+            });
+        }
+        containerLoi.innerHTML = htmlContent;
+
+        const dg = localStorage.getItem("danhGiaChung");
+        if(dg) document.getElementById("noiDungDanhGia").innerText = dg;
+
+        const gy = localStorage.getItem("goiYNangCap");
+        if(gy) document.getElementById("noiDungGoiY").innerText = gy;
+    }
+
+    // Chạy khi load xong trang
+    window.onload = renderKetQua;
+
+</script>
+
+</body>
+</html>

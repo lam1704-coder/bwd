@@ -491,3 +491,39 @@ if (homeBtn) {
         location.reload();
     });
 }
+const formDangNhap = document.getElementById("formDangNhap");
+
+if(formDangNhap){
+
+    formDangNhap.addEventListener("submit", function(e){
+
+        e.preventDefault();
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        // Tài khoản Admin
+        if(email === "admin@gmail.com" && password === "123456"){
+
+            localStorage.setItem("isLoggedIn","true");
+            localStorage.setItem("role","admin");
+
+            window.location.href = "admin.html";
+        }
+
+        // Tài khoản User
+        else if(email === "user@gmail.com" && password === "123456"){
+
+            localStorage.setItem("isLoggedIn","true");
+            localStorage.setItem("role","user");
+
+            window.location.href = "index.html";
+        }
+
+        else{
+            alert("Sai email hoặc mật khẩu!");
+        }
+
+    });
+
+}

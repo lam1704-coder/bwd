@@ -1040,3 +1040,32 @@ body.forum-page {
 .btn-primary:hover {
     background-color: #4a5732;
 }
+.btn-gui-bai{
+    background:#ff8fb8;
+    color:white;
+    border:none;
+    padding:12px 25px;
+    border-radius:30px;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:600;
+}
+
+.btn-gui-bai:hover{
+    background:#ff6fa0;
+}
+
+#main-textarea{
+    width:100%;
+    height:250px;
+    padding:15px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    resize:none;
+}
+
+.input-icons{
+    display:flex;
+    justify-content:space-between;
+    margin-top:15px;
+}

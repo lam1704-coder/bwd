@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trang Quản Trị - Chữa Bài</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f8eaf2;
+        padding: 30px;
+        color: #333;
+    }
+    .container {
+        max-width: 1000px;
+        margin: auto;
+    }
+    .card {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        margin-bottom: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    h1 {
+        text-align: center;
+        color: #2e7d32;
+    }
+    h2 {
+        font-size: 18px;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 10px;
+    }
+    
+    /* Input & Textarea */
+    input[type="text"], textarea {
+        width: 100%;
+        padding: 12px 15px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+    textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+    
+    /* Buttons */
+    button {
+        background: #73937e;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.2s;
+    }
+    button:hover {
+        opacity: 0.9;
+        background: #2e7d32;
+    }
+    .logout {
+        background: #d9534f;
+        float: right;
+    }
+    .logout:hover {
+        background: #c9302c;
+    }
+    .btn-add {
+        background: #f0ad4e;
+        color: white;
+        margin-bottom: 20px;
+    }
+    .btn-add:hover {
+        background: #ec971f;
+    }
+    .btn-remove {
+        background: #ffcccc;
+        color: #d9534f;
+        padding: 8px 15px;
+        font-size: 13px;
+        margin-top: 5px;
+        float: right;
+    }
+
+    /* Hiển thị bài viết */
+    #noiDungBai {
+        white-space: pre-wrap;
+        line-height: 1.7;
+        padding: 15px;
+        background: #fafafa;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+    }
+
+    /* Khung nhập liệu cho từng lỗi */
+    .error-block {
+        background: #fdfdfd;
+        border: 1px dashed #bbb;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        position: relative;
+    }
+    .error-block::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    .error-block label {
+        font-weight: bold;
+        font-size: 14px;
+        display: block;
+        margin-bottom: 5px;
+        color: #555;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <button class="logout" onclick="logout()">Đăng xuất</button>
+    <h1>TRANG QUẢN TRỊ CHỮA BÀI</h1>
+
+    <div class="card">
+        <h2>Bài đang chờ chữa</h2>
+        <div id="noiDungBai">Đang tải bài viết...</div>
+    </div>
+
+    <div class="card">
+        <h2>1. Đánh giá chung</h2>
+        <textarea id="danhGiaChung" placeholder="Nhập nhận xét tổng quan về bài làm của học viên..."></textarea>
+    </div>
+
+    <div class="card">
+        <h2>2. Bóc tách lỗi cần sửa</h2>
+        <button class="btn-add" onclick="themLoiMoi()">+ Thêm một lỗi mới</button>
+        
+        <div id="danhSachLoiContainer">
+            </div>
+    </div>
+
+    <div class="card">
+        <h2>3. Gợi ý nâng cấp bài viết</h2>
+        <textarea id="goiYNangCap" placeholder="Nhập các gợi ý giúp học viên viết hay hơn..."></textarea>
+        
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+        <button onclick="guiNhanXet()" style="width: 100%; font-size: 16px; padding: 15px;">
+            ✅ LƯU ĐÁNH GIÁ & HOÀN THÀNH CHỮA BÀI
+        </button>
+    </div>
+
+</div>
+
+<script>
+    // 1. Kiểm tra quyền admin
+    if(localStorage.getItem("role") !== "admin"){
+        // Nếu bạn đang test ở máy tính cá nhân mà không có file đăng nhập, hãy comment 2 dòng dưới lại
+        // alert("Bạn không có quyền truy cập!");
+        // window.location.href = "index.html";
+    }
+
+    // 2. Hiển thị bài viết chờ chữa
+    const baiChoChua = localStorage.getItem("baiChoChua");
+    document.getElementById("noiDungBai").innerText = baiChoChua ? baiChoChua : "Hiện chưa có bài nào cần chữa. (Hoặc bạn chưa nhập dữ liệu thử)";
+
+    // 3. Logic thêm form nhập lỗi động
+    const errorContainer = document.getElementById("danhSachLoiContainer");
+
+    function themLoiMoi() {
+        const errorBlock = document.createElement("div");
+        errorBlock.className = "error-block";
+        errorBlock.innerHTML = `
+            <label>Tiêu đề lỗi (VD: Lỗi lặp từ, Dùng từ sai...)</label>
+            <input type="text" class="input-tieude" placeholder="Nhập loại lỗi">
+            
+            <label>Đoạn văn bị lỗi (Trích xuất từ bài gốc)</label>
+            <input type="text" class="input-doangoc" placeholder="Copy đoạn văn lỗi dán vào đây">
+            
+            <label>Phân tích / Nhận xét của Admin</label>
+            <textarea class="input-nhanxet" placeholder="Giải thích vì sao sai và cần sửa thế nào..."></textarea>
+            
+            <label>Câu/Từ gợi ý sửa lại</label>
+            <input type="text" class="input-goiy" placeholder="Nhập phần văn bản sau khi đã sửa chữa">
+            
+            <button class="btn-remove" onclick="this.parentElement.remove()">Xóa lỗi này</button>
+        `;
+        errorContainer.appendChild(errorBlock);
+    }
+
+    // Tự động tạo sẵn 1 khối lỗi trống khi tải trang
+    themLoiMoi();
+
+    // 4. Hàm Gửi Nhận Xét (Đóng gói dữ liệu sang trang Kết quả)
+    function guiNhanXet() {
+        // Lấy Đánh giá chung và Gợi ý nâng cấp
+        const danhGia = document.getElementById("danhGiaChung").value;
+        const goiY = document.getElementById("goiYNangCap").value;
+
+        // Lấy danh sách các lỗi đã nhập
+        const mangLoi = [];
+        const cacKhoiLoi = document.querySelectorAll(".error-block");
+        
+        cacKhoiLoi.forEach(khoi => {
+            const tieuDe = khoi.querySelector(".input-tieude").value;
+            const doanGoc = khoi.querySelector(".input-doangoc").value;
+            const nhanXet = khoi.querySelector(".input-nhanxet").value;
+            const loiGoiY = khoi.querySelector(".input-goiy").value;
+
+            // Chỉ lưu nếu admin có nhập liệu ít nhất 1 trường
+            if(tieuDe || doanGoc || nhanXet || loiGoiY) {
+                mangLoi.push({
+                    tieuDe: tieuDe || "Lỗi chưa đặt tên",
+                    doanGoc: doanGoc || "...",
+                    nhanXet: nhanXet || "Không có nhận xét chi tiết.",
+                    goiY: loiGoiY || "..."
+                });
+            }
+        });
+
+        // LƯU VÀO LOCALSTORAGE THEO ĐÚNG TÊN BIẾN MÀ FILE ket-qua.html ĐANG GỌI
+        localStorage.setItem("danhGiaChung", danhGia);
+        localStorage.setItem("goiYNangCap", goiY);
+        localStorage.setItem("danhSachLoiAdmin", JSON.stringify(mangLoi)); // Chuyển mảng thành chuỗi JSON
+        localStorage.setItem("trangThaiChua", "hoanthanh");
+
+        alert("✅ Đã lưu kết quả thành công! Hệ thống chuyển sang trang Kết Quả.");
+        
+        // Điều hướng thẳng sang trang kết quả để xem (Bạn sửa lại tên file html cho đúng với của bạn)
+        // window.location.href = "ket-qua.html";
+    }
+
+    // 5. Đăng xuất
+    function logout() {
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("role");
+        window.location.href = "taikhoan.html";
+    }
+</script>
+
+</body>
+</html>

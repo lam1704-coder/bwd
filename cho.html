@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Đang chờ chữa bài</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f8eaf2;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.box{
+    background:white;
+    padding:50px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 0 15px rgba(0,0,0,.1);
+}
+
+.loader{
+    width:60px;
+    height:60px;
+    border:6px solid #ddd;
+    border-top:6px solid #73937e;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    margin:20px auto;
+}
+
+@keyframes spin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="box">
+
+    <h1>Đã gửi bài thành công</h1>
+
+    <div class="loader"></div>
+
+    <p>Đang chờ Admin chữa bài...</p>
+
+</div>
+
+<script>
+
+function kiemTraKetQua(){
+
+    if(localStorage.getItem("trangThaiChua") === "hoanthanh"){
+
+        window.location.href = "ketqua.html";
+
+    }
+
+}
+
+setInterval(kiemTraKetQua,2000);
+
+</script>
+
+</body>
+</html>
