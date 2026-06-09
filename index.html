@@ -35,7 +35,7 @@
             
             /* --- THAY ẢNH NỀN LỚN CHO TOÀN TRANG Ở ĐÂY --- */
             /* Bạn có thể dùng link online hoặc link ảnh trong máy (VD: url('images/hinh-nen.jpg')) */
-            background: url('https://i.pinimg.com/736x/f6/ee/45/f6ee45314751f2bc8f30bb7b0f02ea2d.jpg') center top / cover no-repeat fixed;
+            background: url('images/ảnh.png') center top / cover no-repeat fixed;
             
             overflow-x: hidden;
             line-height: 1.6;
@@ -62,16 +62,12 @@
 
         .logo-img { max-width: 150px; }
 
-        .nav-links {
-            display: flex;
-            list-style: none;
-            background: rgba(255, 255, 255, 0.6);
-            padding: 10px 30px;
-            border-radius: 50px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            backdrop-filter: blur(10px); /* Làm mờ nền đằng sau thanh menu */
-            gap: 25px;
-            align-items: center;
+    
+           .nav-links {
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+
         }
 
         .nav-links a {
@@ -81,6 +77,21 @@
         }
 
         .nav-links a:hover { color: var(--primary-green); }
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+    align-items: center;
+
+    padding: 12px 35px;
+    border-radius: 50px;
+
+    background: rgba(255, 200, 222, 0.86); /* hồng trong suốt */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    box-shadow: 0 8px 20px rgba(216, 27, 96, 0.15);
+}
 
         /* ========================================================
            1. HERO SECTION (KHU VỰC BÌA ĐẦU TRANG)
@@ -135,14 +146,10 @@
            CÁC KHUNG NỘI DUNG (KÍNH MỜ - GLASSMORPHISM)
            ======================================================== */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.4); /* Nền trắng trong suốt 40% */
-            backdrop-filter: blur(15px); /* Làm nhòe ảnh nền phía sau khung */
-            -webkit-backdrop-filter: blur(15px);
-            border: 2px solid rgba(255, 255, 255, 0.6);
-            border-radius: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin: 0 3% 50px 3%;
-        }
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
 
         /* ========================================================
            2. KHU VỰC CHÀO MỪNG (ẢNH TRƯỢT NGANG)
@@ -194,198 +201,315 @@
         /* ========================================================
            3. KHU VỰC TÁC PHẨM
            ======================================================== */
-        .tac-pham-section {
-            display: flex;
-            gap: 50px;
-            align-items: center;
-            padding: 80px 10%; 
-        }
+  .tac-pham-section{
+    display:flex;
+    align-items:center;
+    gap:60px;
+    padding:80px 10%;
+}
 
-        .tac-pham-text { flex: 1; }
+.tac-pham-text{
+    flex:1;
+}
 
-        .tac-pham-title {
-            color: var(--primary-green);
-            font-family: 'Anton', sans-serif;
-            font-size: 40px;
-            margin-bottom: 20px;
-        }
+.tac-pham-cards{
+    flex:1;
 
-        .tac-pham-text p {
-            text-align: justify;
-            color: #333;
-            font-size: 15px;
-            background: rgba(255,255,255,0.5); 
-            padding: 20px;
-            border-radius: 15px;
-        }
+    position:relative;
 
-        .tac-pham-cards {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            position: relative;
-            background: rgba(255, 255, 255, 0.3);
-            padding: 40px;
-            border-radius: 20px;
-            border: 2px solid #fff;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
+    display:flex;
+    flex-direction:column;
+    gap:25px;
 
-        .action-card {
-            background: rgba(255, 230, 240, 0.9);
-            padding: 25px 30px;
-            border-radius: 15px;
-            width: 65%;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            border: 1px solid #fff;
-            cursor: pointer; 
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+    align-items:flex-start;
+}
 
-        .action-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(216, 27, 96, 0.2);
-        }
+.bg-logo{
+    position:absolute;
 
-        .action-card h4 {
-            color: var(--primary-green);
-            margin-bottom: 15px;
-            font-size: 20px;
-            font-weight: 700;
-        }
+    right:0;
+    top:50%;
 
-        .btn-white {
-            background: #fff;
-            border: none;
-            padding: 8px 25px;
-            border-radius: 20px;
-            font-weight: bold;
-            color: var(--text-dark);
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+    transform:translateY(-50%);
 
+    width:85%;
+
+    opacity:0.9;
+
+    z-index:0;
+}
+
+.action-card{
+    position:relative;
+    z-index:2;
+
+    width:320px;
+
+    padding:35px 25px;
+
+    background:rgba(255,230,240,0.9);
+
+    border-radius:20px;
+
+    text-align:center;
+
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.action-card h3{
+    color: #2e7d32; /* xanh lá */
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.tac-pham-title {
+    color: var(--primary-green);
+    font-family: 'Anton', sans-serif;
+    font-size: 40px;
+    margin-bottom: 20px;
+}
         /* ========================================================
            4. KHU VỰC TÁC GIẢ NỔI BẬT (CAROUSEL 3D)
            ======================================================== */
-        .featured-author-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            height: 750px; 
-            padding: 50px 0;
-        }
+        .featured-author-section{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+    overflow:hidden;
+    height:750px;
+    padding:50px 0;
+}
 
-        .carousel-item {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px 25px 25px 25px;
-            border-radius: 20px;
-            width: 320px; 
-            height: 480px; 
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            border: 2px solid #ffcce0;
-            transition: transform 0.5s ease, opacity 0.5s ease, z-index 0.5s;
-            cursor: pointer;
-            overflow-y: auto; 
-            overflow-x: hidden;
-        }
+/* CARD CHUNG */
+.carousel-item{
+    position:absolute;
 
-        .carousel-item::-webkit-scrollbar { width: 5px; }
-        .carousel-item::-webkit-scrollbar-thumb { background: #f8bbd0; border-radius: 5px; }
+    width:380px;
+    height:560px;
 
-        .author-avatar {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-top: -85px;
-            border: 4px solid #fff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            background: #fff;
-        }
+    background:#f8e8ee;
 
-        .carousel-item h3 {
-            color: #d81b60;
-            margin: 15px 0 10px 0;
-            font-size: 20px;
-            line-height: 1.3;
-        }
+    border-radius:25px;
 
-        .carousel-item p {
-            font-size: 14px;
-            color: #555;
-            text-align: justify;
-        }
+    padding:15px;
 
-        .carousel-item:not(.active) p { display: none; }
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
 
-        .carousel-item.active { transform: translateX(0) scale(1); z-index: 5; opacity: 1; cursor: default; }
-        .carousel-item.prev-1 { transform: translateX(-65%) scale(0.85); z-index: 4; opacity: 0.8; }
-        .carousel-item.next-1 { transform: translateX(65%) scale(0.85); z-index: 4; opacity: 0.8; }
-        .carousel-item.prev-2 { transform: translateX(-120%) scale(0.7); z-index: 3; opacity: 0.4; }
-        .carousel-item.next-2 { transform: translateX(120%) scale(0.7); z-index: 3; opacity: 0.4; }
-        .carousel-item.hidden-left { transform: translateX(-160%) scale(0.5); z-index: 1; opacity: 0; pointer-events: none;}
-        .carousel-item.hidden-right { transform: translateX(160%) scale(0.5); z-index: 1; opacity: 0; pointer-events: none;}
+    border:2px solid #ffd6e5;
 
+    transition:all .5s ease;
+
+    overflow:hidden;
+
+    cursor:pointer;
+}
+
+/* BANNER */
+.author-banner{
+    width:100%;
+    height:140px;
+
+    object-fit:cover;
+
+    border-radius:15px;
+}
+
+/* AVATAR */
+.author-avatar{
+    width:100px;
+    height:100px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    position:absolute;
+
+    top:105px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    border:5px solid white;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+
+    background:white;
+}
+
+/* TIÊU ĐỀ */
+.carousel-item h3{
+    margin-top:70px;
+
+    text-align:center;
+
+    color:#2e7d32;
+
+    font-size:28px;
+
+    font-weight:700;
+
+    line-height:1.3;
+}
+
+/* KHUNG NỘI DUNG */
+.carousel-item p{
+    background:white;
+
+    margin-top:20px;
+
+    padding:18px;
+
+    border-radius:12px;
+
+    text-align:justify;
+
+    line-height:1.8;
+
+    font-size:14px;
+
+    color:#444;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+
+    max-height:250px;
+
+    overflow-y:auto;
+}
+
+.carousel-item p::-webkit-scrollbar{
+    width:4px;
+}
+
+.carousel-item p::-webkit-scrollbar-thumb{
+    background:#f8bbd0;
+    border-radius:10px;
+}
+
+/* CARD TRUNG TÂM */
+.carousel-item.active{
+    transform:translateX(0) scale(1.08);
+
+    z-index:5;
+
+    opacity:1;
+}
+
+/* HAI BÊN */
+.carousel-item.prev-1{
+    transform:translateX(-70%) scale(.85);
+
+    z-index:4;
+
+    opacity:.55;
+}
+
+.carousel-item.next-1{
+    transform:translateX(70%) scale(.85);
+
+    z-index:4;
+
+    opacity:.55;
+}
+
+/* XA HƠN */
+.carousel-item.prev-2{
+    transform:translateX(-130%) scale(.7);
+
+    z-index:3;
+
+    opacity:.25;
+}
+
+.carousel-item.next-2{
+    transform:translateX(130%) scale(.7);
+
+    z-index:3;
+
+    opacity:.25;
+}
+
+.carousel-item.hidden-left{
+    transform:translateX(-180%) scale(.5);
+
+    opacity:0;
+
+    pointer-events:none;
+}
+
+.carousel-item.hidden-right{
+    transform:translateX(180%) scale(.5);
+
+    opacity:0;
+
+    pointer-events:none;
+}
+.active
+.prev-1
+.next-1
+.prev-2
+.next-2
+.hidden-left
+.hidden-right
         /* ========================================================
            5. QUOTE (TRÍCH DẪN) & FOOTER
            ======================================================== */
-        .quote-section {
-            text-align: center;
-            font-style: italic;
-            font-weight: 500;
-            color: #222;
-            font-size: 16px;
-            padding: 80px 20%;
-        }
 
-        .site-footer {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 40px 10%;
-            display: flex;
-            justify-content: space-between;
-            border-top: 1px solid #eee;
-        }
+.social-icons { 
+    margin-top: 20px; 
+}
 
-        .footer-cols {
-            display: flex;
-            gap: 80px;
-        }
-        .footer-col h5 { margin-bottom: 15px; }
-        .footer-col p { font-size: 14px; color: #666; margin-bottom: 10px; cursor: pointer;}
-        
-        .social-icons { margin-top: 20px; }
-        .social-icons i { margin-right: 15px; color: #666; font-size: 18px; cursor: pointer; }
+.social-icons i { 
+    margin-right: 15px; 
+    color: #666; 
+    font-size: 18px; 
+    cursor: pointer; 
+    transition: transform 0.3s, color 0.3s;
+}
 
-        .floating-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #ffcce0;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            font-size: 12px;
-            font-weight: bold;
-            color: #d81b60;
-            box-shadow: 0 5px 20px rgba(216, 27, 96, 0.3);
-            border: 3px solid #fff;
-            cursor: pointer;
-            z-index: 100;
-        }
-        .floating-btn i { font-size: 24px; margin-bottom: 5px; }
+.social-icons i:hover {
+    color: #d81b60;
+    transform: scale(1.2); /* Phóng to nhẹ icon khi rê chuột */
+}
+
+.floating-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #ffcce0;
+    width: 85px;       /* Giảm xuống một chút (100px sẽ hơi to trên mobile) */
+    height: 85px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 11px;
+    font-weight: bold;
+    color: #d81b60;
+    box-shadow: 0 5px 20px rgba(216, 27, 96, 0.3);
+    border: 3px solid #fff;
+    cursor: pointer;
+    z-index: 100;
+    flex-shrink: 0;   /* Giữ nút luôn tròn trịa, không bị móp */
+    transition: all 0.3s ease;
+}
+
+/* Hiệu ứng nảy nhẹ khi di chuột vào nút "Viết cùng Thương Văn" */
+.floating-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(216, 27, 96, 0.5);
+    background: #ffb3d1;
+}
+
+.floating-btn i { 
+    font-size: 10px; 
+    margin-bottom: 3px; 
+}
+
+
 
         /* ========================================================
            CSS HIỆU ỨNG CUỘN TRANG (SCROLL ANIMATION)
@@ -466,19 +590,19 @@
         <div class="gallery-wrapper fade-in">
             <div class="image-gallery-track">
                 
-                <img src="https://i.pinimg.com/564x/0a/61/89/0a6189912be21711e51f8cc3d3ea671e.jpg" alt="Gallery 1">
-                <img src="https://i.pinimg.com/564x/ec/11/49/ec114995f5759ce6b25203362c9535e5.jpg" alt="Gallery 2">
-                <img src="https://i.pinimg.com/564x/23/e8/34/23e834ebf88e17dd37b4de451e91544a.jpg" alt="Gallery 3">
-                <img src="https://i.pinimg.com/564x/16/e0/ab/16e0ab5e1f0e42f9b23b49740f5082db.jpg" alt="Gallery 4">
-                <img src="https://i.pinimg.com/564x/1a/10/a5/1a10a56e073d70659fb4969248744b82.jpg" alt="Gallery 5">
-                <img src="https://i.pinimg.com/564x/d1/a7/a5/d1a7a5f2571f544ea1d9e23ba21cc26c.jpg" alt="Gallery 6">
+                <img src="images/trang chủ 1.jpg" alt="Gallery 1">
+                <img src="images/trang chủ 2.jpg" alt="Gallery 2">
+                <img src="images/trang chủ 3.jpg" alt="Gallery 3">
+                <img src="images/trang chủ 4.jpg" alt="Gallery 4">
+                <img src="images/trang chủ 5.jpg" alt="Gallery 5">
+                <img src="images/trang chủ 6.jpg" alt="Gallery 6">
 
-                <img src="https://i.pinimg.com/564x/0a/61/89/0a6189912be21711e51f8cc3d3ea671e.jpg" alt="Gallery 1">
-                <img src="https://i.pinimg.com/564x/ec/11/49/ec114995f5759ce6b25203362c9535e5.jpg" alt="Gallery 2">
-                <img src="https://i.pinimg.com/564x/23/e8/34/23e834ebf88e17dd37b4de451e91544a.jpg" alt="Gallery 3">
-                <img src="https://i.pinimg.com/564x/16/e0/ab/16e0ab5e1f0e42f9b23b49740f5082db.jpg" alt="Gallery 4">
-                <img src="https://i.pinimg.com/564x/1a/10/a5/1a10a56e073d70659fb4969248744b82.jpg" alt="Gallery 5">
-                <img src="https://i.pinimg.com/564x/d1/a7/a5/d1a7a5f2571f544ea1d9e23ba21cc26c.jpg" alt="Gallery 6">
+                <img src="images/trang chủ 8.jpg" alt="Gallery 1">
+                <img src="images/trang chủ 9.jpg" alt="Gallery 2">
+                <img src="images/trang chủ 10.jpg" alt="Gallery 3">
+                <img src="images/trang chủ 11.jpg" alt="Gallery 4">
+                <img src="images/trang chủ 12.jpg" alt="Gallery 5">
+                <img src="images/trang chủ 13.webp" alt="Gallery 6">
                 
             </div>
         </div>
@@ -489,99 +613,111 @@
             <h2 class="tac-pham-title">TÁC PHẨM</h2>
             <p>
                 Những vần thơ Andecxen, những vần thơ ngân vang từ thung lũng Odenxo, nơi có những hôm sương giăng mờ ảo và những vòm hoa thạch thảo tím lịm nên thơ đã gieo vào tâm hồn nhà văn Pautôpxki niềm xúc cảm mãnh liệt...
-                <br><br>
                 Thơ ca, hai chữ kì diệu mà muôn đời vẫn chưa tìm ra một định nghĩa trọn vẹn, hoàn chỉnh. Thơ là gì? Thơ bắt nguồn từ đâu? Thơ có mãnh lực gì khiến cung đàn...
             </p>
         </div>
         
         <div class="tac-pham-cards slide-right">
             <div class="action-card" onclick="window.location.href='XEMCHITIET.HTML'">
-                <h4>Phân tích bài viết</h4>
-                <button class="btn-white">Xem ngay</button>
+                <h3>Phân tích bài viết</h3>
+                <button class="btn-pink">Xem ngay</button>
             </div>
             
             <div class="action-card" onclick="window.location.href='chuabai.html'">
-                <h4>Viết văn</h4>
-                <button class="btn-white">Viết ngay</button>
+                <h3>Viết văn</h3>
+                <button class="btn-pink">Viết ngay</button>
             </div>
         </div>
     </section>
 
     <section class="featured-author-section glass-panel fade-in" id="authorCarousel">
         
-        <div class="carousel-item" onclick="moveCarousel(this)">
-            <img src="https://i.pinimg.com/564x/1a/10/a5/1a10a56e073d70659fb4969248744b82.jpg" alt="Avatar" class="author-avatar">
-            <h3>Hương Mùa Thu</h3>
-            <p>Bầu trời hôm nay xanh ngắt, gió thổi nhè nhẹ làm tôi nhớ đến những vần thơ còn dở dang ngày hôm qua. Cảm hứng đến từ những điều bình dị nhất xung quanh chúng ta...</p>
-        </div>
+      <div class="carousel-item" onclick="moveCarousel(this)">
 
-        <div class="carousel-item" onclick="moveCarousel(this)">
-            <img src="https://i.pinimg.com/564x/d1/a7/a5/d1a7a5f2571f544ea1d9e23ba21cc26c.jpg" alt="Avatar" class="author-avatar">
-            <h3>Mưa Bay Tháng 7</h3>
-            <p>Từng hạt mưa rơi tí tách ngoài hiên cửa như đang kể một câu chuyện dài không hồi kết. Văn chương cũng như mưa, có lúc dồn dập, có lúc lại nhẹ nhàng êm đi sâu vào lòng người...</p>
-        </div>
+    <img src="images/banner1.jpg" class="author-banner">
 
-        <div class="carousel-item" onclick="moveCarousel(this)">
-            <img src="https://i.pinimg.com/564x/27/64/ce/2764ceb39d1b6cf1c762512f4b2ffb39.jpg" alt="Avatar" class="author-avatar">
-            <h3>Ay Nổ Trí Ốc <br> Những Nhánh Xanh</h3>
-            <p>Vào những ngày đông miên man những lo toan, rủ thêm tiền để đổi những khoảng lặng yên bình, nơi có chim hót cành rụng và nắng lã tóc tơ. Gói trọn những chênh vênh của tuổi trẻ, những hoài bão lồng lộng ở chân trời đã đứng...<br><br>Đứng dưới bóng dâm mát rượi, dĩ ngoạn trúc trắc những lá vàng, tinh nghịch lách qua từng kẽ lá, ta chợt nhận ra cuộc đời đôi khi chỉ cần những điều giản dị như thế.</p>
-        </div>
+    <img src="images/avt.jpg"
+         class="author-avatar">
 
-        <div class="carousel-item" onclick="moveCarousel(this)">
-            <img src="https://i.pinimg.com/564x/23/e8/34/23e834ebf88e17dd37b4de451e91544a.jpg" alt="Avatar" class="author-avatar">
-            <h3>Tâm Hồn Lạc Lõng</h3>
-            <p>Có những ngày ta thấy mình chênh vênh giữa dòng đời tấp nập. Lúc ấy, chỉ cần một chén trà ấm, một cuốn sách hay là đủ để xoa dịu những muộn phiền...</p>
-        </div>
+    <h3>Hạ Về Trên Những Nhánh Xanh</h3>
 
-        <div class="carousel-item" onclick="moveCarousel(this)">
-            <img src="https://i.pinimg.com/564x/16/e0/ab/16e0ab5e1f0e42f9b23b49740f5082db.jpg" alt="Avatar" class="author-avatar">
-            <h3>Nắng Thủy Tinh</h3>
-            <p>Viết là cách để lưu giữ lại thanh xuân. Những trang giấy trắng chứa đựng biết bao nhiêu kỉ niệm, vui có, buồn có, nhưng tất cả đều rất đẹp đẽ và đáng trân trọng.</p>
-        </div>
+    <p>
+        Có những ngày lòng bộn bề những lo toan, ta thèm tìm về với những khoảng lặng yên bình, nơi có vòm trời xanh ngát và tiếng lá xào xạc kể chuyện vu vơ. Hạ về, không chỉ mang theo cái nắng giòn tan của ngày mới, mà còn thắp lên sắc xanh mướt mát trên những nhánh cây trước hiên nhà. Những chùm hoa trắng li ti khẽ nở, dịu dàng tỏa chút hương thắm trong gió, tựa như những nốt nhạc trong ngần ngân lên giữa khúc ca mùa hạ.
 
-    </section>
+Đứng dưới bóng râm mát lành ấy, ngước mắt nhìn những tia nắng tinh nghịch lách qua từng kẽ lá, ta chợt nhận ra cuộc đời đôi khi chỉ cần những điều giản dị như thế. Cần một khoảng trời đủ rộng để mơ mộng, một nhành hoa đủ thắm để mỉm cười, và một trang sách mở ra để gửi gắm những suy tư.
 
-    <section class="quote-section glass-panel slide-up">
-        "Học Văn không chỉ là ghi nhớ, mà là cách chúng ta học cảm nhận và bày tỏ tư duy của chính mình. Từ những dòng mở bài còn bỡ ngỡ cho đến một bài văn nghị luận hoàn chỉnh, Chạm Văn Chương luôn sẵn sàng đồng hành và hỗ trợ bạn gỡ rối mọi khó khăn."
-    </section>
+Văn chương suy cho cùng cũng giống như dòng nước mát lành tưới tẩm cho những tâm hồn đang cằn cỗi. Chạm tay vào con chữ, ta bắt gặp chính mình trong sắc xanh của lá, trong cái khoáng đạt của mây trời và trong cả những hoài niệm bảng lảng của thời gian. Hãy cứ để lòng mình neo lại nơi đây, giữa những nhành xanh và hoa trắng, để cảm nhận một mùa hạ thật dịu dàng, thật thơ...
+    </p>
 
-    <div class="floating-btn" onclick="window.location.href='chuabai.html'">
-        <i class="fa-brands fa-pagelines"></i>
-        Viết cùng<br>Thương Văn
-    </div>
+</div>
 
-    <footer class="site-footer">
-        <div>
-            <h4 style="color: #666; margin-bottom: 10px;">Site name</h4>
-            <div class="social-icons">
-                <i class="fa-brands fa-facebook"></i>
-                <i class="fa-brands fa-linkedin"></i>
-                <i class="fa-brands fa-youtube"></i>
-                <i class="fa-brands fa-instagram"></i>
-            </div>
-        </div>
+     <div class="carousel-item" onclick="moveCarousel(this)">
 
-        <div class="footer-cols">
-            <div class="footer-col">
-                <h5>Topic</h5>
-                <p>Page</p>
-                <p>Page</p>
-                <p>Page</p>
-            </div>
-            <div class="footer-col">
-                <h5>Topic</h5>
-                <p>Page</p>
-                <p>Page</p>
-                <p>Page</p>
-            </div>
-            <div class="footer-col">
-                <h5>Topic</h5>
-                <p>Page</p>
-                <p>Page</p>
-                <p>Page</p>
-            </div>
-        </div>
-    </footer>
+    <img src="images/banner2.webp" class="author-banner">
+
+    <img src="images/avt2.jpg"
+         class="author-avatar">
+
+    <h3>Hương Hoa Sữa Cuối Chiều</h3>
+
+    <p>
+        Có những chiều gió lộng, ta dừng chân bên quán quen nơi góc phố, ngắm nhìn những vệt nắng cuối ngày lười biếng ngả bóng dài trên mặt đường. Mùa hạ không chỉ có những oi ả, rực rỡ, mà còn có những khoảnh khắc dịu êm khi hoàng hôn buông xuống, trả lại không gian tĩnh lặng cho vạn vật. Tiếng xe cộ thưa dần, chỉ còn tiếng lách cách của những vòng xe đạp lướt qua, gợi nhắc về một thời học trò đầy mơ mộng và ngây ngô dưới mái trường xưa.
+    </p>
+
+</div>
+
+    <div class="carousel-item" onclick="moveCarousel(this)">
+    <img src="images/banner3.jpg" class="author-banner">
+
+    <img src="images/avt3.jpg"
+         class="author-avatar">
+
+    <h3>Neo Lại Những Ước Mơ</h3>
+
+    <p>
+        Thời gian cứ thế trôi đi lặng lẽ, mang theo những mùa hoa đi qua và đón nhận những hành trình mới phía trước. Giữa những bộn bề và vội vã của cuộc sống mưu sinh, việc tìm cho mình một khoảng lặng để nhìn nhận lại bản thân là điều vô cùng cần thiết. Đừng quên nuôi dưỡng những ước mơ thuở ban đầu, dẫu cho hành trình phía trước có nhiều gian nan, thử thách. Hãy giữ cho trái tim luôn ấm nóng và tràn đầy hy vọng giống như ánh nắng rực rỡ của những ngày hè.
+    </p>
+
+</div>
+
+      <div class="carousel-item" onclick="moveCarousel(this)">
+
+    <img src="images/banner4.webp" class="author-banner">
+
+    <img src="images/avt4.jpg"
+         class="author-avatar">
+
+    <h3>Đi Qua Những Mùa Nhớ</h3>
+
+    <p>
+        Cơn mưa rào mùa hạ đến bất chợt rồi đi cũng nhanh như khi nó đến, để lại bầu không khí trong lành và mùi đất ẩm nồng nàn khó tả. Những giọt nước đọng lại trên bậu cửa sổ tựa như những mảnh vỡ của kỷ niệm, lung linh và trong suốt. Ngồi bên bàn học, lật mở từng trang nhật ký cũ, ta chợt mỉm cười khi nhận ra bản thân đã đi qua biết bao mùa nhớ, trưởng thành hơn sau những vấp ngã và biết nâng niu hơn những hạnh phúc giản đơn của hiện tại.
+    </p>
+
+</div>
+
+     <div class="carousel-item" onclick="moveCarousel(this)">
+
+    <img src="images/banner5.jpg" class="author-banner">
+
+    <img src="images/avt5.jpg"
+         class="author-avatar">
+
+    <h3>Tiếng Vĩ Cầm Trong Gió</h3>
+
+    <p>
+       Âm nhạc và văn chương luôn là liều thuốc kỳ diệu xoa dịu đi những mệt mỏi sau một ngày dài lo toan áp lực. Khi tiếng vĩ cầm cất lên hòa quyện cùng tiếng ve ngân vang ngoài bụi cây, không gian như ngưng đọng lại, nhường chỗ cho những xúc cảm thăng hoa. Hãy để tâm hồn mình được thả lỏng hoàn toàn, trôi bồng bềnh theo từng nốt nhạc trầm bổng, để thấy rằng cuộc đời này vẫn còn biết bao điều tươi đẹp và đáng yêu đang chờ đợi chúng ta khám phá.
+    </p>
+
+</div>
+<div class="quote-wrapper">
+    <blockquote class="quote-section">
+        "Học Văn không chỉ là ghi nhớ..."
+    </blockquote>
+</div>
+<div class="floating-btn" onclick="window.location.href='chuabai.html'">
+    <i class="fa-brands fa-pagelines"></i>
+    Viết cùng<br>Thưởng Văn
+</div>
 
     <script>
         // 1. Xử lý logic Slider 3D thẻ tác giả
