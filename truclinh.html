@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giao diện TTS - Portfolio</title>
     <style>
+        /* Nền hồng nhạt cho phần nội dung phía dưới */
+.content-wrapper {
+    background-color: #fff5f7; /* Mã màu hồng nhạt */
+    padding-bottom: 50px;      /* Tạo khoảng thở dưới cùng */
+}
         /* TỔNG QUAN & MÀU SẮC */
         :root {
             --primary-green: #6d8c5d; /* Màu xanh lá chuẩn mẫu */
@@ -21,15 +26,17 @@
             color: var(--text-dark);
         }
 
+        
         /* BANNER PHÍA TRÊN */
-        .hero {
-            position: relative;
-            height: 580px;
-            background: url('banner.png') center/cover no-repeat;
-            display: flex;
-            align-items: flex-end;
-            padding: 0 10% 80px;
-        }
+.hero {
+    position: relative;
+    height: 580px;
+    /* Thay vì 'center', hãy dùng 'top center' hoặc '50% 0%' */
+    background: url('images/banner.png') top center / cover no-repeat;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 10% 80px;
+}
 
         /* Hiệu ứng mờ dần (Gradient) ở chân banner */
         .hero::after {
