@@ -3,374 +3,578 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giao Diện Diễn Đàn - Twix Style</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Nghệ Thuật Việt - Giao diện Thiên Nhiên</title>
     <style>
-        /* Toàn bộ nền trang web sử dụng màu xanh rêu sữa nhạt của ảnh mẫu */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Montserrat', sans-serif;
-            background-color: #ffd4f2; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            box-sizing: border-box;
-        }
+        /* === RESET & CÀI ĐẶT CƠ BẢN === */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: linear-gradient(135deg, #e0f7fa 0%, #ffffff 40%, #fce4ec 100%); color: #333; min-height: 100vh; }
+        .layout-container { display: flex; max-width: 1240px; margin: 0 auto; padding: 20px 0; align-items: flex-start; }
 
-        .forum-wrapper {
-            display: flex;
-            gap: 20px;
-            width: 100%;
-            max-width: 1050px;
-            padding: 20px;
-            box-sizing: border-box;
+        /* === SIDEBAR === */
+        .sidebar {
+            width: 250px; background-color: #fde8ef; padding: 30px 0; border-radius: 0 30px 30px 0;
+            display: flex; flex-direction: column; align-items: center; position: sticky; top: 20px; height: calc(100vh - 40px);
+            box-shadow: 5px 0 15px rgba(0,0,0,0.03);
         }
+        .avatar {
+            width: 100px; height: 100px; border-radius: 50%; margin-bottom: 40px; cursor: pointer; transition: transform 0.2s;
+            background-image: url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80');
+            background-size: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 3px solid #fff;
+        }
+        .avatar:hover { transform: scale(1.05); }
 
-        /* --- 1. CỘT SIDEBAR BÊN TRÁI --- */
-        .sidebar-left {
-            width: 260px;
-            background-color: #ffffff;
-            border-radius: 24px;
-            padding: 30px 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-sizing: border-box;
-            flex-shrink: 0;
-        }
+        .menu { width: 100%; list-style: none; }
+        .menu-item { width: 100%; padding: 15px 30px; margin-bottom: 10px; font-weight: bold; font-size: 14px; color: #4a4a4a; cursor: pointer; transition: all 0.3s ease; position: relative; }
+        .menu-item.active { background-color: #fff; color: #558b2f; border-radius: 0 20px 20px 0; width: 90%; }
+        .menu-item:hover:not(.active) { background-color: rgba(255, 255, 255, 0.5); width: 95%; border-radius: 0 20px 20px 0; }
+        .badge { position: absolute; top: 12px; right: 20px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; display: none; }
 
-        .profile-avatar-container {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 4px solid #fff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            margin-bottom: 35px;
-        }
+        /* === MAIN CONTENT === */
+        .main-content { flex: 1; padding: 0 40px; padding-bottom: 50px; }
+        .view-section { display: none; flex-direction: column; gap: 25px; animation: fadeIn 0.3s ease-in-out; }
+        .view-section.active-view { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
 
-        .profile-avatar-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        /* HIỆU ỨNG CHỮ ĐỘNG */
+        .animated-text {
+            background: linear-gradient(270deg, #1b5e20, #8bc34a, #004d40, #1b5e20);
+            background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: shineText 4s ease infinite; font-size: 18px; margin: 10px 0; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; text-align: center;
         }
+        @keyframes shineText { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        .nav-menu-list {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
+        /* THẺ BÀI VIẾT */
+        .card { background-color: #b9f6ca; border-radius: 20px; padding: 20px; box-shadow: 0 8px 15px rgba(0,0,0,0.05); transition: transform 0.2s, opacity 0.4s; }
+        .card:hover { box-shadow: 0 12px 20px rgba(0,0,0,0.08); }
+        .post-card { display: flex; gap: 20px; position: relative; }
+        .post-image { width: 320px; height: 180px; border-radius: 12px; object-fit: cover; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .post-content { flex: 1; display: flex; flex-direction: column; }
+        .post-title { color: #1b5e20; font-size: 18px; margin-bottom: 6px; line-height: 1.4; font-weight: 700; }
+        .post-author { color: #4a148c; font-size: 13px; font-weight: bold; margin-bottom: 8px; display: block;}
+        .post-desc { color: #2e7d32; font-size: 13px; line-height: 1.5; text-align: justify; opacity: 0.9; }
+        .post-footer { margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end; padding-top: 10px;}
+        .post-date { font-size: 11px; color: #689f38; font-weight: bold; font-style: italic; }
+        
+        /* NÚT BẤM */
+        .btn-action { 
+            background-color: #558b2f; color: white; border: none; padding: 6px 12px; margin-right: 5px; margin-bottom: 5px;
+            border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.2s;
         }
+        .btn-action:hover { background-color: #33691e; transform: scale(1.05); }
+        .btn-action.comment { background-color: #0288d1; }
+        .btn-action.follow { background-color: #8e24aa; }
+        .btn-action.profile { background-color: #f57c00; }
+        .btn-action.remove { background-color: #e53935; }
+        .btn-action.saved { background-color: #9e9e9e; cursor: default; }
+        .btn-action.saved:hover { transform: none; background-color: #9e9e9e; }
+        .btn-back { align-self: flex-start; background-color: #7cb342; padding: 8px 22px; margin-bottom: 10px;}
 
-        .nav-btn {
-            width: 100%;
-            background-color: #eaeaea;
-            border: none;
-            padding: 14px 18px;
-            border-radius: 12px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 13px;
-            font-weight: 700;
-            color: #728c68;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
+        /* TOP NỔI BẬT TUẦN */
+        .top-highlights-card { background-color: #fff; padding: 25px; border-radius: 25px; border: 2px solid #b9f6ca; }
+        .top-highlights-grid { display: flex; justify-content: space-between; gap: 12px; }
+        .top-item { position: relative; flex: 1; aspect-ratio: 1/1; border-radius: 12px; overflow: hidden; cursor: pointer; transition: 0.3s; }
+        .top-item:hover { transform: translateY(-5px) scale(1.02); }
+        .top-item img { width: 100%; height: 100%; object-fit: cover; }
+        .top-label { position: absolute; bottom: 8px; left: 0; width: 100%; text-align: center; color: white; font-weight: 900; font-size: 13px; text-shadow: 1px 1px 4px rgba(0,0,0,0.9), 0 0 10px #6a1b9a; }
 
-        .nav-btn:hover {
-            background-color: #728c68;
-            color: #ffffff;
-            transform: scale(1.02);
-        }
+        /* BÌNH LUẬN */
+        .comment-section { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #81c784; animation: fadeIn 0.3s ease; }
+        .comment-input-area { display: flex; gap: 10px; margin-bottom: 15px; }
+        .comment-input { flex: 1; padding: 8px 15px; border-radius: 20px; border: 1px solid #a5d6a7; outline: none; }
+        .comment-item { display: flex; gap: 10px; margin-bottom: 10px; background: rgba(255,255,255,0.4); padding: 10px; border-radius: 10px; }
+        .comment-avatar { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
+        .comment-text h4 { font-size: 13px; color: #1b5e20; margin-bottom: 3px; }
+        .comment-text p { font-size: 12px; color: #333; }
 
-        /* Nút đặc biệt đang được kích hoạt */
-        .nav-btn.active {
-            background-color: #ffffff;
-            color: #728c68;
-            border: 1px solid #728c68;
-            box-shadow: 4px 4px 0px #728c68;
-        }
+        /* THÔNG BÁO */
+        .noti-item { display: flex; align-items: center; gap: 15px; padding: 15px 20px; background: #fff; border-radius: 15px; border-left: 5px solid #558b2f; box-shadow: 0 4px 8px rgba(0,0,0,0.04); margin-bottom: 15px;}
+        .noti-item.unread { border-left: 5px solid #ff9800; background: #fff8e1; }
+        .noti-icon { width: 40px; height: 40px; border-radius: 50%; background: #e8f5e9; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .noti-content p { font-size: 14px; color: #333; }
+        .noti-time { font-size: 11px; color: #757575; margin-top: 4px; }
 
-        /* --- 2. CỘT NỘI DUNG CHÍNH BÊN PHẢI --- */
-        .main-board-right {
-            flex-grow: 1;
-            background-color: #ffffff;
-            border-radius: 30px;
-            padding: 30px 30px 90px 30px; /* Chừa khoảng trống bên dưới cho thanh điều hướng lõm */
-            box-sizing: border-box;
-            position: relative;
-            display: flex;
-            flex-direction: column;
+        /* TRANG CÁ NHÂN */
+        .profile-header {
+            display: flex; align-items: center; gap: 25px; background: #fff; padding: 25px 35px; 
+            border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border: 2px solid #fde8ef;
         }
-
-        /* Ký tự hoa văn cánh bướm phía trên trần */
-        .top-deco-text {
-            text-align: center;
-            color: #728c68;
-            font-size: 14px;
-            margin-bottom: 20px;
-            letter-spacing: 2px;
-        }
-
-        /* Khung Cover chứa ảnh nghệ thuật */
-        .cover-art-box {
-            width: 100%;
-            height: 220px;
-            border-radius: 18px;
-            overflow: hidden;
-            position: relative;
-            margin-bottom: 60px; /* Tạo khoảng trống rộng để avatar đè lên */
-        }
-
-        .cover-art-box .cover-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Kính tròn lồng avatar đè lên ảnh nền */
-        .center-circle-avatar {
-            position: absolute;
-            bottom: -50px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            border: 5px solid #728c68;
-            overflow: hidden;
-            background-color: #fff;
-            z-index: 5;
-        }
-
-        .center-circle-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* --- Vùng hiển thị văn bản bài đăng diễn đàn --- */
-        .forum-post-container {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding-right: 5px;
-            margin-bottom: 20px;
-        }
-
-        .post-main-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #4a5c44;
-            text-align: center;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .post-paragraph {
-            font-size: 13.5px;
-            line-height: 1.8;
-            color: #555555;
-            text-align: justify;
-            margin-bottom: 16px;
-        }
-
-        /* Khung bình luận phối trắng rêu tinh tế */
-        .comment-box-layout {
-            background-color: #f7faf6;
-            border: 1px solid #e1ebe0;
-            border-radius: 16px;
-            padding: 16px;
-            margin-top: 20px;
-        }
-
-        .comment-user {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 12.5px;
-            font-weight: 700;
-            color: #728c68;
-            margin-bottom: 8px;
-        }
-
-        .comment-content {
-            font-size: 13px;
-            color: #444;
-            line-height: 1.5;
-            margin: 0 0 12px 0;
-        }
-
-        .attached-media {
-            width: 100%;
-            max-width: 320px;
-            border-radius: 10px;
-            border: 1px solid #d0ded0;
-        }
-
-        /* --- 3. THANH DIỀU HƯỚNG CÁCH ĐIỆU LÕM Ở ĐÁY BÀI --- */
-        .bottom-notch-navbar {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 65%;
-            height: 55px;
-            background-color: #728c68;
-            border-radius: 16px 16px 0 0;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 0 30px;
-            box-sizing: border-box;
-        }
-
-        /* Vòng tròn rỗng tạo khấc lõm ở tâm */
-        .notch-center-hole {
-            position: absolute;
-            top: -22px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 50px;
-            background-color: #ffffff; /* Trùng với màu nền trắng của card lớn */
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2;
-        }
-
-        /* Hình trái tim xanh nằm lọt lòng trong lỗ khoét */
-        .notch-center-hole::after {
-            content: '♥';
-            color: #728c68;
-            font-size: 26px;
-            margin-top: 4px;
-        }
-
-        /* Các nút bấm icon trên thanh bar */
-        .bottom-bar-icon {
-            color: #ffffff;
-            font-size: 18px;
-            text-decoration: none;
-            cursor: pointer;
-            opacity: 0.8;
-            transition: opacity 0.2s;
-            font-weight: bold;
-        }
-
-        .bottom-bar-icon:hover {
-            opacity: 1;
-        }
+        .profile-avatar { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 4px solid #b9f6ca; }
+        .profile-name { color: #1b5e20; margin-bottom: 5px; font-size: 26px; font-weight: 800; }
+        .profile-role { color: #689f38; font-weight: bold; font-size: 14px; background: #f1f8e9; display: inline-block; padding: 2px 12px; border-radius: 10px;}
     </style>
 </head>
 <body>
 
-    <div class="forum-wrapper">
+<div class="layout-container">
+    <aside class="sidebar">
+        <div class="avatar"></div>
+        <ul class="menu">
+            <li class="menu-item active" onclick="changeContent(this, 'view-for-you')">Dành cho bạn</li>
+            <li class="menu-item" id="menu-following" onclick="changeContent(this, 'view-following')">Theo dõi</li>
+            <li class="menu-item" onclick="changeContent(this, 'view-my-posts')">Bài viết của bạn</li>
+            <li class="menu-item" id="menu-noti" onclick="changeContent(this, 'view-notifications')">Thông báo <span class="badge" id="noti-badge">1</span></li>
+            <li class="menu-item" onclick="changeContent(this, 'view-saved')">Lưu trữ</li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
         
-        <div class="sidebar-left">
-            <div class="profile-avatar-container">
-                <img src="images/avt.jpg" alt="User Avatar">
-            </div>
+        <div id="view-for-you" class="view-section active-view">
+            <h3 class="animated-text">✨ Tác phẩm hôm nay</h3>
             
-            <div class="nav-menu-list">
-                <button class="nav-btn active">Dành cho bạn</button>
-                <button class="nav-btn">Theo dõi</button>
-                <button class="nav-btn ">Bài viết của bạn</button>
-                <button class="nav-btn">Thông báo</button>
-                <button class="nav-btn">Lưu</button>
+            <article class="card">
+                <div class="post-card">
+                    <img src="https://images.unsplash.com/photo-1559586616-361e18714958?auto=format&fit=crop&w=400&q=80" class="post-image">
+                    <div class="post-content">
+                        <h2 class="post-title">Mùa lúa chín trên rẻo cao Mù Cang Chải</h2>
+                        <span class="post-author" data-avatar="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80">Hoàng Thế Nhiệm</span>
+                        <p class="post-desc">Những cung đường uốn lượn giữa biển lúa vàng rực rỡ tại Yên Bái. Thời điểm tuyệt vời để ghi lại vẻ đẹp vùng cao.</p>
+                        <div class="post-footer">
+                            <div style="flex-wrap: wrap; display: flex;">
+                                <button class="btn-action comment" onclick="toggleComment(this)">💬 Bình luận</button>
+                                <button class="btn-action profile" onclick="viewProfile('Hoàng Thế Nhiệm')">👤 Trang cá nhân</button>
+                                <button class="btn-action follow" onclick="followAuthor(this, 'Hoàng Thế Nhiệm')">➕ Theo dõi</button>
+                                <button class="btn-action save" onclick="savePost(this)">🔖 Lưu bài</button>
+                            </div>
+                            <span class="post-date">HÔM NAY</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-section">
+                    <div class="comment-input-area">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80" class="comment-avatar">
+                        <input type="text" class="comment-input" placeholder="Viết bình luận. Tác giả sẽ trả lời bạn ngay!">
+                        <button class="btn-action" onclick="postComment(this, 'Hoàng Thế Nhiệm', 'Mùa lúa chín trên rẻo cao')">Gửi</button>
+                    </div>
+                    <div class="comment-list"></div>
+                </div>
+            </article>
+
+            <section class="top-highlights-card">
+                <h3 class="animated-text" style="font-size: 15px;">🔥 Top địa danh nổi bật tuần</h3>
+                <div class="top-highlights-grid">
+                    <div class="top-item"><img src="https://images.unsplash.com/photo-1559592413-7cece58a5f36?auto=format&fit=crop&w=200&q=80"><span class="top-label">HỘI AN</span></div>
+                    <div class="top-item"><img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=200&q=80"><span class="top-label">HẠ LONG</span></div>
+                    <div class="top-item"><img src="https://images.unsplash.com/photo-1583417657209-d3efcb2bc6f1?auto=format&fit=crop&w=200&q=80"><span class="top-label">HÀ NỘI</span></div>
+                    <div class="top-item"><img src="https://images.unsplash.com/photo-1544413660-299165566b1d?auto=format&fit=crop&w=200&q=80"><span class="top-label">SAPA</span></div>
+                </div>
+            </section>
+
+            <article class="card">
+                <div class="post-card">
+                    <img src="https://images.unsplash.com/photo-1509017174183-0b7e0278f1ec?auto=format&fit=crop&w=400&q=80" class="post-image">
+                    <div class="post-content">
+                        <h2 class="post-title">Sắc sen hồng vùng đất Đồng Tháp Mười</h2>
+                        <span class="post-author" data-avatar="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80">Nguyễn Phan Chánh</span>
+                        <p class="post-desc">Bức tranh diễn tả vẻ đẹp thanh khiết của hoa sen, quốc hoa Việt Nam. Cánh hoa mềm mại vươn cao giữa bùn lầy.</p>
+                        <div class="post-footer">
+                            <div style="flex-wrap: wrap; display: flex;">
+                                <button class="btn-action comment" onclick="toggleComment(this)">💬 Bình luận</button>
+                                <button class="btn-action profile" onclick="viewProfile('Nguyễn Phan Chánh')">👤 Trang cá nhân</button>
+                                <button class="btn-action follow" onclick="followAuthor(this, 'Nguyễn Phan Chánh')">➕ Theo dõi</button>
+                                <button class="btn-action save" onclick="savePost(this)">🔖 Lưu bài</button>
+                            </div>
+                            <span class="post-date">HÔM QUA</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-section">
+                    <div class="comment-input-area">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80" class="comment-avatar">
+                        <input type="text" class="comment-input" placeholder="Viết bình luận...">
+                        <button class="btn-action" onclick="postComment(this, 'Nguyễn Phan Chánh', 'Sắc sen hồng Đồng Tháp')">Gửi</button>
+                    </div>
+                    <div class="comment-list"></div>
+                </div>
+            </article>
+
+            <article class="card">
+                <div class="post-card">
+                    <img src="https://images.unsplash.com/photo-1583417657209-d3efcb2bc6f1?auto=format&fit=crop&w=400&q=80" class="post-image">
+                    <div class="post-content">
+                        <h2 class="post-title">Gánh hàng hoa mùa thu Hà Nội</h2>
+                        <span class="post-author" data-avatar="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80">Đinh Tuấn Vũ</span>
+                        <p class="post-desc">Những chiếc xe chở đầy cúc họa mi len lỏi qua từng con phố cổ. Một nét duyên thầm không thể thiếu của thủ đô.</p>
+                        <div class="post-footer">
+                            <div style="flex-wrap: wrap; display: flex;">
+                                <button class="btn-action comment" onclick="toggleComment(this)">💬 Bình luận</button>
+                                <button class="btn-action profile" onclick="viewProfile('Đinh Tuấn Vũ')">👤 Trang cá nhân</button>
+                                <button class="btn-action follow" onclick="followAuthor(this, 'Đinh Tuấn Vũ')">➕ Theo dõi</button>
+                                <button class="btn-action save" onclick="savePost(this)">🔖 Lưu bài</button>
+                            </div>
+                            <span class="post-date">2 NGÀY TRƯỚC</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-section">
+                    <div class="comment-input-area">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80" class="comment-avatar">
+                        <input type="text" class="comment-input" placeholder="Viết bình luận...">
+                        <button class="btn-action" onclick="postComment(this, 'Đinh Tuấn Vũ', 'Gánh hàng hoa mùa thu Hà Nội')">Gửi</button>
+                    </div>
+                    <div class="comment-list"></div>
+                </div>
+            </article>
+
+            <article class="card">
+                <div class="post-card">
+                    <img src="https://images.unsplash.com/photo-1512351737112-90f70f6d6344?auto=format&fit=crop&w=400&q=80" class="post-image">
+                    <div class="post-content">
+                        <h2 class="post-title">Hoàng hôn tím trên đảo Ngọc Phú Quốc</h2>
+                        <span class="post-author" data-avatar="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=100&q=80">Lê Minh Tú</span>
+                        <p class="post-desc">Tác phẩm kỹ thuật số sử dụng gam màu tím và cam khắc họa vẻ đẹp huyền ảo của bờ biển Việt Nam lúc mặt trời lặn.</p>
+                        <div class="post-footer">
+                            <div style="flex-wrap: wrap; display: flex;">
+                                <button class="btn-action comment" onclick="toggleComment(this)">💬 Bình luận</button>
+                                <button class="btn-action profile" onclick="viewProfile('Lê Minh Tú')">👤 Trang cá nhân</button>
+                                <button class="btn-action follow" onclick="followAuthor(this, 'Lê Minh Tú')">➕ Theo dõi</button>
+                                <button class="btn-action save" onclick="savePost(this)">🔖 Lưu bài</button>
+                            </div>
+                            <span class="post-date">05, THÁNG 6</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-section">
+                    <div class="comment-input-area">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80" class="comment-avatar">
+                        <input type="text" class="comment-input" placeholder="Viết bình luận...">
+                        <button class="btn-action" onclick="postComment(this, 'Lê Minh Tú', 'Hoàng hôn tím trên đảo Ngọc Phú Quốc')">Gửi</button>
+                    </div>
+                    <div class="comment-list"></div>
+                </div>
+            </article>
+
+        </div>
+
+        <div id="view-following" class="view-section">
+            <h3 class="animated-text">Tác giả bạn đang theo dõi</h3>
+            <div id="following-container">
+                <p style="text-align: center; color: #558b2f; font-style: italic;" id="empty-following">Bạn chưa theo dõi ai. Hãy bấm "Theo dõi" ở mục Dành cho bạn!</p>
             </div>
         </div>
 
-        <div class="main-board-right">
-            <div class="top-deco-text">𝜗𝜚 ˚₊· ͟͟͞͞➳ 𝜗𝜚</div>
+        <div id="view-profile" class="view-section">
+            <button class="btn-action btn-back" onclick="changeContent(null, 'view-for-you')">⬅ Trở về danh sách</button>
+            <div class="profile-header">
+                <img id="profile-avatar" src="" class="profile-avatar">
+                <div>
+                    <h2 id="profile-name" class="profile-name">Tên Tác Giả</h2>
+                    <p id="profile-role" class="profile-role">Vai trò</p>
+                </div>
+                <button class="btn-action follow" style="margin-left: auto;" onclick="alert('Đã theo dõi tác giả này!')">➕ Theo dõi</button>
+            </div>
+            <h3 class="animated-text" style="text-align: left;">Kho tác phẩm</h3>
+            <div id="profile-posts-container" style="display: flex; flex-direction: column; gap: 25px;"></div>
+        </div>
+
+        <div id="view-my-posts" class="view-section">
+            <h3 class="animated-text">Bài viết bạn đã đăng</h3>
             
-           <div class="profile-header-container" style="
-    width: 100%;
-    position: relative;
-    margin-bottom: 65px; /* Khoảng cách vừa đủ để nhường chỗ cho avatar nổi lên */
-">
+            <article class="card">
+                <div class="post-card">
+                    <img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=400&q=80" class="post-image">
+                    <div class="post-content">
+                        <h2 class="post-title">Buổi sáng yên bình bên suối Yến</h2>
+                        <span class="post-author" style="color: #0288d1;">Đăng bởi: Chính Bạn</span>
+                        <p class="post-desc">Hôm nay mình có dịp ghé thăm suối Yến. Không khí thật trong lành, mặt nước phẳng lặng như gương...</p>
+                        <div class="post-footer">
+                            <div><button class="btn-action remove" onclick="deleteMyPost(this)">🗑️ Xóa bài</button></div>
+                            <span class="post-date">HÔM QUA</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
 
-    <div class="cover-art-box" style="
-        width: 100%;
-        height: 300px;
-        border-radius: 18px;
-        overflow: hidden; /* Cắt góc ảnh nền gọn gàng */
-        position: relative;
-    ">
-        <img src="images/avt2.jpg" alt="Cover Art" class="cover-img" style="
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        ">
-    </div>
+            <article class="card">
+                <div class="post-card">
+                    <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=400&q=80" class="post-image">
+                    <div class="post-content">
+                        <h2 class="post-title">Hỏi đáp: Kỹ thuật phơi sáng lâu</h2>
+                        <span class="post-author" style="color: #0288d1;">Đăng bởi: Chính Bạn</span>
+                        <p class="post-desc">Cho em hỏi kỹ thuật phơi sáng ban ngày thì cần dùng filter ND loại mấy khẩu là hợp lý ạ? Em cảm ơn.</p>
+                        <div class="post-footer">
+                            <div><button class="btn-action remove" onclick="deleteMyPost(this)">🗑️ Xóa bài</button></div>
+                            <span class="post-date">05, THÁNG 6</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            
+            <article class="card">
+                <div class="post-card">
+                    <img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=400&q=80" class="post-image">
+                    <div class="post-content">
+                        <h2 class="post-title">Giao lưu màu nước cơ bản</h2>
+                        <span class="post-author" style="color: #0288d1;">Đăng bởi: Chính Bạn</span>
+                        <p class="post-desc">Mọi người cho mình nhận xét về bức tranh phong cảnh đầu tay mình vẽ bằng màu nước nhé!</p>
+                        <div class="post-footer">
+                            <div><button class="btn-action remove" onclick="deleteMyPost(this)">🗑️ Xóa bài</button></div>
+                            <span class="post-date">01, THÁNG 6</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
 
-    <div class="center-circle-avatar" style="
-        position: absolute;
-        bottom: 15px; /* Đẩy lồi xuống dưới viền ảnh bìa một nửa */
-        left: 50%;
-        transform: translateX(-50%);
-        width: 110px;
-        height: 110px;
-        border-radius: 50%;
-        border: 5px solid #ffe3fb; /* Viền xanh rêu theo style của bạn */
-        background-color: #ffffff;
-        z-index: 50; /* Đảm bảo luôn nằm đè lên trên cùng */
-        
-        /* Căn giữa ảnh tuyệt đối */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden; 
-        box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* Thêm bóng mờ cho avatar nổi khối nghệ thuật */
-    ">
-        <img src="images/bia.jpg" alt="Sub Avatar" style="
-            width: 100%;
-            height: 200%;
-            object: w-full;
-            display: block;
-        ">
-    </div>
+        <div id="view-notifications" class="view-section">
+            <h3 class="animated-text">🔔 Thông báo của bạn</h3>
+            <div id="noti-container">
+                <div class="noti-item unread">
+                    <div class="noti-icon">❤️</div>
+                    <div class="noti-content">
+                        <p><strong>Bùi Mai Khôi</strong> và 12 người khác đã thích bài viết <strong>"Buổi sáng yên bình bên suối Yến"</strong> của bạn.</p>
+                        <div class="noti-time">2 giờ trước</div>
+                    </div>
+                </div>
 
-</div>
+                <div class="noti-item unread">
+                    <div class="noti-icon">📝</div>
+                    <div class="noti-content">
+                        <p><strong>Trần Bình</strong> đã bình luận: "Nên dùng ND 10 stop bạn nhé!" vào bài viết <strong>"Hỏi đáp: Kỹ thuật phơi sáng lâu"</strong> của bạn.</p>
+                        <div class="noti-time">Hôm qua</div>
+                    </div>
+                </div>
 
-            <div class="forum-post-container">
-                <h1 class="post-main-title">Mùa xuân & Góc Nhỏ Tâm Tình</h1>
+                <div class="noti-item">
+                    <div class="noti-icon">🌟</div>
+                    <div class="noti-content">
+                        <p>Chúc mừng! Bài viết của bạn đã lọt top nổi bật diễn đàn tuần này.</p>
+                        <div class="noti-time">2 ngày trước</div>
+                    </div>
+                </div>
                 
-                <p class="post-paragraph">
-                    Chiều nay trời lại mưa. Những hạt mưa nhỏ rơi lộp độp lên mái hiên nghe vừa chill vừa buồn ngang. Tui ngồi trước màn hình máy tính, mở một playlist cũ từng nghe hồi còn vui vẻ hơn bây giờ. Kỳ lạ ghê, có những bài nhạc ngày trước nghe chỉ thấy hay, còn bây giờ nghe lại tự nhiên thấy lòng nặng trĩu.
-                </p>
-                <p class="post-paragraph">
-                    Có những ngày mọi thứ chẳng xảy ra chuyện gì lớn cả, nhưng bản thân vẫn thấy mệt. Một kiểu không muốn nói chuyện với ai, không muốn giải thích điều gì, chỉ muốn nằm im nhìn trần nhà rồi để thời gian tự trôi. Tui nhận ra con người lớn lên là lúc bắt đầu giấu cảm xúc giỏi hơn.
-                </p>
-
-                <div class="comment-box-layout">
-                    <div class="comment-user">
-                        <span style="display:inline-block; width:8px; height:8px; background:#728c68; border-radius:50%;"></span>
-                        Tantai • 3 giờ trước
+                <div class="noti-item">
+                    <div class="noti-icon">🤝</div>
+                    <div class="noti-content">
+                        <p><strong>Hoàng Thế Nhiệm</strong> đã bắt đầu theo dõi bạn.</p>
+                        <div class="noti-time">5 ngày trước</div>
                     </div>
-                    <p class="comment-content">
-                        Nhắc đến mùa xuân, người ta thường nghĩ ngay đến sự sinh sôi, rộn ràng và vui tươi. Thế nhưng, ngay câu mở đầu, bạn lại đưa người đọc vào một không gian hoàn toàn trái ngược: "Chiều nay trời lại mưa... nghe vừa chill vừa buồn ngang"
-                    </p>
-                      <div class="comment-user">
-                        <span style="display:inline-block; width:8px; height:8px; background:#728c68; border-radius:50%;"></span>
-                        Tranlam • 3 giờ trước
-                    </div>
-                    <p class="comment-content">
-                        "Có những bài nhạc ngày trước nghe chỉ thấy hay, còn bây giờ nghe lại tự nhiên thấy lòng nặng trĩu" là một điểm cộng lớn. Nó cho thấy âm nhạc không thay đổi, thứ thay đổi chính là trải nghiệm của người nghe. Khi chúng ta đã đi qua đủ tổn thương, vấp ngã, ca từ của một bài hát cũ bỗng nhiên trở thành tấm gương phản chiếu chính câu chuyện của cuộc đời mình.
-                    </p>
                 </div>
             </div>
+        </div>
 
-                  </div>
+        <div id="view-saved" class="view-section">
+            <h3 class="animated-text">Kho lưu trữ của bạn</h3>
+            <div id="saved-container">
+                <p style="text-align: center; color: #558b2f; font-style: italic;" id="empty-saved">Bạn chưa lưu bài viết nào. Hãy bấm "Lưu bài" ở mục Dành cho bạn!</p>
+            </div>
+        </div>
 
-    </div>
+    </main>
+</div>
+
+<script>
+    // --- DATABASE TÁC GIẢ (CHO TRANG CÁ NHÂN) ---
+    const authorsDatabase = {
+        "Hoàng Thế Nhiệm": {
+            avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80",
+            role: "Nhiếp ảnh gia phong cảnh",
+            posts: [
+                { image: "https://images.unsplash.com/photo-1559586616-361e18714958?auto=format&fit=crop&w=400&q=80", title: "Mùa lúa chín trên rẻo cao Mù Cang Chải", desc: "Cung đường uốn lượn giữa biển lúa vàng rực rỡ.", date: "HÔM NAY" },
+                { image: "https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&w=400&q=80", title: "Thung lũng Bắc Sơn", desc: "Nhìn từ đỉnh Nà Lay lúc bình minh.", date: "15, THÁNG 5" }
+            ]
+        },
+        "Nguyễn Phan Chánh": {
+            avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80",
+            role: "Họa sĩ sơn dầu / Tranh lụa",
+            posts: [
+                { image: "https://images.unsplash.com/photo-1509017174183-0b7e0278f1ec?auto=format&fit=crop&w=400&q=80", title: "Sắc sen hồng vùng đất Đồng Tháp Mười", desc: "Cánh sen vươn lên từ bùn lầy mang nét đẹp thanh khiết.", date: "HÔM QUA" }
+            ]
+        },
+        "Đinh Tuấn Vũ": {
+            avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80",
+            role: "Nhiếp ảnh đường phố",
+            posts: [
+                { image: "https://images.unsplash.com/photo-1583417657209-d3efcb2bc6f1?auto=format&fit=crop&w=400&q=80", title: "Gánh hàng hoa mùa thu Hà Nội", desc: "Xe cúc họa mi len lỏi qua phố cổ.", date: "2 NGÀY TRƯỚC" },
+                { image: "https://images.unsplash.com/photo-1559592413-7cece58a5f36?auto=format&fit=crop&w=400&q=80", title: "Phố cổ Hội An về đêm", desc: "Ánh đèn lồng rực rỡ trên dòng sông Hoài.", date: "12, THÁNG 5" }
+            ]
+        },
+        "Lê Minh Tú": {
+            avatar: "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=150&q=80",
+            role: "Digital Artist",
+            posts: [
+                { image: "https://images.unsplash.com/photo-1512351737112-90f70f6d6344?auto=format&fit=crop&w=400&q=80", title: "Hoàng hôn tím trên đảo Ngọc Phú Quốc", desc: "Bức tranh kỹ thuật số về hoàng hôn biển.", date: "05, THÁNG 6" }
+            ]
+        }
+    };
+
+    // --- HÀM CHUYỂN TAB ---
+    function changeContent(clickedMenu, contentId) {
+        if(clickedMenu) {
+            document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
+            clickedMenu.classList.add('active');
+        }
+        document.querySelectorAll('.view-section').forEach(section => section.classList.remove('active-view'));
+        document.getElementById(contentId).classList.add('active-view');
+        
+        if(contentId === 'view-notifications') {
+            document.getElementById('noti-badge').style.display = 'none';
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // --- XEM TRANG CÁ NHÂN (PROFILE) ---
+    function viewProfile(authorName) {
+        const data = authorsDatabase[authorName];
+        if(!data) { alert("Dữ liệu tác giả đang được cập nhật!"); return; }
+
+        document.getElementById('profile-avatar').src = data.avatar;
+        document.getElementById('profile-name').innerText = authorName;
+        document.getElementById('profile-role').innerText = data.role;
+
+        let container = document.getElementById('profile-posts-container');
+        container.innerHTML = ""; // Xóa dữ liệu cũ
+        
+        // Vẽ lại các bài viết của tác giả đó
+        data.posts.forEach(post => {
+            container.innerHTML += `
+                <article class="card">
+                    <div class="post-card">
+                        <img src="${post.image}" class="post-image">
+                        <div class="post-content">
+                            <h2 class="post-title">${post.title}</h2>
+                            <p class="post-desc">${post.desc}</p>
+                            <div class="post-footer">
+                                <div><button class="btn-action save" onclick="savePost(this)">🔖 Lưu bài</button></div>
+                                <span class="post-date">${post.date}</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            `;
+        });
+
+        changeContent(null, 'view-profile'); // Chuyển qua tab profile
+    }
+
+    // --- LOGIC LƯU BÀI VIẾT ---
+    function savePost(btn) {
+        btn.innerText = "Đã lưu ✔";
+        btn.classList.replace('save', 'saved');
+        btn.onclick = null; 
+        
+        document.getElementById('empty-saved').style.display = 'none';
+
+        let cardToCopy = btn.closest('.card').cloneNode(true); 
+        let footerBox = cardToCopy.querySelector('.post-footer div');
+        footerBox.innerHTML = `<button class="btn-action remove" onclick="removeSavedPost(this)">🗑️ Bỏ lưu</button>`;
+        
+        let commentSec = cardToCopy.querySelector('.comment-section');
+        if(commentSec) commentSec.style.display = 'none';
+        
+        document.getElementById('saved-container').appendChild(cardToCopy);
+        alert("Đã thêm tác phẩm vào mục Lưu trữ!");
+    }
+
+    function removeSavedPost(btn) {
+        let card = btn.closest('.card');
+        card.style.opacity = '0';
+        setTimeout(() => {
+            card.remove();
+            let container = document.getElementById('saved-container');
+            if (container.querySelectorAll('.card').length === 0) {
+                document.getElementById('empty-saved').style.display = 'block';
+            }
+        }, 300);
+    }
+
+    // --- LOGIC THEO DÕI TÁC GIẢ ---
+    function followAuthor(btn, authorName) {
+        btn.innerText = "Đang theo dõi ✔";
+        btn.style.backgroundColor = "#9e9e9e";
+        btn.onclick = null;
+
+        document.getElementById('empty-following').style.display = 'none';
+
+        let authorSpan = btn.closest('.post-content').querySelector('.post-author');
+        let avatarUrl = authorSpan.getAttribute('data-avatar');
+
+        let authorHTML = `
+            <div class="card" style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px; padding: 15px;">
+                <img src="${avatarUrl}" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; cursor:pointer;" onclick="viewProfile('${authorName}')">
+                <div style="flex: 1;">
+                    <h3 style="color: #1b5e20; margin-bottom: 5px; cursor:pointer;" onclick="viewProfile('${authorName}')">${authorName}</h3>
+                    <p style="font-size: 12px; color: #558b2f;">Đang theo dõi</p>
+                </div>
+                <button class="btn-action profile" onclick="viewProfile('${authorName}')">👤 Xem Profile</button>
+                <button class="btn-action remove" onclick="unfollowAuthor(this)">Hủy theo dõi</button>
+            </div>
+        `;
+        document.getElementById('following-container').insertAdjacentHTML('beforeend', authorHTML);
+        alert(`Bạn đã bắt đầu theo dõi ${authorName}!`);
+    }
+
+    function unfollowAuthor(btn) {
+        let card = btn.closest('.card');
+        card.remove();
+        if (document.getElementById('following-container').querySelectorAll('.card').length === 0) {
+            document.getElementById('empty-following').style.display = 'block';
+        }
+    }
+
+    // --- LOGIC BÌNH LUẬN & TỰ ĐỘNG TRẢ LỜI ---
+    function toggleComment(btn) {
+        let commentSection = btn.closest('.card').querySelector('.comment-section');
+        commentSection.style.display = (commentSection.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function postComment(btn, authorName, postTitle) {
+        let inputArea = btn.previousElementSibling;
+        let text = inputArea.value.trim();
+        
+        if(text === "") { alert("Vui lòng nhập nội dung!"); return; }
+
+        let commentList = btn.closest('.comment-section').querySelector('.comment-list');
+        
+        commentList.innerHTML += `
+            <div class="comment-item" style="background: #e8f5e9;">
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80" class="comment-avatar">
+                <div class="comment-text">
+                    <h4>Bạn</h4>
+                    <p>${text}</p>
+                </div>
+            </div>
+        `;
+        inputArea.value = "";
+
+        // Tác giả tự động trả lời sau 3 giây
+        setTimeout(() => {
+            alert(`💬 Tinh tinh! Tác giả ${authorName} vừa trả lời bình luận của bạn!`);
+            document.getElementById('noti-badge').style.display = 'inline-block';
+            
+            let notiHTML = `
+                <div class="noti-item unread">
+                    <div class="noti-icon">💬</div>
+                    <div class="noti-content">
+                        <p><strong>${authorName}</strong> đã trả lời bình luận của bạn trong bài: <em>${postTitle}</em></p>
+                        <div class="noti-time">Vừa xong</div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('noti-container').insertAdjacentHTML('afterbegin', notiHTML);
+
+            let authorData = authorsDatabase[authorName];
+            commentList.innerHTML += `
+                <div class="comment-item" style="margin-left: 40px; background: rgba(255,255,255,0.6);">
+                    <img src="${authorData.avatar}" class="comment-avatar">
+                    <div class="comment-text">
+                        <h4>${authorName}</h4>
+                        <p>Cảm ơn bạn đã quan tâm đến tác phẩm của mình nhé! ❤️</p>
+                    </div>
+                </div>
+            `;
+        }, 3000); 
+    }
+
+    // --- Xóa bài viết cá nhân ---
+    function deleteMyPost(btn) {
+        if(confirm("Xóa bài đăng này?")) {
+            let card = btn.closest('.card');
+            card.style.opacity = '0';
+            setTimeout(() => card.remove(), 400);
+        }
+    }
+</script>
 
 </body>
 </html>

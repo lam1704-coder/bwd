@@ -2,263 +2,74 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kim Linh - Chữa bài văn</title>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
 <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family: sans-serif; }
+    body { background: #fff; padding: 50px; }
+    .container { max-width: 1000px; margin: auto; }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:"Segoe UI",sans-serif;
-}
+    /* Cấu trúc chính */
+    .main-wrapper { display: flex; align-items: flex-start; gap: 80px; }
+    .left-col { flex: 1; }
+    .right-col { flex: 1; }
 
-body{
-    background:#fcecf3;
-    min-height:100vh;
-}
+    /* Phần văn bản bên trái */
+    .title-left { color: #1e4530; font-size: 32px; font-weight: bold; margin-bottom: 20px; }
+    .desc-left { color: #555; line-height: 1.6; margin-bottom: 30px; }
+    .btn-viet-ngay { background: transparent; border: 2px solid #1e4530; color: #1e4530; padding: 10px 30px; border-radius: 20px; font-weight: bold; cursor: pointer; margin-bottom: 30px; }
+    .item-list { border-top: 1px solid #ddd; padding-top: 15px; }
+    .item { display: flex; justify-content: space-between; padding: 15px 0; color: #333; font-weight: 500; cursor: pointer; }
 
-.container{
-    width:90%;
-    max-width:1200px;
-    margin:auto;
-}
-
-/* HEADER */
-
-.main-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:20px 0;
-}
-
-.profile-group{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.avatar-circle{
-    width:55px;
-    height:55px;
-    border-radius:50%;
-    overflow:hidden;
-}
-
-.avatar-circle img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-.logo-text{
-    font-size:22px;
-    font-weight:700;
-}
-
-.center-logo-wrapper img{
-    width:130px;
-}
-
-.menu-btn{
-    font-size:24px;
-    cursor:pointer;
-}
-
-/* CONTENT */
-
-.main-content{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:50px;
-    margin-top:40px;
-    flex-wrap:wrap;
-}
-
-/* ẢNH */
-
-.left-image{
-    flex:1;
-    min-width:300px;
-}
-
-.left-image img{
-    width:100%;
-    border-radius:25px;
-    display:block;
-}
-
-/* FORM */
-
-.right-box{
-    flex:1;
-    min-width:350px;
-}
-
-.title{
-    text-align:center;
-    color:#1f3d28;
-    margin-bottom:25px;
-    font-size:35px;
-}
-
-.input-card{
-    background:white;
-    padding:25px;
-    border-radius:25px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.08);
-}
-
-textarea{
-    width:100%;
-    height:280px;
-    border:1px solid #ffd7e6;
-    border-radius:15px;
-    padding:15px;
-    resize:none;
-    outline:none;
-    font-size:16px;
-}
-
-.bottom-bar{
-    margin-top:15px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.plus-btn{
-    width:40px;
-    height:40px;
-    border:none;
-    border-radius:50%;
-    background:#f7a9c4;
-    color:white;
-    cursor:pointer;
-    font-size:20px;
-}
-
-.btn-gui-bai{
-    border:none;
-    background:#f48fb1;
-    color:white;
-    padding:12px 35px;
-    border-radius:30px;
-    font-size:16px;
-    font-weight:600;
-    cursor:pointer;
-}
-
-.btn-gui-bai:hover{
-    background:#ec6f9f;
-}
-
-@media(max-width:768px){
-
-    .main-content{
-        flex-direction:column;
+    /* Khung nhập liệu bên phải - Giống ảnh */
+    .input-box { 
+        background: #fff5f8; 
+        padding: 25px; 
+        border-radius: 20px; 
+        border: 1px solid #ffd6e4;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
     }
-
-    .title{
-        font-size:28px;
+    textarea { 
+        width: 100%; height: 250px; border: none; background: transparent; 
+        resize: none; outline: none; font-size: 16px; color: #555;
     }
-
-}
-
+    .controls { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+    .plus-btn { color: #f48fb1; font-size: 24px; cursor: pointer; font-weight: bold; }
+    .arrow-btn { color: #f48fb1; font-size: 24px; cursor: pointer; }
 </style>
 </head>
 <body>
 
 <div class="container">
-
-    <header class="main-header">
-
-        <div class="profile-group">
-            <div class="avatar-circle">
-                <img src="images/tgia1.jpg" alt="">
+    <div class="main-wrapper">
+        <div class="left-col">
+            <h1 class="title-left">Khởi nguồn cảm hứng thi ca</h1>
+            <p class="desc-left">Thường Văn đồng hành cùng tâm hồn nghệ sĩ để giúp bạn mài giũa ngôn từ, trau chuốt ý thơ và kiến tạo những áng văn bất hủ chỉ trong khoảnh khắc.</p>
+            <button class="btn-viet-ngay">Viết ngay</button>
+            <div class="item-list">
+                <div class="item">Nhận các gợi ý viết nâng cao <span>></span></div>
+                <div class="item">Đảm bảo tính nguyên bản với tính năng AI <span>></span></div>
+                <div class="item">Tạo nội dung hấp dẫn <span>></span></div>
             </div>
-            <div class="logo-text">Kim Linh</div>
         </div>
 
-        <a href="index.html" class="center-logo-wrapper">
-            <img src="images/Logo_.png" alt="">
-        </a>
-
-        <div class="menu-btn">
-            <i class="fas fa-ellipsis-h"></i>
-        </div>
-
-    </header>
-
-    <div class="main-content">
-
-       
-
-        <div class="right-box">
-
-            <h2 class="title">
-                Gửi bài để Admin chữa
-            </h2>
-
-            <div class="input-card">
-
-                <textarea
-                    id="main-textarea"
-                    placeholder="Nhập bài viết của bạn..."
-                ></textarea>
-
-                <div class="bottom-bar">
-
-                    <button class="plus-btn">
-                        <i class="fas fa-plus"></i>
-                    </button>
-
-                    <button
-                        class="btn-gui-bai"
-                        onclick="kichHoatChuaBai()">
-                        Gửi bài
-                    </button>
-
+        <div class="right-col">
+            <div class="input-box">
+                <textarea id="main-textarea" placeholder="Nhập văn bản"></textarea>
+                <div class="controls">
+                    <div class="plus-btn">+</div>
+                    <div class="arrow-btn" onclick="kichHoatChuaBai()">➔</div>
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
 
 <script>
-
-function kichHoatChuaBai(){
-
-    let text =
-        document.getElementById("main-textarea").value;
-
-    if(text.trim() === ""){
-        alert("Vui lòng nhập nội dung!");
-        return;
+    function kichHoatChuaBai(){
+        let text = document.getElementById("main-textarea").value;
+        if(!text.trim()){ alert("Vui lòng nhập nội dung!"); return; }
+        localStorage.setItem("baiChoChua", text);
+        window.location.href = "cho.html";
     }
-
-    localStorage.setItem(
-        "baiChoChua",
-        text
-    );
-
-    localStorage.setItem(
-        "trangThaiChua",
-        "dangcho"
-    );
-
-    window.location.href = "cho.html";
-}
-
 </script>
 
 </body>
