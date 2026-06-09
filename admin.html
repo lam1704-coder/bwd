@@ -1,157 +1,84 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trang Quản Trị - Chữa Bài</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Quản Trị - Chữa Bài</title>
 
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background: #f8eaf2;
-        padding: 30px;
-        color: #333;
-    }
-    .container {
-        max-width: 1000px;
-        margin: auto;
-    }
-    .card {
-        background: white;
-        padding: 25px;
-        border-radius: 15px;
-        margin-bottom: 25px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    }
-    h1 {
-        text-align: center;
-        color: #2e7d32;
-    }
-    h2 {
-        font-size: 18px;
-        margin-bottom: 15px;
-        border-bottom: 2px solid #f0f0f0;
-        padding-bottom: 10px;
-    }
-    
-    /* Input & Textarea */
-    input[type="text"], textarea {
-        width: 100%;
-        padding: 12px 15px;
-        margin-bottom: 15px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        box-sizing: border-box;
-        font-family: Arial, sans-serif;
-    }
-    textarea {
-        min-height: 100px;
-        resize: vertical;
-    }
-    
-    /* Buttons */
-    button {
-        background: #73937e;
-        color: white;
-        border: none;
-        padding: 12px 25px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: bold;
-        transition: 0.2s;
-    }
-    button:hover {
-        opacity: 0.9;
-        background: #2e7d32;
-    }
-    .logout {
-        background: #d9534f;
-        float: right;
-    }
-    .logout:hover {
-        background: #c9302c;
-    }
-    .btn-add {
-        background: #f0ad4e;
-        color: white;
-        margin-bottom: 20px;
-    }
-    .btn-add:hover {
-        background: #ec971f;
-    }
-    .btn-remove {
-        background: #ffcccc;
-        color: #d9534f;
-        padding: 8px 15px;
-        font-size: 13px;
-        margin-top: 5px;
-        float: right;
-    }
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    /* Hiển thị bài viết */
-    #noiDungBai {
-        white-space: pre-wrap;
-        line-height: 1.7;
-        padding: 15px;
-        background: #fafafa;
-        border-radius: 10px;
-        border: 1px solid #ddd;
-    }
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Anton&display=swap" rel="stylesheet">
 
-    /* Khung nhập liệu cho từng lỗi */
-    .error-block {
-        background: #fdfdfd;
-        border: 1px dashed #bbb;
-        padding: 20px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        position: relative;
-    }
-    .error-block::after {
-        content: "";
-        display: table;
-        clear: both;
-    }
-    .error-block label {
-        font-weight: bold;
-        font-size: 14px;
-        display: block;
-        margin-bottom: 5px;
-        color: #555;
-    }
-</style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: url('https://i.pinimg.com/736x/f6/ee/45/f6ee45314751f2bc8f30bb7b0f02ea2d.jpg') center top / cover no-repeat fixed;
+        }
+        /* Hiệu ứng kính mờ đồng bộ cho các thẻ nội dung */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+        }
+    </style>
 </head>
 
-<body>
+<body class="py-10 px-4 min-h-screen">
 
-<div class="container">
-    <button class="logout" onclick="logout()">Đăng xuất</button>
-    <h1>TRANG QUẢN TRỊ CHỮA BÀI</h1>
-
-    <div class="card">
-        <h2>Bài đang chờ chữa</h2>
-        <div id="noiDungBai">Đang tải bài viết...</div>
+<div class="max-w-[1000px] mx-auto">
+    
+    <div class="flex justify-between items-center mb-8 bg-white/30 backdrop-blur-md px-6 py-3 rounded-full border border-white/40 shadow-sm">
+        <span class="text-xs font-bold text-green-900 tracking-wider uppercase">Quyền hạn: Quản trị viên</span>
+        <button class="bg-red-500 hover:bg-red-600 text-white font-bold px-5 py-2 rounded-full text-xs shadow-md transition-all active:scale-95" onclick="logout()">
+            Đăng xuất 
+        </button>
     </div>
 
-    <div class="card">
-        <h2>1. Đánh giá chung</h2>
-        <textarea id="danhGiaChung" placeholder="Nhập nhận xét tổng quan về bài làm của học viên..."></textarea>
+    <h1 class="font-['Anton'] text-4xl md:text-5xl text-green-900 text-center uppercase tracking-wider mb-10 drop-shadow-sm">
+        Trang Quản Trị Chữa Bài
+    </h1>
+
+    <div class="glass-card p-6 md:p-8 rounded-[2rem] shadow-xl mb-6">
+        <h2 class="font-bold text-lg text-green-900 uppercase tracking-wide border-b-2 border-white/60 pb-3 mb-4 flex items-center gap-2">
+            📝 Bài đang chờ chữa
+        </h2>
+        <div id="noiDungBai" class="white-space-pre-wrap leading-relaxed text-gray-800 p-5 bg-white/60 rounded-xl border border-white/80 shadow-inner font-medium text-base">
+            Đang tải bài viết...
+        </div>
     </div>
 
-    <div class="card">
-        <h2>2. Bóc tách lỗi cần sửa</h2>
-        <button class="btn-add" onclick="themLoiMoi()">+ Thêm một lỗi mới</button>
+    <div class="glass-card p-6 md:p-8 rounded-[2rem] shadow-xl mb-6">
+        <h2 class="font-bold text-lg text-green-900 uppercase tracking-wide border-b-2 border-white/60 pb-3 mb-4">
+            1. Đánh giá chung
+        </h2>
+        <textarea id="danhGiaChung" placeholder="Nhập nhận xét tổng quan về cấu trúc, luận điểm và kỹ năng diễn đạt của học viên..." 
+                  class="w-full min-h-[120px] px-4 py-3 bg-white/70 border border-gray-200/80 rounded-xl outline-none focus:ring-2 focus:ring-green-700 focus:bg-white font-medium text-gray-800 transition-all shadow-sm"></textarea>
+    </div>
+
+    <div class="glass-card p-6 md:p-8 rounded-[2rem] shadow-xl mb-6">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 border-b-2 border-white/60 pb-3 mb-6">
+            <h2 class="font-bold text-lg text-green-900 uppercase tracking-wide">
+                2. Bóc tách lỗi cần sửa
+            </h2>
+            <button class="bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold px-5 py-2.5 rounded-full shadow-md transition-all active:scale-95 flex items-center gap-1 self-start" onclick="themLoiMoi()">
+                <span>+</span> Thêm một lỗi mới
+            </button>
+        </div>
         
-        <div id="danhSachLoiContainer">
-            </div>
+        <div id="danhSachLoiContainer" class="space-y-6"></div>
     </div>
 
-    <div class="card">
-        <h2>3. Gợi ý nâng cấp bài viết</h2>
-        <textarea id="goiYNangCap" placeholder="Nhập các gợi ý giúp học viên viết hay hơn..."></textarea>
+    <div class="glass-card p-6 md:p-8 rounded-[2rem] shadow-xl mb-12">
+        <h2 class="font-bold text-lg text-green-900 uppercase tracking-wide border-b-2 border-white/60 pb-3 mb-4">
+            3. Gợi ý nâng cấp bài viết
+        </h2>
+        <textarea id="goiYNangCap" placeholder="Nhập các chất liệu văn học mở rộng, lý luận văn học hoặc cách viết mở/kết bài nâng cao để giúp bài viết sâu sắc hơn..." 
+                  class="w-full min-h-[120px] px-4 py-3 bg-white/70 border border-gray-200/80 rounded-xl outline-none focus:ring-2 focus:ring-green-700 focus:bg-white font-medium text-gray-800 transition-all shadow-sm mb-6"></textarea>
         
-        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-        <button onclick="guiNhanXet()" style="width: 100%; font-size: 16px; padding: 15px;">
+        <button onclick="guiNhanXet()" class="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-4 rounded-xl text-base md:text-lg tracking-wider transition-all shadow-lg active:scale-[0.99] flex items-center justify-center gap-2">
             ✅ LƯU ĐÁNH GIÁ & HOÀN THÀNH CHỮA BÀI
         </button>
     </div>
@@ -159,51 +86,60 @@
 </div>
 
 <script>
-    // 1. Kiểm tra quyền admin
+    // 1. Kiểm tra quyền admin truy cập
     if(localStorage.getItem("role") !== "admin"){
-        // Nếu bạn đang test ở máy tính cá nhân mà không có file đăng nhập, hãy comment 2 dòng dưới lại
-        // alert("Bạn không có quyền truy cập!");
-        // window.location.href = "index.html";
+        // Nếu tích hợp phân quyền trang đăng nhập, bỏ comment các dòng dưới
+        // window.location.href = "taikhoan.html";
     }
 
-    // 2. Hiển thị bài viết chờ chữa
+    // 2. Lấy dữ liệu bài từ học viên gửi lên
     const baiChoChua = localStorage.getItem("baiChoChua");
-    document.getElementById("noiDungBai").innerText = baiChoChua ? baiChoChua : "Hiện chưa có bài nào cần chữa. (Hoặc bạn chưa nhập dữ liệu thử)";
+    document.getElementById("noiDungBai").innerText = baiChoChua ? baiChoChua : "Hiện chưa có bài nào cần chữa từ hệ thống học viên.";
 
-    // 3. Logic thêm form nhập lỗi động
+    // 3. Xử lý giao diện khối lỗi động bằng Tailwind CSS
     const errorContainer = document.getElementById("danhSachLoiContainer");
 
     function themLoiMoi() {
         const errorBlock = document.createElement("div");
-        errorBlock.className = "error-block";
+        errorBlock.className = "error-block bg-white/60 border-2 border-dashed border-gray-300 p-5 rounded-2xl relative shadow-sm transition-all hover:border-green-600";
         errorBlock.innerHTML = `
-            <label>Tiêu đề lỗi (VD: Lỗi lặp từ, Dùng từ sai...)</label>
-            <input type="text" class="input-tieude" placeholder="Nhập loại lỗi">
+            <div class="mb-4">
+                <label class="block font-bold text-sm text-gray-700 mb-1.5 uppercase tracking-wide">Tiêu đề lỗi</label>
+                <input type="text" class="input-tieude w-full px-4 py-2.5 bg-white/90 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-green-700 font-medium text-gray-800" placeholder="Ví dụ: Lỗi lặp từ diễn đạt, Dùng từ sai ngữ cảnh...">
+            </div>
             
-            <label>Đoạn văn bị lỗi (Trích xuất từ bài gốc)</label>
-            <input type="text" class="input-doangoc" placeholder="Copy đoạn văn lỗi dán vào đây">
+            <div class="mb-4">
+                <label class="block font-bold text-sm text-gray-700 mb-1.5 uppercase tracking-wide">Đoạn văn bị lỗi (Trích từ bài gốc)</label>
+                <input type="text" class="input-doangoc w-full px-4 py-2.5 bg-white/90 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-green-700 font-medium text-gray-800" placeholder="Copy hoặc trích dẫn đoạn văn chứa lỗi của học viên vào đây">
+            </div>
             
-            <label>Phân tích / Nhận xét của Admin</label>
-            <textarea class="input-nhanxet" placeholder="Giải thích vì sao sai và cần sửa thế nào..."></textarea>
+            <div class="mb-4">
+                <label class="block font-bold text-sm text-gray-700 mb-1.5 uppercase tracking-wide">Phân tích / Nhận xét của Giáo viên</label>
+                <textarea class="input-nhanxet w-full min-h-[80px] px-4 py-2.5 bg-white/90 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-green-700 font-medium text-gray-800" placeholder="Giải thích chi tiết tại sao cách viết này chưa ổn và tác hại làm giảm sức thuyết phục ra sao..."></textarea>
+            </div>
             
-            <label>Câu/Từ gợi ý sửa lại</label>
-            <input type="text" class="input-goiy" placeholder="Nhập phần văn bản sau khi đã sửa chữa">
+            <div class="mb-2">
+                <label class="block font-bold text-sm text-gray-700 mb-1.5 uppercase tracking-wide">Câu văn gợi ý viết lại hoàn chỉnh</label>
+                <input type="text" class="input-goiy w-full px-4 py-2.5 bg-white/90 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-green-700 font-medium text-gray-800" placeholder="Nhập phần văn bản mượt mà, trau chuốt sau khi đã sửa đổi">
+            </div>
             
-            <button class="btn-remove" onclick="this.parentElement.remove()">Xóa lỗi này</button>
+            <div class="flex justify-end mt-4">
+                <button class="bg-red-100 hover:bg-red-200 text-red-600 text-xs font-bold px-4 py-2 rounded-lg transition-all" onclick="this.closest('.error-block').remove()">
+                    🗑️ Xóa khối lỗi này
+                </button>
+            </div>
         `;
         errorContainer.appendChild(errorBlock);
     }
 
-    // Tự động tạo sẵn 1 khối lỗi trống khi tải trang
+    // Tự động dựng sẵn 1 khối lỗi khi admin mở trang
     themLoiMoi();
 
-    // 4. Hàm Gửi Nhận Xét (Đóng gói dữ liệu sang trang Kết quả)
+    // 4. Hàm Lưu Nhận Xét - Tích hợp SweetAlert2 và hiệu ứng Toast chuyên nghiệp
     function guiNhanXet() {
-        // Lấy Đánh giá chung và Gợi ý nâng cấp
         const danhGia = document.getElementById("danhGiaChung").value;
         const goiY = document.getElementById("goiYNangCap").value;
 
-        // Lấy danh sách các lỗi đã nhập
         const mangLoi = [];
         const cacKhoiLoi = document.querySelectorAll(".error-block");
         
@@ -213,30 +149,41 @@
             const nhanXet = khoi.querySelector(".input-nhanxet").value;
             const loiGoiY = khoi.querySelector(".input-goiy").value;
 
-            // Chỉ lưu nếu admin có nhập liệu ít nhất 1 trường
             if(tieuDe || doanGoc || nhanXet || loiGoiY) {
                 mangLoi.push({
-                    tieuDe: tieuDe || "Lỗi chưa đặt tên",
+                    tieuDe: tieuDe || "Lỗi diễn đạt tổng hợp",
                     doanGoc: doanGoc || "...",
-                    nhanXet: nhanXet || "Không có nhận xét chi tiết.",
+                    nhanXet: nhanXet || "Không có nhận xét chi tiết bổ sung.",
                     goiY: loiGoiY || "..."
                 });
             }
         });
 
-        // LƯU VÀO LOCALSTORAGE THEO ĐÚNG TÊN BIẾN MÀ FILE ket-qua.html ĐANG GỌI
+        // Đóng gói lưu vào LocalStorage
         localStorage.setItem("danhGiaChung", danhGia);
         localStorage.setItem("goiYNangCap", goiY);
-        localStorage.setItem("danhSachLoiAdmin", JSON.stringify(mangLoi)); // Chuyển mảng thành chuỗi JSON
+        localStorage.setItem("danhSachLoiAdmin", JSON.stringify(mangLoi)); 
         localStorage.setItem("trangThaiChua", "hoanthanh");
 
-        alert("✅ Đã lưu kết quả thành công! Hệ thống chuyển sang trang Kết Quả.");
-        
-        // Điều hướng thẳng sang trang kết quả để xem (Bạn sửa lại tên file html cho đúng với của bạn)
-        // window.location.href = "ket-qua.html";
+        // Sử dụng SweetAlert2 hiển thị popup chuyên nghiệp
+        Swal.fire({
+            icon: 'success',
+            title: 'Hoàn Thành Chữa Bài!',
+            text: 'Dữ liệu nhận xét đã được lưu và gửi tới trang kết quả của học viên.',
+            confirmButtonColor: '#166534',
+            confirmButtonText: 'Xem trang Kết Quả',
+            showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Điều hướng sang trang hiển thị kết quả (Sửa lại tên file khớp với cấu trúc của bạn)
+                window.location.href = "ketqua.html";
+            }
+        });
     }
 
-    // 5. Đăng xuất
+    // 5. Đăng xuất tài khoản quản trị
     function logout() {
         localStorage.removeItem("isLoggedIn");
         localStorage.removeItem("role");
