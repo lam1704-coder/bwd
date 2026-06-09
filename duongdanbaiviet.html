@@ -5,26 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bài viết đạt giải nhất HSGQG</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Anton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght=300;400;600;700&family=Anton&display=swap" rel="stylesheet">
     <style>
-        /* Chèn ảnh nền phía sau toàn bộ trang */
         body { 
             font-family: 'Montserrat', sans-serif; 
             background-color: #fdf2f4;
-            background-image: url('https://img.freepik.com/free-vector/abstract-watercolor-background_23-2149021020.jpg');
+            background-image: url('images/nenbaiviet.jpg');
             background-size: cover;
             background-attachment: fixed;
         }
         .sidebar-item { padding: 1.2rem; border-radius: 1rem; transition: all 0.3s; text-align: center; color: #14532d; font-weight: 600; cursor: pointer; display: block; width: 100%; border: 1px solid transparent; margin-bottom: 8px;}
         .sidebar-item:hover, .sidebar-item.active { background-color: white; border: 1px solid #d1d5db; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        
+        /* Hiệu ứng ẩn/hiện Modal trơn tru */
+        .modal { opacity: 0; pointer-events: none; transition: all 0.3s ease; }
+        .modal.open { opacity: 1; pointer-events: auto; }
     </style>
 </head>
 <body>
 
     <div class="w-full relative h-[400px] overflow-hidden">
-        <img src="https://img.freepik.com/free-vector/hand-painted-watercolor-nature-background_23-2148941599.jpg" class="w-full h-full object-cover">
+        <img src="images/mây hồng.png" class="w-full h-full object-cover">
         <div class="absolute inset-0 flex items-center justify-center">
-            <h1 class="font-['Anton'] text-4xl md:text-6xl text-green-900 uppercase tracking-tighter bg-white/30 backdrop-blur-sm p-8 rounded-3xl">Bài viết đạt giải nhất HSGQG</h1>
+            <h1 class="font-['Anton'] text-4xl md:text-6xl text-green-900 uppercase tracking-tighter p-8 drop-shadow-md">
+                Bài viết đạt giải nhất HSGQG
+            </h1>
         </div>
     </div>
 
@@ -32,42 +37,240 @@
         <div class="flex flex-col lg:flex-row gap-10">
             
             <aside class="w-full lg:w-1/3 flex flex-col items-center">
-                <div class="w-32 h-32 rounded-full bg-white flex items-center justify-center border-4 border-green-800 shadow-xl z-20 mb-[-60px]">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" alt="Logo" class="w-20 h-20">
-                </div>
+               <div class="w-32 h-32 rounded-full bg-white flex items-center justify-center border-4 border-green-800 shadow-xl z-20 mb-[-60px]">
+                    <img src="images/avt.jpg" alt="Logo" class="w-full h-full rounded-full object-cover">
+               </div>
                 
                 <div class="bg-[#fce7f3]/80 backdrop-blur-md rounded-[2rem] p-6 pt-20 shadow-sm border border-white/50 w-full">
-                    <button onclick="showContent('Tổng quan', 'Nội dung chi tiết về tác giả và giá trị bài viết...', this)" class="sidebar-item active">Tổng quan bài viết</button>
-                    <button onclick="showContent('Ngôn từ & hình ảnh', 'Phân tích các biện pháp nghệ thuật trong bài...', this)" class="sidebar-item">Ngôn từ & hình ảnh</button>
-                    <button onclick="showContent('Mở/Kết bài', 'Công thức viết mở bài gây ấn tượng...', this)" class="sidebar-item">Cách viết mở/kết bài</button>
-                    <button onclick="showContent('Cách lập luận', 'Xây dựng cấu trúc lập luận chặt chẽ...', this)" class="sidebar-item">Cách lập luận</button>
-                    <button onclick="showContent('Dẫn chứng', 'Cách chọn lọc dẫn chứng đắt giá...', this)" class="sidebar-item">Dẫn chứng & cách dùng</button>
-                    <button onclick="showContent('Lật ngược vấn đề', 'Tư duy phản biện là chìa khóa...', this)" class="sidebar-item">Lật ngược vấn đề</button>
+                    <button onclick="changeTab('Tổng quan')" class="sidebar-item" id="tab-Tổng quan">Tổng quan bài viết</button>
+                    <button onclick="changeTab('Ngôn từ & hình ảnh')" class="sidebar-item active" id="tab-Ngôn từ & hình ảnh">Ngôn từ & hình ảnh</button>
+                    <button onclick="changeTab('Mở/Kết bài')" class="sidebar-item" id="tab-Mở/Kết bài">Cách viết mở/kết bài</button>
+                    <button onclick="changeTab('Cách lập luận')" class="sidebar-item" id="tab-Cách lập luận">Cách lập luận</button>
+                    <button onclick="changeTab('Dẫn chứng')" class="sidebar-item" id="tab-Dẫn chứng">Dẫn chứng & cách dùng</button>
+                    <button onclick="changeTab('Lật ngược vấn đề')" class="sidebar-item" id="tab-Lật ngược vấn đề">Lật ngược vấn đề</button>
                 </div>
             </aside>
 
-            <article class="w-full lg:w-2/3">
-                <div id="displayArea" class="bg-white/90 backdrop-blur-sm rounded-[2rem] p-10 shadow-2xl min-h-[400px] border border-white transition-all duration-500">
-                    <h2 id="contentTitle" class="text-3xl font-bold text-green-900 mb-6 border-b pb-4">Tổng quan bài viết</h2>
-                    <p id="contentBody" class="text-gray-700 leading-relaxed text-lg">Chào bạn, hãy chọn một mục ở cột bên trái để hiển thị nội dung phân tích chi tiết tại đây nhé!</p>
+            <article class="w-full lg:w-2/3 lg:mt-12">
+                <div id="displayArea" class="bg-white/90 backdrop-blur-sm rounded-[2rem] p-10 shadow-2xl min-h-[500px] border border-white flex flex-col justify-between transition-all duration-500">
+                    
+                    <div>
+                        <h2 id="contentTitle" class="text-3xl font-bold text-green-900 mb-6 border-b pb-4">Ngôn từ & hình ảnh</h2>
+                        
+                        <div id="contentBody" class="text-gray-700 leading-relaxed text-lg">
+                            </div>
+                    </div>
+
+                    <div id="paginationCtrl" class="flex items-center justify-between border-t pt-6 mt-8 hidden">
+                        <span id="pageNumber" class="text-sm font-semibold text-gray-500">Trang 1 / 1</span>
+                        <div class="flex gap-4">
+                            <button id="btnPrev" onclick="prevPage()" class="px-5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-xl transition disabled:opacity-40 disabled:cursor-not-allowed">
+                                &larr; Trang trước
+                            </button>
+                            <button id="btnNext" onclick="nextPage()" class="px-5 py-2 bg-green-800 hover:bg-green-900 text-white font-medium rounded-xl transition disabled:opacity-40 disabled:cursor-not-allowed">
+                                Trang sau &rarr;
+                            </button>
+                        </div>
+                    </div>
+
                 </div>
             </article>
+            
         </div>
     </main>
 
-    <script>
-        function showContent(title, content, element) {
-            document.getElementById('contentTitle').innerText = title;
-            document.getElementById('contentBody').innerText = content;
+    <div id="infoModal" class="modal fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm" onclick="closeModal()">
+        <div class="bg-[#fdf2f4] text-gray-800 max-w-md w-full rounded-3xl p-6 shadow-2xl border border-pink-200/60 transform scale-95 transition-transform duration-300 relative" onclick="event.stopPropagation()">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold text-xl">&times;</button>
+            
+            <h3 id="modalTitle" class="text-2xl font-bold text-green-900 mb-4 border-b border-pink-200 pb-2 text-center">Tiêu đề</h3>
+            <div id="modalContent" class="space-y-3 text-base leading-relaxed">
+                </div>
+        </div>
+    </div>
 
+    <script>
+        // Kho lưu trữ dữ liệu nâng cao hỗ trợ cả văn bản phân trang và cấu trúc ô lưới (Grid)
+        const articlesData = {
+            "Tổng quan": {
+                type: "text",
+                pages: [
+                    [
+                        "Những vần thơ Anđécxen, những vần thơ ngân vang từ thung lũng Ôđenzơ, nơi có những hẻm núi sương giăng mờ ảo và những vòm hoa thạch thảo tim tím nên thơ đã gieo vào tâm hồn nhà văn Pauxtôpxki niềm xúc cảm mãnh liệt: “Anđécxen đã lượm lặt hạt thơ trên luống đất của người dân cày, ấp ủ chúng nơi trái tim ông rồi gieo vào những túp lều, từ đó lớn lên và nảy nở những bó hoa thơ tuyệt đẹp, chúng an ủi trái tim những người cùng khổ”. Thơ ca, hai chữ kì diệu mà muôn đời vẫn chưa tìm ra một định nghĩa trọn vẹn, hoàn chỉnh. Thơ là gì ? Thơ bắt nguồn từ đâu ? Thơ có mãnh lực gì khiến cung đàn cảm xúc của triệu triệu con người trên trái đất này không ngừng lay động, thổ thức, xuyến xao ?",
+                        "<p class='text-center font-bold text-green-950 my-4 text-xl'>“Thơ trước hết là cuộc đời, sau đó mới là nghệ thuật”</p>",
+                        "Từ thủa thơ ca xuất hiện mang đến hơi thở ấm áp cho hành tinh xanh xanh những đại dương và điệp trùng những cánh rừng tươi thắm của chúng ta, có thể nói chưa bao giờ tổng kết được những định nghĩa về thơ. Thơ ca bắt nguồn từ cuộc sống."
+                    ],
+                    [
+                        "Cuộc sống bao giờ cũng là nguồn cảm hứng mênh mông bất tận của những tâm hồn nghệ sĩ. Thơ ca cũng như văn chương và các loại hình nghệ thuật khác, nếu không bám rễ vào cuộc đời, nếu không hút nguồn nhựa sống dạt dào ngầm chảy trong lòng cuộc sống thì nó sẽ mãi mãi là một cây non èo uộc, không mang trên mình những cành cây săn chắc, những phiến lá xanh tươi phơi phới dưới ánh nắng mặt trời."
+                    ]
+                ]
+            },
+            "Ngôn từ & hình ảnh": {
+                type: "grid",
+                items: [
+                    {
+                        title: "Cung đàn cảm xúc",
+                        preview: "Khơi gợi âm thanh, nhịp điệu và sự lan tỏa của tâm hồn.",
+                        details: `
+                            <p class='font-semibold text-green-900'>Phân tích:</p>
+                            <p class='pl-2'>• <strong>"Cung đàn"</strong>: Gợi âm thanh, nhịp điệu, cấu trúc có tổ chức của nghệ thuật.</p>
+                            <p class='pl-2'>• <strong>"Cảm xúc"</strong>: Thứ trừu tượng, vô hình bên trong con người.</p>
+                            <p class='text-red-500 font-semibold mt-2'>&rarr; Kết hợp lại tạo thành: cảm xúc = thứ có thể rung lên, lan tỏa và hòa nhịp.</p>
+                            <p class='font-semibold text-green-900 mt-2'>Hiệu quả:</p>
+                            <p class='pl-2'>• Khiến người đọc "nghe được cảm xúc" chứ không chỉ hiểu đơn thuần.</p>
+                            <p class='pl-2'>• Gợi liên tưởng sâu sắc: Thơ = âm nhạc của tâm hồn.</p>
+                        `
+                    },
+                    {
+                        title: "Mạch sữa ngọt ngào",
+                        preview: "Nguồn nuôi dưỡng tự nhiên, dạt dào và bất tận từ cuộc đời.",
+                        details: `
+                            <p class='font-semibold text-green-900'>Phân tích:</p>
+                            <p class='pl-2'>• Biểu tượng của sự nuôi dưỡng nguyên sơ, thuần khiết và thiết yếu nhất.</p>
+                            <p class='pl-2'>• Khẳng định hiện thực đời sống là cái gốc, là nguồn sống cốt lõi nuôi lớn các tác phẩm văn học nghệ thuật trường tồn.</p>
+                        `
+                    },
+                    {
+                        title: "Nhịp cầu vô hình",
+                        preview: "Sự đồng điệu và gắn kết âm thầm giữa những tâm hồn.",
+                        details: `
+                            <p class='font-semibold text-green-900'>Phân tích:</p>
+                            <p class='pl-2'>• Phương tiện kết nối kỳ diệu xóa nhòa khoảng cách không gian, thời gian.</p>
+                            <p class='pl-2'>• Thơ ca đóng vai trò là sợi dây liên kết vô hình đưa người đọc tìm thấy sự đồng cảm, tri âm với người cầm bút.</p>
+                        `
+                    },
+                    {
+                        title: "Cây non èo uộc",
+                        preview: "Hậu quả khi nghệ thuật tách rời và thoát ly khỏi đời sống thực tế.",
+                        details: `
+                            <p class='font-semibold text-green-900'>Phân tích:</p>
+                            <p class='pl-2'>• Hình ảnh ẩn dụ cho những vần thơ sáo rỗng, thiếu đi hơi thở thực tế.</p>
+                            <p class='pl-2'>• Cảnh báo người nghệ sĩ: Nếu đóng kín cửa lòng, sáng tác tách rời cuộc sống thì tác phẩm sẽ chết yểu và vô giá trị.</p>
+                        `
+                    },
+                    {
+                        title: "Chất quặng cuộc đời",
+                        preview: "Chất liệu thô sơ ngổn ngang cần người thợ lặn tinh tế chắt lọc.",
+                        details: `
+                            <p class='font-semibold text-green-900'>Phân tích:</p>
+                            <p class='pl-2'>• Hiện thực đời sống luôn phong phú nhưng lẫn cả những điều vụn vặt, tầm thường.</p>
+                            <p class='pl-2'>• Nhà thơ phải là người thợ mỏ kiên trì, chắt lọc lớp bụi đời để mài dũa nên những viên ngọc lấp lánh chữ nghĩa.</p>
+                        `
+                    },
+                    {
+                        title: "Bông hồng vàng",
+                        preview: "Kết tinh cao đẹp, quý giá mang lại giá trị thẩm mỹ đích thực.",
+                        details: `
+                            <p class='font-semibold text-green-900'>Phân tích:</p>
+                            <p class='pl-2'>• Biểu tượng nghệ thuật đỉnh cao lấy cảm hứng từ Pauxtôpxki.</p>
+                            <p class='pl-2'>• Thành quả sáng tạo vô giá được kết tinh từ triệu hạt bụi đời, đem lại hương sắc cao đẹp thanh lọc tâm hồn con người.</p>
+                        `
+                    }
+                ]
+            },
+            "Mở/Kết bài": { type: "text", pages: [["Công thức và các cách mở bài, kết bài ấn tượng..."]] },
+            "Cách lập luận": { type: "text", pages: [["Xây dựng hệ thống luận điểm chặt chẽ logic..."]] },
+            "Dẫn chứng": { type: "text", pages: [["Hệ thống các dẫn chứng văn học lý luận kinh điển..."]] },
+            "Lật ngược vấn đề": { type: "text", pages: [["Tư duy phản biện, lật ngược mệnh đề lý luận văn học..."]] }
+        };
+
+        let currentTab = "Ngôn từ & hình ảnh"; // Chuyển sang tab Grid để bạn kiểm tra trực quan luôn
+        let currentPage = 0;
+
+        function renderContent() {
+            const titleElement = document.getElementById('contentTitle');
+            const bodyElement = document.getElementById('contentBody');
+            const paginationCtrl = document.getElementById('paginationCtrl');
+            const displayArea = document.getElementById('displayArea');
+            
+            const currentData = articlesData[currentTab];
+            titleElement.innerText = currentTab;
+            
+            displayArea.style.opacity = 0.4;
+
+            setTimeout(() => {
+                if (currentData.type === "text") {
+                    // Xử lý giao diện hiển thị văn bản thường
+                    paginationCtrl.classList.remove('hidden');
+                    const totalPages = currentData.pages.length;
+                    const pageParagraphs = currentData.pages[currentPage];
+                    
+                    document.getElementById('pageNumber').innerText = `Trang ${currentPage + 1} / ${totalPages}`;
+                    bodyElement.innerHTML = pageParagraphs.map(para => para.startsWith("<p") ? para : `<p class='mb-4'>${para}</p>`).join("");
+                    
+                    document.getElementById('btnPrev').disabled = (currentPage === 0);
+                    document.getElementById('btnNext').disabled = (currentPage === totalPages - 1);
+                } else if (currentData.type === "grid") {
+                    // Xử lý cấu trúc LƯỚI Ô VUÔNG giống ảnh thiết kế của bạn
+                    paginationCtrl.classList.add('hidden');
+                    
+                    let gridHtml = `<div class='grid grid-cols-1 md:grid-cols-2 gap-6 mt-4'>`;
+                    currentData.items.forEach((item, index) => {
+                        gridHtml += `
+                            <div onclick="openModal('${item.title}', ${index})" class="bg-[#14532d] hover:bg-[#1f663b] text-white p-8 rounded-2xl shadow-md transition-all duration-300 transform hover:-translate-y-1 cursor-pointer flex flex-col justify-center items-center text-center min-h-[140px]">
+                                <h4 class="text-xl font-bold tracking-wide">${item.title}</h4>
+                                <p class="text-xs text-green-200/80 mt-2 font-light line-clamp-2">${item.preview}</p>
+                            </div>
+                        `;
+                    });
+                    gridHtml += `</div>`;
+                    bodyElement.innerHTML = gridHtml;
+                }
+                displayArea.style.opacity = 1;
+            }, 100);
+        }
+
+        // --- HÀM XỬ LÝ POPUP MODAL ---
+        function openModal(title, index) {
+            const modal = document.getElementById('infoModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalContent = document.getElementById('modalContent');
+            
+            // Lấy dữ liệu chi tiết từ cấu trúc mảng dựa vào tab và vị trí click
+            const itemDetails = articlesData[currentTab].items[index].details;
+            
+            modalTitle.innerText = title;
+            modalContent.innerHTML = itemDetails;
+            
+            // Hiển thị modal kèm class hiệu ứng
+            modal.classList.add('open');
+            document.body.style.overflow = 'hidden'; // Ngăn cuộn trang nền phía sau khi đang xem ô
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('infoModal');
+            modal.classList.remove('open');
+            document.body.style.overflow = 'auto'; // Trả lại trạng thái cuộn trang bình thường
+        }
+
+        // --- ĐIỀU HƯỚNG TABS SIDEBAR ---
+        function changeTab(tabName) {
+            currentTab = tabName;
+            currentPage = 0;
             const buttons = document.querySelectorAll('.sidebar-item');
             buttons.forEach(btn => btn.classList.remove('active'));
-            element.classList.add('active');
-            
-            const area = document.getElementById('displayArea');
-            area.style.opacity = 0;
-            setTimeout(() => { area.style.opacity = 1; }, 100);
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            renderContent();
         }
+
+        function nextPage() {
+            if (currentPage < articlesData[currentTab].pages.length - 1) {
+                currentPage++;
+                renderContent();
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 0) {
+                currentPage--;
+                renderContent();
+            }
+        }
+
+        // Khởi động giao diện
+        document.addEventListener("DOMContentLoaded", () => {
+            renderContent();
+        });
     </script>
 </body>
 </html>
