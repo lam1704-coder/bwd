@@ -574,7 +574,7 @@
             <li><a href="./inde.html">Tác phẩm</a></li>
             <li><a href="./chuabai.html">Chữa bài</a></li>
             <li><a href="./tacgia.html">Tác giả</a></li>
-            <li><a href="./taikhoan.html"><i class="fa-solid fa-circle-user"></i> Tài khoản</a></li>
+           <li><a href="#" onclick="dangXuat()"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a></li>
         </ul>
     </nav>
 
@@ -735,6 +735,14 @@ Văn chương suy cho cùng cũng giống như dòng nước mát lành tưới 
             if (cards[index].classList.contains('active')) return;
             updateCarousel(index);
         }
+        // Hàm xử lý khi nhấn Đăng xuất
+function dangXuat() {
+    // Xóa trạng thái đăng nhập trong bộ nhớ trình duyệt
+    localStorage.removeItem("isLoggedIn");
+    
+    // Chuyển hướng người dùng về trang tài khoản (đăng nhập/đăng ký)
+    window.location.href = "taikhoan.html";
+}
 
         function updateCarousel(activeIndex) {
             cards.forEach((card, i) => {
