@@ -360,24 +360,93 @@
                 ]
             },
             "Cách lập luận": { 
-                type: "text", 
-                pages: [
-                    [
-                        `<div class="space-y-6 text-gray-800 select-none">
-                            <div>
-                                <h3 class="text-xl font-bold text-gray-900 mb-2">Trình tự lập luận của bài:</h3>
-                                <ol class="list-decimal list-inside space-y-1 pl-1 font-medium text-gray-700">
-                                    <li>Đặt câu hỏi: <span class="italic text-gray-500">“Thơ là gì?”</span></li>
-                                    <li>Giải thích nhận định của V. Bêlinxki</li>
-                                    <li>Chứng minh lý lẽ & Dẫn chứng</li>
-                                    <li>Mở rộng – nâng cao</li>
-                                    <li>Tư duy phản biện (Biện chứng hai chiều)</li>
-                                </ol>
+            type: "text", 
+            pages: [
+                // TRANG 1: Trình tự tổng quan + Chi tiết Bước 1 và Bước 2 (Độ dài ~50%)
+                `<div class="space-y-8 text-gray-800 select-none pb-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Trình tự lập luận của bài:</h3>
+                        <p class="text-gray-600 text-[15px] italic mb-3">Bài viết không triển khai ngẫu nhiên mà đi theo một mạch rất rõ:</p>
+                        <ol class="list-decimal list-inside space-y-2 pl-1 font-medium text-gray-700 text-[15px]">
+                            <li>Đặt câu hỏi: <span class="italic text-gray-500 font-normal">“Thơ là gì?”</span></li>
+                            <li>Giải thích nhận định của V. Bêlinxki</li>
+                            <li>Chứng minh (Lí lẽ + Dẫn chứng)</li>
+                            <li>Mở rộng – nâng cao</li>
+                            <li>Bổ sung / phản biện</li>
+                        </ol>
+                    </div>
+
+                    <hr class="border-gray-200/80 my-2" />
+
+                    <div class="space-y-5">
+                       
+                        
+                        <div class="space-y-1.5">
+                            <p class="font-bold text-gray-900 text-[16px]">1. Đặt câu hỏi – kích hoạt tư duy</p>
+                            <p class="text-gray-600 text-[15px] pl-1">Không vào thẳng vấn đề mà hỏi:</p>
+                            <ul class="list-disc list-inside pl-5 text-gray-700 italic space-y-1">
+                                <li>“Thơ là gì?”</li>
+                                <li>“Thơ bắt nguồn từ đâu?”</li>
+                            </ul>
+                            <p class="text-gray-600 text-[15px] pl-1 mt-2">Hiệu quả:</p>
+                            <div class="pl-5 space-y-1 text-gray-700 text-[15px]">
+                                <p>• Kéo người đọc vào dòng suy nghĩ</p>
+                                <p>• Biến bài viết thành cuộc đối thoại, không phải độc thoại</p>
                             </div>
-                        </div>`
-                    ]
-                ]
-            },
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <p class="font-bold text-gray-900 text-[16px]">2. Giải thích – tạo nền tảng</p>
+                            <p class="text-gray-600 text-[15px] pl-1">Tác giả làm rõ:</p>
+                            <div class="pl-5 space-y-1 text-gray-700 text-[15px]">
+                                <p>• “cuộc đời” là gì</p>
+                                <p>• vì sao thơ gắn với cuộc đời</p>
+                            </div>
+                            <p class="text-red-500 font-bold text-sm mt-2 pl-1">➜ Không hiểu rõ khái niệm ➜ không thể lập luận sâu</p>
+                        </div>
+                    </div>
+                </div>`,
+
+                // TRANG 2: Chi tiết Bước 3, Bước 4 và Bước 5 (Độ dài ~50%)
+                `<div class="space-y-6 text-gray-800 select-none pb-6">
+                  
+                    
+                    <div class="space-y-6">
+                        <div class="space-y-1.5">
+                            <p class="font-bold text-gray-900 text-[16px]">3. Chứng minh</p>
+                            <p class="text-gray-600 text-[15px] pl-1">Kết hợp 2 yếu tố:</p>
+                            <div class="pl-5 space-y-1 text-gray-700 text-[15px]">
+                                <p>• Lí lẽ (giải thích bằng tư duy)</p>
+                                <p>• Dẫn chứng (tăng tính thuyết phục)</p>
+                            </div>
+                            <p class="text-red-500 font-bold text-sm mt-2 pl-1">➜ Đây là bước: biến ý kiến ➜ thành lập luận có giá trị</p>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <p class="font-bold text-gray-900 text-[16px]">4. Mở rộng – nâng cao</p>
+                            <p class="text-gray-600 text-[15px] pl-1">Không dừng ở:</p>
+                            <p class="text-gray-700 pl-5">• “thơ là cuộc đời”</p>
+                            <p class="text-gray-600 text-[15px] pl-1 mt-2">mà nâng lên:</p>
+                            <div class="pl-5 space-y-1 text-gray-700 text-[15px]">
+                                <p>• thơ còn là nghệ thuật</p>
+                                <p>• thơ có chức năng với con người</p>
+                            </div>
+                            <p class="text-red-500 font-bold text-sm mt-2 pl-1">➜ Đây là bước giúp bài: từ đúng ➜ thành sâu</p>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <p class="font-bold text-gray-900 text-[16px]">5. Tư duy phản biện (điểm phân loại HSG)</p>
+                            <p class="text-gray-600 text-[15px] pl-1">Tác giả không tuyệt đối hóa:</p>
+                            <p class="text-gray-700 pl-5">• Không nói “chỉ cần cuộc đời là đủ”</p>
+                            <div class="text-red-500 font-bold text-sm mt-2 pl-1 space-y-1">
+                                <p>➜ mà bổ sung: cần có sáng tạo nghệ thuật</p>
+                                <p>➜ Đây chính là tư duy hai chiều (critical thinking)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
+            ]
+        },
             "Dẫn chứng": { 
                 type: "text", 
                 pages: [
@@ -436,13 +505,100 @@
                     ]
                 ]
             },
-            "Lật ngược vấn đề": { 
-                type: "text", 
-                pages: [
-                    ["<p class='text-gray-700 leading-relaxed text-lg'>Tư duy phản biện, lật ngược mệnh đề lý luận văn học là chìa khóa để bài viết đạt điểm tối đa. Thơ bắt nguồn từ cuộc đời nhưng không phải là bản sao chụp máy móc. Nghệ thuật chắp cánh giúp hiện thực thăng hoa.</p>"]
-                ] 
-            }
-        };
+           "Lật ngược vấn đề": { 
+            type: "text", 
+            pages: [
+                // TRANG 1: Chứa toàn bộ nội dung phân tích lý luận và các hộp câu hỏi phản biện nâng cao màu xanh đồng bộ
+                `<div class="space-y-6 text-gray-800 select-none">
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-1">1. Nếu chỉ là “cuộc đời” thì sao?</h3>
+                            <p class="text-gray-600 text-[15px] pl-1">Khi thơ chỉ phản ánh đời sống:</p>
+                            <ul class="list-none pl-5 text-gray-600 text-[15px] space-y-0.5 mt-1">
+                                <li>• Dễ trở thành:</li>
+                                <li class="pl-4">◦ kể chuyện</li>
+                                <li class="pl-4">◦ ghi chép hiện thực</li>
+                            </ul>
+                            <p class="text-red-500 font-semibold text-sm mt-2 flex items-center gap-1">❌ Mất đi tính nghệ thuật</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-1">2. Vai trò của “nghệ thuật”</h3>
+                            <p class="text-gray-600 text-[15px] pl-1">Người viết khẳng định:</p>
+                            <ul class="list-none pl-5 text-gray-600 text-[15px] space-y-0.5 mt-1">
+                                <li>• Nhà thơ phải:</li>
+                                <li class="pl-4">◦ chọn lọc</li>
+                                <li class="pl-4">◦ sáng tạo</li>
+                                <li class="pl-4">◦ biến đổi</li>
+                            </ul>
+                            <div class="text-red-500 font-bold text-sm mt-2 space-y-0.5">
+                                <p>➜ Thơ không phải là đời sống nguyên bản</p>
+                                <p>➜ mà là đời sống đã được cảm nhận và tái tạo</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-1">3. Cân bằng hai yếu tố</h3>
+                            <p class="text-gray-600 text-[15px] pl-1">Từ đó, bài viết đi đến một cách hiểu hoàn chỉnh hơn:</p>
+                            <ul class="list-none pl-5 text-gray-600 text-[15px] space-y-0.5 mt-1">
+                                <li>• Thơ = cuộc đời + nghệ thuật</li>
+                            </ul>
+                            <p class="text-gray-600 text-[15px] pl-1 mt-1">Thiếu một trong hai:</p>
+                            <div class="pl-5 space-y-0.5 text-red-500 text-sm font-semibold">
+                                <p>❌ Không có đời ➜ thơ rỗng</p>
+                                <p>❌ Không có nghệ thuật ➜ thơ thô</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-1">4. GÓC NHÌN KHÁC (CHO NGƯỜI HỌC)</h3>
+                            <p class="text-gray-600 text-[15px] pl-1">Hãy thử so sánh:</p>
+                            <ul class="list-none pl-5 text-gray-600 text-[15px] space-y-0.5 mt-1">
+                                <li>• Thơ hiện thực vs thơ tượng trưng</li>
+                                <li>• Thơ giản dị vs thơ cầu kỳ</li>
+                            </ul>
+                            <p class="text-red-500 font-bold text-sm mt-2">➜ Bạn sẽ thấy: giá trị thơ nằm ở sự cân bằng</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 space-y-3">
+                        <details class="group bg-green-800 text-white rounded-xl overflow-hidden transition-all duration-300 shadow-md">
+                            <summary class="flex justify-between items-center p-4 font-bold cursor-pointer bg-green-700 hover:bg-green-700/90 list-none">
+                                <span>1. Có phải mọi trải nghiệm trong cuộc đời đều có thể trở thành thơ?</span>
+                                <span class="transition-transform duration-300 group-open:rotate-180 text-yellow-300">▼</span>
+                            </summary>
+                            <div class="p-4 bg-green-700/40 text-[14px] text-green-50 leading-relaxed space-y-2 border-t border-green-600/50">
+                                <p class="font-bold text-yellow-300">Gợi ý trả lời:</p>
+                                <p>Không phải mọi chi tiết thô ráp của đời sống đều nghiễm nhiên biến thành nghệ thuật. Trải nghiệm đó phải đi qua bộ lọc tâm hồn của người nghệ sĩ, được kết tinh thành những xúc cảm sâu sắc và thể hiện bằng một hình thức ngôn từ có tính thẩm mỹ cao thì mới tạo nên một bài thơ đích thực.</p>
+                            </div>
+                        </details>
+
+                        <details open class="group bg-green-800 text-white rounded-xl overflow-hidden transition-all duration-300 shadow-md">
+                            <summary class="flex justify-between items-center p-4 font-bold cursor-pointer bg-green-700 hover:bg-green-700/90 list-none">
+                                <span>2. Một bài thơ giàu cảm xúc nhưng yếu nghệ thuật có thể coi là hay không?</span>
+                                <span class="transition-transform duration-300 group-open:rotate-180 text-yellow-300">▲</span>
+                            </summary>
+                            <div class="p-4 bg-green-700/40 text-[14px] text-green-50 leading-relaxed space-y-2 border-t border-green-600/50">
+                                <p class="font-bold text-yellow-300">Trả lời mẫu:</p>
+                                <p>Một bài thơ giàu cảm xúc nhưng yếu về nghệ thuật khó có thể được coi là một tác phẩm hay trọn vẹn. Cảm xúc là linh hồn của thơ, nhưng nếu thiếu hình thức biểu đạt phù hợp, cảm xúc ấy sẽ trở nên mờ nhạt, không đủ sức lan tỏa đến người đọc. Thơ ca đòi hỏi sự hòa quyện giữa nội dung và nghệ thuật, giữa "cái tình" và "cái tài". Chỉ khi cảm xúc được diễn đạt bằng một hình thức tinh tế, giàu tính thẩm mỹ, bài thơ mới có thể chạm đến chiều sâu tâm hồn người đọc và có giá trị bền vững.</p>
+                            </div>
+                        </details>
+
+                        <details class="group bg-green-800 text-white rounded-xl overflow-hidden transition-all duration-300 shadow-md">
+                            <summary class="flex justify-between items-center p-4 font-bold cursor-pointer bg-green-700 hover:bg-green-700/90 list-none">
+                                <span>3. Nếu thơ quá "nghệ thuật", liệu nó có xa rời con người?</span>
+                                <span class="transition-transform duration-300 group-open:rotate-180 text-yellow-300">▼</span>
+                            </summary>
+                            <div class="p-4 bg-green-700/40 text-[14px] text-green-50 leading-relaxed space-y-2 border-t border-green-600/50">
+                                <p class="font-bold text-yellow-300">Gợi ý trả lời:</p>
+                                <p>Khi một tác phẩm sa đà vào việc gọt giũa kỹ thuật, trình diễn ngôn từ một cách duy mỹ mà thiếu đi cái lõi của hiện thực và tình cảm chân thành, nó sẽ trở thành một "bông hoa giấy" không hương sắc. Nghệ thuật chân chính là phương tiện để nâng tầm và truyền tải tiếng lòng của cuộc đời, chứ không phải một vỏ bọc tách biệt con người.</p>
+                            </div>
+                        </details>
+                    </div>
+                </div>`
+            ]
+        },
+    };
 
         let currentTab = "Mở/Kết bài"; 
         let currentPage = 0;
