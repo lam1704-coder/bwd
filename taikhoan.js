@@ -2,9 +2,16 @@
 function chuyenForm() {
     const formDangNhap = document.getElementById("formDangNhap");
     const formDangKy = document.getElementById("formDangKy");
-    if(formDangNhap && formDangKy) {
-        formDangNhap.classList.toggle("active");
-        formDangKy.classList.toggle("active");
+
+    if (formDangNhap && formDangKy) {
+        // Kiểm tra trạng thái display hiện tại
+        if (formDangNhap.style.display === "none") {
+            formDangNhap.style.display = "block";
+            formDangKy.style.display = "none";
+        } else {
+            formDangNhap.style.display = "none";
+            formDangKy.style.display = "block";
+        }
     }
 }
 
@@ -31,7 +38,8 @@ if (formDangKy) {
         }
 
         try {
-            const response = await fetch(`${API_URL}/register`, {
+            // Sửa thành:
+const response = await fetch("https://backend-wkbh.onrender.com/api/auth/register",  {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name, email, password })
@@ -53,28 +61,30 @@ if (formDangKy) {
 }
 
 // ==========================================
+// ==========================================
 // 3. XỬ LÝ FORM ĐĂNG NHẬP
 // ==========================================
+// XỬ LÝ FORM ĐĂNG NHẬP
 const formDangNhap = document.getElementById("formDangNhap");
 if (formDangNhap) {
     formDangNhap.addEventListener("submit", async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Ngăn load lại trang
         
-        // Lấy dữ liệu từ các ô input đăng nhập
         const email = document.getElementById("login-email").value; 
         const password = document.getElementById("login-password").value;
 
         try {
-            const response = await fetch(`${API_URL}/login`, {
+            const response = await fetch("https://backend-wkbh.onrender.com/api/auth/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password })
+                body: JSON.stringify({ email: email, password: password })
             });
 
+            // Lấy dữ liệu dạng JSON
             const data = await response.json();
-
+            
             if (response.ok) {
-                // Lưu trạng thái đăng nhập vào máy
+                // Đăng nhập thành công
                 localStorage.setItem("isLoggedIn", "true");
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("role", data.role);
@@ -82,18 +92,20 @@ if (formDangNhap) {
 
                 alert(`Chào mừng ${data.name} trở lại!`);
                 
-                // Phân luồng: Nếu là admin thì vào trang quản trị, học viên vào trang chủ
+                // Phân luồng trang
                 if (data.role === "admin") {
                     window.location.href = "admin.html";
                 } else {
                     window.location.href = "index.html";
                 }
             } else {
-                alert("Lỗi: " + data.message);
+                // Xử lý lỗi từ server (Ví dụ: sai mật khẩu)
+                alert("Lỗi: " + (data.message || "Đăng nhập thất bại"));
             }
         } catch (error) {
+            // Xử lý lỗi kết nối mạng
             console.error("Lỗi kết nối:", error);
-            alert("Không thể kết nối đến Server!");
+            alert("Không thể kết nối đến Server! Hãy kiểm tra kết nối mạng.");
         }
-    });
-}
+    }); // <--- Đóng ngoặc của addEventListener
+} // <--- Đóng ngoặc của if (formDangNhap)
