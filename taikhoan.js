@@ -53,43 +53,30 @@ if (formDangKy) {
 }
 
 // ==========================================
+// ==========================================
 // 3. XỬ LÝ FORM ĐĂNG NHẬP
 // ==========================================
 const formDangNhap = document.getElementById("formDangNhap");
 if (formDangNhap) {
     formDangNhap.addEventListener("submit", async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Ngăn trình duyệt tải lại trang
         
-        // Lấy dữ liệu từ các ô input đăng nhập
+        // Lấy dữ liệu từ ô input
         const email = document.getElementById("login-email").value; 
         const password = document.getElementById("login-password").value;
 
-    try {
-    // Sửa trực tiếp đường dẫn đầy đủ vào đây để test
-    const response = await fetch("https://backend-wkbh.onrender.com/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email, password: password })
-    });
+        try {
+            // Gọi API
+            const response = await fetch("https://backend-wkbh.onrender.com/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
 
-    const data = await response.json();
-    
-    if (response.ok) {
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("role", data.role);
-        window.location.href = "index.html";
-    } else {
-        alert("Lỗi: " + data.message);
-    }
-} catch (error) {
-    console.error("Lỗi kết nối chi tiết:", error);
-    alert("Không thể kết nối tới server. Hãy kiểm tra Console (F12)!");
-}
             const data = await response.json();
-
+            
             if (response.ok) {
-                // Lưu trạng thái đăng nhập vào máy
+                // Lưu trạng thái vào localStorage
                 localStorage.setItem("isLoggedIn", "true");
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("role", data.role);
@@ -97,7 +84,7 @@ if (formDangNhap) {
 
                 alert(`Chào mừng ${data.name} trở lại!`);
                 
-                // Phân luồng: Nếu là admin thì vào trang quản trị, học viên vào trang chủ
+                // Phân luồng trang
                 if (data.role === "admin") {
                     window.location.href = "admin.html";
                 } else {
@@ -108,7 +95,7 @@ if (formDangNhap) {
             }
         } catch (error) {
             console.error("Lỗi kết nối:", error);
-            alert("Không thể kết nối đến Server!");
+            alert("Không thể kết nối đến Server! Hãy kiểm tra kết nối mạng.");
         }
     });
 }
