@@ -1068,4 +1068,12 @@ body.forum-page {
     display:flex;
     justify-content:space-between;
     margin-top:15px;
+}/* Mặc định ẩn tất cả form */
+.auth-form {
+    display: none;
+}
+
+/* Khi form có class 'active' thì hiển thị */
+.auth-form.active {
+    display: block; 
 }

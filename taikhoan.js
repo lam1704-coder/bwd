@@ -2,9 +2,16 @@
 function chuyenForm() {
     const formDangNhap = document.getElementById("formDangNhap");
     const formDangKy = document.getElementById("formDangKy");
-    if(formDangNhap && formDangKy) {
-        formDangNhap.classList.toggle("active");
-        formDangKy.classList.toggle("active");
+
+    if (formDangNhap && formDangKy) {
+        // Kiểm tra trạng thái display hiện tại
+        if (formDangNhap.style.display === "none") {
+            formDangNhap.style.display = "block";
+            formDangKy.style.display = "none";
+        } else {
+            formDangNhap.style.display = "none";
+            formDangKy.style.display = "block";
+        }
     }
 }
 
