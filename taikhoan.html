@@ -3,80 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tài khoản - Thơ ca</title>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <title>Đăng nhập - Chạm Văn Chương</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Anton&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: url('https://i.pinimg.com/736x/f6/ee/45/f6ee45314751f2bc8f30bb7b0f02ea2d.jpg') center top / cover no-repeat fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
-<body class="auth-body">
+<body>
 
-    <a href="#" class="back-home-btn"><i class="fa-solid fa-arrow-left"></i> Về trang chủ</a>
+    <div class="glass-panel w-full max-w-md p-8 rounded-[2rem] text-center">
+        <h1 class="font-['Anton'] text-4xl text-green-900 mb-2 tracking-wide">CHẠM VĂN CHƯƠNG</h1>
+        <p class="text-gray-600 mb-8 font-medium">Đăng nhập để tiếp tục</p>
 
-    <div class="auth-wrapper">
-        <div class="auth-box">
-            <div class="logo-box" style="display: flex; justify-content: center; margin-bottom: 20px; background-color: transparent;">
-                <img src="images/Logo_.png" alt="Tên Website của bạn" class="logo-image" style="display: block; width: 140px; height: auto; mix-blend-mode: multiply;">
-            </div>
+        <input type="text" id="username" placeholder="Tên đăng nhập" class="w-full px-5 py-3 mb-4 rounded-xl bg-white/80 border border-white outline-none focus:ring-2 focus:ring-green-700 transition">
+        <input type="password" id="password" placeholder="Mật khẩu" class="w-full px-5 py-3 mb-6 rounded-xl bg-white/80 border border-white outline-none focus:ring-2 focus:ring-green-700 transition">
 
-            <form id="formDangNhap" class="auth-form active">
-                <div class="input-group">
-                    <label>Email</label>
-                    <div class="input-line">
-                        <i class="fa-solid fa-envelope icon-pink"></i>
-                        <input type="email" id="email" required>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <label>Mật khẩu</label>
-                    <div class="input-line">
-                        <i class="fa-solid fa-lock icon-pink"></i>
-                       <input type="password" id="password" required>
-                    </div>
-                </div>
-
-                <div class="forgot-pass"><a href="#">Quên mật khẩu?</a></div>
-                <button type="submit" class="btn-auth">Đăng nhập</button>
-
-                <div class="divider">
-                    <span><i class="fa-solid fa-heart"></i> Hoặc <i class="fa-solid fa-heart"></i></span>
-                </div>
-
-                <button type="button" class="btn-social">Tiếp tục với một tài khoản</button>
-                <p class="auth-footer">Đừng quên tạo một tài khoản? <span class="link-switch" onclick="chuyenForm()">Đăng ký</span></p>
-            </form>
-
-            <form id="formDangKy" class="auth-form">
-                <div class="input-group">
-                    <label>Họ và tên</label>
-                    <div class="input-line"><i class="fa-solid fa-user icon-pink"></i><input type="text" required></div>
-                </div>
-                <div class="input-group">
-                    <label>Email</label>
-                    <div class="input-line"><i class="fa-solid fa-envelope icon-pink"></i><input type="email" required></div>
-                </div>
-                <div class="input-group">
-                    <label>Mật khẩu</label>
-                    <div class="input-line"><i class="fa-solid fa-lock icon-pink"></i><input type="password" required></div>
-                </div>
-                <div class="input-group">
-                    <label>Nhập lại mật khẩu</label>
-                    <div class="input-line"><i class="fa-solid fa-lock icon-pink"></i><input type="password" required></div>
-                </div>
-
-                <p class="terms-text">Tôi đồng ý với <a href="#">Điều khoản dịch vụ</a> và <a href="#">Chính sách bảo mật</a></p>
-                <button type="submit" class="btn-auth">Đăng ký</button>
-
-                <div class="divider">
-                    <span><i class="fa-solid fa-heart"></i> Hoặc <i class="fa-solid fa-heart"></i></span>
-                </div>
-
-                <button type="button" class="btn-social">Tiếp tục với một tài khoản</button>
-                <p class="auth-footer">Đã có tài khoản? <span class="link-switch" onclick="chuyenForm()">Đăng nhập</span></p>
-            </form>
-        </div>
+        <button onclick="login()" class="w-full bg-green-800 hover:bg-green-900 text-white font-bold py-3 rounded-xl transition-all shadow-md active:scale-95">
+            ĐĂNG NHẬP
+        </button>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        function login() {
+            const user = document.getElementById("username").value;
+            const pass = document.getElementById("password").value;
+
+            // Đăng nhập giả lập bằng LocalStorage (sẽ thay bằng Backend sau)
+            if(user === "admin" && pass === "123") {
+                localStorage.setItem("isLoggedIn", "true");
+                localStorage.setItem("role", "admin");
+                window.location.href = "admin.html"; // Chuyển đến trang quản trị
+            } else if (user !== "") {
+                localStorage.setItem("isLoggedIn", "true");
+                localStorage.setItem("role", "student");
+                window.location.href = "inde.HTML"; // Chuyển đến trang chủ
+            } else {
+                alert("Vui lòng nhập tên đăng nhập!");
+            }
+        }
+    </script>
 </body>
 </html>
