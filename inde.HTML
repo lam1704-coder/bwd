@@ -220,6 +220,37 @@
         .lens-focused p {
             color: var(--btn-green);
         }
+#lensSlider {
+    cursor: grab;
+    overflow: hidden;
+}
+#lensSlider {
+    display: flex;
+    gap: 12px;
+    width: max-content;
+    cursor: grab;
+    will-change: transform;
+}
+.lens-card {
+    transition: transform 0.4s ease, filter 0.4s ease, opacity 0.4s ease;
+    transform: scale(0.92);
+    opacity: 0.5;
+    filter: blur(1.2px);
+}
+
+/* card đang active */
+.lens-card.active {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0);
+}
+
+/* hover ưu tiên hơn active */
+.lens-card:hover {
+    transform: scale(1.06);
+    opacity: 1;
+    filter: blur(0);
+}
     </style>
 </head>
 
@@ -347,7 +378,7 @@
             </a>
 
             <!-- CARD 2 -->
-            <a href="images/./ngon-hai-dang.html"
+            <a href="ngon-hai-dang.html"
                 class="snap-center lens-card flex-shrink-0">
 
                 <div class="lens-img-container">
@@ -367,6 +398,36 @@
 
                 <p>KHÁM PHÁ BIỂU TƯỢNG CÂY TRE</p>
             </a>
+            <a href="images/./cay-tre.html"
+                class="snap-center lens-card flex-shrink-0">
+
+                <div class="lens-img-container">
+                    <img src="images/NN.jpg" alt="">
+                </div>
+
+                <p>VẺ ĐẸP CỦA NGÔN NGỮ</p>
+            </a>
+            <a href="images/./cay-tre.html"
+                class="snap-center lens-card flex-shrink-0">
+
+                <div class="lens-img-container">
+                    <img src="images/TRIẾT.webp" alt="">
+                </div>
+
+                <p>VẤN ĐỀ TRIẾT HỌC</p>
+            </a>
+            <a href="images/./cay-tre.html"
+                class="snap-center lens-card flex-shrink-0">
+
+                <div class="lens-img-container">
+                    <img src="images/TẾT.jpg" alt="">
+                </div>
+
+                <p>Ý NGHĨA CỦA TẾT</p>
+            </a>
+
+
+
 
             <div class="flex-shrink-0 w-[40vw]"></div>
 
@@ -377,50 +438,44 @@
     <!-- JAVASCRIPT -->
     <script>
 
-        // BOOK SLIDER
-        const bookSlider = document.getElementById('bookSlider');
+document.addEventListener("DOMContentLoaded", () => {
 
-        document.getElementById('nextBook').onclick = () => {
-            bookSlider.scrollBy({
-                left: 340,
-                behavior: 'smooth'
-            });
-        };
+    const slider = document.getElementById("lensSlider");
+    const cards = document.querySelectorAll(".lens-card");
 
-        document.getElementById('prevBook').onclick = () => {
-            bookSlider.scrollBy({
-                left: -340,
-                behavior: 'smooth'
-            });
-        };
+    let pos = 0;
+    let speed = 0.6;
+    let pause = false;
 
-        // LENS EFFECT
-        function focusLens(el) {
+    function loop() {
 
-            document.querySelectorAll('.lens-card').forEach(card => {
-                card.classList.remove('lens-focused');
-            });
+        if (!pause) {
+            pos -= speed;
 
-            el.classList.add('lens-focused');
+            if (Math.abs(pos) >= slider.scrollWidth / 2) {
+                pos = 0;
+            }
 
-            el.scrollIntoView({
-                behavior: 'smooth',
-                inline: 'center',
-                block: 'nearest'
-            });
+            slider.style.transform = `translateX(${pos}px)`;
         }
 
-        window.onload = () => {
+        requestAnimationFrame(loop);
+    }
 
-            const firstCard = document.querySelector('.lens-card');
+    loop();
 
-            if (firstCard) {
-                focusLens(firstCard);
-            }
-        };
+    cards.forEach(card => {
+        card.addEventListener("mouseenter", () => {
+            pause = true;
+        });
 
-    </script>
+        card.addEventListener("mouseleave", () => {
+            pause = false;
+        });
+    });
+});
 
+</script>
 </body>
 
 </html>
