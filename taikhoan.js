@@ -64,13 +64,28 @@ if (formDangNhap) {
         const email = document.getElementById("login-email").value; 
         const password = document.getElementById("login-password").value;
 
-        try {
-            const response = await fetch(`${API_URL}/login`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password })
-            });
+    try {
+    // Sửa trực tiếp đường dẫn đầy đủ vào đây để test
+    const response = await fetch("https://backend-wkbh.onrender.com/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email, password: password })
+    });
 
+    const data = await response.json();
+    
+    if (response.ok) {
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("role", data.role);
+        window.location.href = "index.html";
+    } else {
+        alert("Lỗi: " + data.message);
+    }
+} catch (error) {
+    console.error("Lỗi kết nối chi tiết:", error);
+    alert("Không thể kết nối tới server. Hãy kiểm tra Console (F12)!");
+}
             const data = await response.json();
 
             if (response.ok) {
