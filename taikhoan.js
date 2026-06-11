@@ -31,7 +31,8 @@ if (formDangKy) {
         }
 
         try {
-            const response = await fetch(`${API_URL}/register`, {
+            // Sửa thành:
+const response = await fetch("https://backend-wkbh.onrender.com/api/auth/register",  {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name, email, password })
