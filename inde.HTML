@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
+   <script>
+    // Kiểm tra trạng thái: Nếu chưa đăng nhập thì lập tức chuyển hướng về trang tài khoản
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+        window.location.href = "taikhoan.html"; 
+    }
+</script> 
 
 <head>
     <meta charset="UTF-8">
