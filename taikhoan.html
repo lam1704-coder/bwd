@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="vi">
-   <script>
-    // Kiểm tra trạng thái: Nếu chưa đăng nhập thì lập tức chuyển hướng về trang tài khoản
-    if (localStorage.getItem("isLoggedIn") !== "true") {
-        window.location.href = "taikhoan.html"; 
-    }
-</script>  
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tài khoản - Thơ ca</title>
+    
+    <script>
+        // Nếu đã đăng nhập thành công từ trước, tự động chuyển về trang chủ (index.html)
+        if (localStorage.getItem("isLoggedIn") === "true") {
+            window.location.href = "index.html"; 
+        }
+    </script> 
+
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-   
-    
- 
 </head>
 <body class="auth-body">
 
@@ -52,10 +51,10 @@
                 </div>
 
                 <button type="button" class="btn-social">Tiếp tục với một tài khoản</button>
-                <p class="auth-footer">Đừng quên tạo một tài khoản? <span class="link-switch" onclick="chuyenForm()">Đăng ký</span></p>
+                <p class="auth-footer">Đừng quên tạo một tài khoản? <span class="link-switch" onclick="chuyenForm()" style="cursor: pointer; color: pink;">Đăng ký</span></p>
             </form>
 
-            <form id="formDangKy" class="auth-form">
+            <form id="formDangKy" class="auth-form" style="display: none;">
                 <div class="input-group">
                     <label>Họ và tên</label>
                     <div class="input-line">
@@ -96,7 +95,7 @@
                 </div>
 
                 <button type="button" class="btn-social">Tiếp tục với một tài khoản</button>
-                <p class="auth-footer">Đã có tài khoản? <span class="link-switch" onclick="chuyenForm()">Đăng nhập</span></p>
+                <p class="auth-footer">Đã có tài khoản? <span class="link-switch" onclick="chuyenForm()" style="cursor: pointer; color: pink;">Đăng nhập</span></p>
             </form>
         </div>
     </div>
