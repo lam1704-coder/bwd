@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <script>
+    // Kiểm tra trạng thái: Nếu chưa đăng nhập thì lập tức chuyển hướng về trang tài khoản
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+        window.location.href = "taikhoan.html"; 
+    }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài viết đạt giải nhất HSGQG</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght=300;400;600;700&family=Anton&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: #fdf2f4;
+            background-image: url('images/nenbaiviet.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        .sidebar-item { padding: 1.2rem; border-radius: 1rem; transition: all 0.3s; text-align: center; color: #14532d; font-weight: 600; cursor: pointer; display: block; width: 100%; border: 1px solid transparent; margin-bottom: 8px;}
+        .sidebar-item:hover, .sidebar-item.active { background-color: white; border: 1px solid #d1d5db; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        
+        /* Hiệu ứng ẩn/hiện Modal trơn tru */
+        .modal { opacity: 0; pointer-events: none; transition: all 0.3s ease; }
+        .modal.open { opacity: 1; pointer-events: auto; }
+    </style>
+</head>
+<body>
+
+    <div class="w-full relative h-[400px] overflow-hidden">
+        <img src="images/mây hồng.png" class="w-full h-full object-cover">
+        <div class="absolute inset-0 flex items-center justify-center">
+            <h1 class="font-['Anton'] text-4xl md:text-6xl text-green-900 uppercase tracking-tighter p-8 drop-shadow-md">
+                Bài viết đạt giải nhất HSGQG
+            </h1>
+        </div>
+    </div>
+
+    <main class="max-w-[1700px] mx-auto px-6 pb-20 -mt-20 relative z-10">
+        <div class="flex flex-col lg:flex-row gap-10">
+            
+            <aside class="w-full lg:w-1/3 flex flex-col items-center">
+               <div class="w-32 h-32 rounded-full bg-white flex items-center justify-center border-4 border-green-800 shadow-xl z-20 mb-[-60px]">
+                    <img src="images/avt.jpg" alt="Logo" class="w-full h-full rounded-full object-cover">
+               </div>
+                
+                <div class="bg-[#fce7f3]/80 backdrop-blur-md rounded-[2rem] p-6 pt-20 shadow-sm border border-white/50 w-full">
+                    <button onclick="changeTab('Tổng quan')" class="sidebar-item" id="tab-Tổng quan">Tổng quan bài viết</button>
+                    <button onclick="changeTab('Ngôn từ & hình ảnh')" class="sidebar-item" id="tab-Ngôn từ & hình ảnh">Ngôn từ & hình ảnh</button>
+                    <button onclick="changeTab('Mở/Kết bài')" class="sidebar-item" id="tab-Mở/Kết bài">Cách viết mở/kết bài</button>
+                    <button onclick="changeTab('Cách lập luận')" class="sidebar-item" id="tab-Cách lập luận">Cách lập luận</button>
+                    <button onclick="changeTab('Dẫn chứng')" class="sidebar-item" id="tab-Dẫn chứng">Dẫn chứng & cách dùng</button>
+                    <button onclick="changeTab('Lật ngược vấn đề')" class="sidebar-item" id="tab-Lật ngược vấn đề">Lật ngược vấn đề</button>
+                </div>
+            </aside>
+
+            <article class="w-full lg:w-2/3 lg:mt-12">
+                <div id="displayArea" class="bg-white/90 backdrop-blur-sm rounded-[2rem] p-10 shadow-2xl min-h-[500px] border border-white flex flex-col justify-between transition-all duration-500">
+                    
+                    <div>
+                        <h2 id="contentTitle" class="text-3xl font-bold text-green-900 mb-6 border-b pb-4">Mở/Kết bài</h2>
+                        
+                        <div id="contentBody" class="text-gray-700 leading-relaxed text-lg">
+                        </div>
+                    </div>
+
+                    <div id="paginationCtrl" class="flex items-center justify-between border-t pt-6 mt-8 hidden">
+                        <span id="pageNumber" class="text-sm font-semibold text-gray-500">Trang 1 / 1</span>
+                        <div class="flex gap-4">
+                            <button id="btnPrev" onclick="prevPage()" class="px-5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-xl transition disabled:opacity-40 disabled:cursor-not-allowed">
+                                &larr; Trang trước
+                            </button>
+                            <button id="btnNext" onclick="nextPage()" class="px-5 py-2 bg-green-800 hover:bg-green-900 text-white font-medium rounded-xl transition disabled:opacity-40 disabled:cursor-not-allowed">
+                                Trang sau &rarr;
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </article>
+            
+        </div>
+    </main>
+
+    <div id="infoModal" class="modal fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm" onclick="closeModal()">
+        <div class="bg-[#fdf2f4] text-gray-800 max-w-md w-full rounded-3xl p-6 shadow-2xl border border-pink-200/60 transform scale-95 transition-transform duration-300 relative" onclick="event.stopPropagation()">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold text-xl">&times;</button>
+            
+            <h3 id="modalTitle" class="text-2xl font-bold text-green-900 mb-4 border-b border-pink-200 pb-2 text-center">Tiêu đề</h3>
+            <div id="modalContent" class="space-y-3 text-base leading-relaxed">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Kho lưu trữ dữ liệu nâng cao hỗ trợ cả văn bản phân trang và cấu trúc ô lưới (Grid)
+        const articlesData = {
+            "Tổng quan": {
+    type: "text",
+    pages: [
+     [
+    "Văn học nói bằng hình tượng, hình tượng nghệ thuật là khối pha lê lấp lánh làm nên giá trị tác phẩm văn học. Nếu cái thần của âm nhạc là giai điệu, của hội họa là đường nét và màu sắc thì cái thần của văn chương chính là ở hình tượng nhân vật. Song những tác phẩm văn học chỉ xây dựng nên những hình tượng về con người thì đó chưa hẳn là một tác phẩm vô giá.",
+
+    "Bởi trong sáng tạo nghệ thuật, điều quan trọng, đặc sắc nhất nhiều khi không phải ở hình tượng con người mà ở hình tượng nhân vật. Chính vì vậy, có ý kiến cho rằng:",
+
+    "<p class='text-center font-bold text-green-950 my-4 text-xl'>“Hình tượng nhân vật được sinh ra từ tâm trí của nhà văn nhưng chỉ thực sự sống bằng tâm trí của người đọc”</p>",
+
+    "“Nhà thơ tư duy bằng hình tượng” (Biêlinxki). Văn học ở bất kì thời đại nào muốn phản ánh hiện thực đời sống đều phải thông qua các hình tượng nhân vật điển hình. Nhà thơ tư duy bằng hình tượng, nhà văn cũng tư duy bằng hình tượng. Thế giới thêm sắc màu, cuộc sống thêm âm điệu bởi những hình tượng nhân vật điển hình độc đáo.",
+
+    "“Văn học và đời sống là hai vòng tròn đồng tâm mà tâm điểm của nó chính là con người” (Nguyễn Minh Châu). Văn học phản ánh cuộc sống và trung tâm là con người thông qua hình tượng nhân vật. Chính những hình tượng nghệ thuật độc đáo, có sức phổ quát, mang những ý nghĩa sâu sắc về nhân sinh đã góp phần làm nên nét riêng cho tác phẩm văn học. Người nghệ sĩ thường sáng tạo nên những tượng đài bất hủ về con người bằng cách xây dựng chính hình tượng nhân vật."
+],
+
+        [
+    "Nghệ thuật đồng nghĩa với sáng tạo. Nghệ sĩ là kẻ làm công việc “khơi những nguồn chưa ai khơi và sáng tạo những gì chưa có” (Nam Cao). Viết văn là một quá trình khai phá những vỉa quặng của cuộc đời nhưng mỗi thứ kim loại quý hiếm nhà văn tìm thấy lại lấp lánh một sắc màu riêng biệt. Có phải đó là sắc màu của những hình tượng nhân vật điển hình được nhà văn nhặt nhạnh ở cuộc đời, nhào nặn trong tư tưởng và đưa vào tác phẩm dưới lớp áp chủ quan độc đáo? Ngay từ khi ra đời, văn học đã nhận thức đời sống và thể hiện tư tưởng tình cảm bằng các hình tượng nhân vật nghệ thuật. Từ tiếng gọi chú tiểu lẳng lơ nhưng đầy khao khát yêu đương của Thị Màu trên chiếu chèo ngày xưa đến đoạn trường mười lăm năm lưu lạc của Thúy Kiều trong thơ Nguyễn Du, hình tượng nhân vật điển hình đã thành sợi chỉ đỏ xuyên suốt các tác phẩm văn học, bắc nhịp cầu giữa hiện thực xã hội và tư tưởng nhân văn. Như lời nhận định đã bàn tới, “hình tượng nhân vật được sinh ra từ tâm trí của nhà văn nhưng chỉ thực sự sống bằng tâm trí của người đọc” bởi nhà văn xây dựng hình tượng nhân vật để khái quát hiện thực, để cắt nghĩa đời sống và thể hiện tư tưởng của chính mình. Vì vậy, hiện thực trong tác phẩm mang đậm dấu ấn chủ quan của người nghệ sĩ. Nhà văn là chủ thể sáng tạo, là kẻ chi phối mọi tư tưởng thẩm mĩ, góc nhìn và phạm vi của hiện thực nên dù được bắt nguồn từ cuộc sống, dù được nuôi dưỡng bằng bầu sữa của bà mẹ cuộc đời thì tác phẩm văn chương qua các hình tượng nhân vật vẫn phản ánh hiện thực được sinh ra từ tâm trí của nhà văn. Tác phẩm văn chương không bao giờ là bản sao của hiện thực mà hiện thực được soi chiếu vào tác phẩm bằng lăng kính chủ quan của người viết. Hiện thực cuộc sống được khoác lên tấm áo nhiều màu như vậy chính là bởi hình tượng nhân vật được nhà văn đưa vào tác phẩm. Hình tượng nhân vật là đứa con của hiện thực cuộc sống nhưng lại được nuôi dưỡng bằng tình cảm và tư tưởng của nhà văn. Nó cũng là cuộc đời riêng nhưng đồng thời cũng là cái loa phát ngôn của người nghệ sĩ. Trong bản thân hình tượng bao giờ cũng có sự thống nhất sinh động giữa các mặt cá biệt và khái quát, lí trí và cảm xúc, chủ quan và khách quan. Hình tượng càng độc đáo, được nâng lên mức điển hình thì hiện thực càng được phản ánh ở những góc cạnh sâu xa nhất, hướng tới một giá trị thẩm mĩ riêng – “chỉ thực sự sống bằng tâm trí của người đọc”. Đến với hình tượng nhân vật là đến với một thế giới hiện thực riêng biệt được xây dựng ngay trên nền thế giới hiện thực đương thời. Hình tượng nhân vật tỏa sáng lí tưởng thẩm mĩ lên trên hiện thực bề bộn, để cho người đọc có một cái nhìn mới mẻ, chân thực và sâu sắc hơn về cuộc đời. Lời nhận định đã khẳng định tầm quan trọng và giá trị biểu hiện của hình tượng nhân vật trong tác phẩm. Đó cũng là cơ sở để đánh giá tư tưởng nhà văn và giá trị của toàn bộ tác phẩm."
+],
+[
+    "Những hình tượng điển hình ấy không bao giờ chỉ đơn thuần là một bức tranh nhân sinh mà bao giờ cũng gửi đến người đọc một thông điệp; một triết lí sâu xa. Chính vì vậy, khi bước ra khỏi trang viết, nhân vật không còn bị giới hạn bởi ý đồ ban đầu của nhà văn mà tiếp tục sống đời sống riêng trong tâm trí mỗi người tiếp nhận, nơi họ được tái tạo, được đối thoại và được nhìn nhận dưới nhiều tầng nghĩa khác nhau. Mỗi độc giả với vốn sống, trải nghiệm và cảm xúc riêng sẽ “thổi” vào nhân vật một cách hiểu mới, khiến hình tượng ấy luôn vận động, luôn biến đổi mà vẫn giữ được hạt nhân thẩm mĩ cốt lõi. Điều đó lí giải vì sao một chị Dậu có thể vừa là biểu tượng của nỗi khổ người nông dân, vừa là hiện thân của sức phản kháng âm thầm; hay một Chí Phèo vừa là kẻ lưu manh hóa cùng cực, vừa là tiếng kêu đòi quyền làm người da diết. Nhờ khả năng gợi mở ấy, hình tượng nhân vật vượt khỏi giới hạn của một hiện thực cụ thể để trở thành giá trị mang tính phổ quát, góp phần khẳng định sức sống bền vững của tác phẩm văn học trong dòng chảy thời gian.",
+    "Biêlinxki từng phân biệt: “Nhà triết học nói bằng phép tam đoạn luận, nhà văn nói bằng các hình tượng và bức tranh. Dù đều đi từ cái riêng đến cái chung để khám phá cuộc sống con người, khám phá bản chất của thực tại nhưng trong quá trình nghiên cứu, trong khi các nhà triết học, khoa học gạt bỏ những chi tiết cá biệt, những yếu tố ngẫu nhiên để tìm ra cái chung; để khẳng định yếu tố khách quan, chân lí thì trong nghệ thuật lại in đậm dấu ấn chủ quan, cái chung được biểu hiện trong cái riêng; cái riêng để khái quát cái chung. Hình tượng nhân vật ra đời nhằm mục đích đó. Chí Phèo, Thị Nở từ văn chương đã bước ra cuộc đời; trở thành những cái tên như minh chứng tiêu biểu cho tính điển hình của hình tượng nhân vật. Ta thấy trong cuộc đời nhọc nhằn của anh Pha, chị Dậu… dáng dấp ông cha, những người cả đời gắn bó với ruộng đồng và chịu biết bao nhiêu áp bức. Đó chính là sự “sinh ra từ tâm trí của nhà văn”. Nhưng không bao giờ những Chí Phèo, chị Dậu ấy là bản thân cuộc đời thực. Văn học chỉ có một Chí Phèo với bi kịch bị cự tuyệt quyền làm người trong khi cuộc đời có cả ngàn thằng Chí Phèo uống rượu say rồi chửi bới. Văn học chỉ có một Hăm-lét với niềm trăn trở, day dứt vì lí tưởng “sống hay không sống” trong khi lịch sử có biết bao nhiêu âm mưu “chiếm ngôi vua, đoạt quyền chúa”. Không bao giờ người ta quên được tiếng nói khắc khoải của Chí Phèo: “Tao muốn làm người lương thiện. Ai cho tao ỉương thiện? Làm sao xóa được những vết sẹo trên mặt này?”. Không chỉ bởi một hiện thực khốc liệt của xã hội phong kiến dồn đuổi con người vào bước đường cùng mà sâu sắc hơn hết người ta nhận ra trong đó một khát vọng sống mạnh mẽ; cháy bỏng; một ước muốn lương thiện giản dị mà cao đẹp của một tâm hồn tội lỗi. Lần đầu tiên người ta nhận ra ánh sáng của lương tri, ánh sáng của tính người tỏa ra từ thân xác của con quỷ dữ. Đó chính là “ánh sáng riêng” của hình tượng Chí Phèo “chỉ thực sự sống bằng tâm trí của người đọc”."
+],
+[
+    "Kinh Thư xưa có câu: “Thẩm sở mộng chi nhân, khắc kì hình tượng, dĩ tứ phương băng cửu chi ư dân gian” (Xem xét người thấy trong mộng, khắc lấy hình tượng của người ấy để đi tìm khắp bốn phương trong dân gian). Hình tượng nhân vật bao giờ cũng là ‘con người của dân gian”. Nó được thoát thai từ hiện thực đời sống và mang những tính cách cơ bản nhất, bản chất nhất và nổi bật nhất của đời sống xã hội. Nguyễn Du từ bao nhiêu cuộc đời long đong, lận đận của người phụ nữ trong xã hội phong kiến đã xây dựng lên hình tượng Thúy Kiều với tất cả nỗi đau khổ của loài người đúc kết lại:",
+    
+    "<p class=\"italic text-center my-4\">Đau đớn thay phận đàn bà<br>Lời rằng bạc mệnh cũng là lời chung.<br><span class=\"font-semibold\">(Truyện Kiều – Nguyễn Du)</span></p>",
+ "Trong cuộc đời mười lăm năm lưu lạc của Kiều có những “vết xe đổ” của Đạm Tiên, của Tiểu Thanh, của người con gái đất Long Thành cùng biết bao nỗi đau khổ khác của người phụ nữ trong xã hội phong kiến. Có thể nói, cuộc đời Thúy Kiều là một bức tranh toàn cảnh và sinh động về nỗi đoạn trường của người phụ nữ dưới xã hội hà khắc, nặng nề, tàn ác và thối nát của thời đại cũ. Hiện thực trong Truyện Kiều được tái hiện qua tâm trí của Nguyễn Du. Người đọc như được cùng nàng Kiều trải qua biết bao thăng trầm, tận mắt chứng kiến và thấu hiểu muôn vàn nỗi khổ đau của kiếp người. Nhưng Kiều không chỉ là đại diện cho một lớp người, cuộc đời Kiều không đơn thuần chỉ là một bức tranh hiện thực rộng lớn và Nguyễn Du không chỉ là ngòi bút hiện thực chủ nghĩa một chiều. Kiều được ca tụng là người phụ nữ đẹp nhất của văn học Việt Nam bởi những nét đẹp riêng biệt, độc đáo, chỉ tài năng Nguyễn Du mới có thể sáng tạo nên:",
+
+  "<p class=\"italic text-center my-4\"Làn thu thủy, nét xuân sơn<br>Hoa ghen thua thắm liễu hờn kém xanh<br>Một hai nghiêng nước nghiêng thành<br>Sắc đành đòi một, tài đành họa hai.<br><span class=\"font-semibold\">(Truyện Kiều – Nguyễn Du)</span>"
+],
+[
+    "Vẻ đẹp khiến cho trời đất phải ghen tức, vẻ đẹp làm thiên nhiên đảo lộn, có lẽ trong cả nền văn học Việt Nam, người ta chỉ tìm thấy mình Kiều. Kiều “sống trong tâm trí người đọc” không chỉ bởi nét riêng biệt “hơn người” ấy mà còn bởi tấm lòng cao cả của Nguỵễn Du được soi rọi trong những câu thơ đẹp nhất dùng để ca ngợi sắc đẹp người con gái tài hoa.",
+    "Cũng trong Truyện Kiều, bên cạnh nhân vật điển hình Thúy Kiểu, Kim Trọng, Từ Hải thì Mã Giám Sinh cũng là một nhân vật điển hình có “ánh sáng riêng”. Ở hình tượng này, người đọc nhận ra một cách rõ ràng hiện thực biểu hiện cụ thể, sinh động như có thực:",
+    "<p class=\"italic text-center my-4\"Hỏi tên rằng: “Mã Giám Sinh”<br>Hỏi quê, rằng: “Huyện Lâm Thanh cũng gần”<br>(…) Ghế trên ngồi tót sỗ sàng<br>(…) Cò kè bớt một thêm hai.<br></p>",
+    " “Nghệ thuật là biết tước bỏ và tập trung” (L. Tôn-xtôi). Nguyễn Du đã “tước bỏ” những chi tiết về tên, tuổi, quê quán. Và “tập trung” với vài chữ thật đắt, thật sâu cay – “tót, sỗ sàng, “cò kè”, tác giả đã “giết chết” nhân vật của mình để khẳng định bản chất một kẻ vô học, một con buôn với đầy đủ ngón nghề và sự ma lanh. Nhưng đằng sau đó, người ta còn thấy cả một phường buôn thịt bán người tàn nhẫn của xã hội phong kiến. Nhân vật Mã Giám Sinh vừa mang tính cá biệt vừa mang tính khái quát; là một điển hình tiêu biểu cho những nhân vật phản diện trong Truyện Kiều. Người đọc vừa thấy ở hắn một tính cách xảo quyệt của kẻ buôn người hạng nhất, vừa thấy thêm một góc tối nhơ bẩn của xã hội phong kiến đương thời. Từ câu chuyện đời Minh của Thanh Tâm Tài Nhân bên Trung Quốc, bằng tài năng bậc thầy, Nguyễn Du đã xây dựng nên những hình tượng điển hình độc đáo để từ nguyên tác Kim Vân Kiều truyện, Thiên văn tự tuyệt bút – Truyện Kiều ra đời; dù vẫn giữ nguyên cốt truyện nhưng hiện thực đã trở thành hiện thực của xã hội Việt Nam đương thời, nhân vật đã trở thành con người Việt Nam. Tác phẩm mang đậm bản sắc dân tộc dù xây dựng từ cái nền của tác phẩm nước ngoài chính bởi những hình tượng nhân vật điển hình như Kiều, Từ Hải, Mã Giám Sinh… Như vậy, “nghệ thuật không đòi hỏi phải thừa nhận cái tác phẩm của nó như là hiện thực” (Phơ-bách). Sự thực trong tác phẩm nghệ thuật không phải bản thân cuộc đời thực, thậm chí có lúc thực hơn ngoài cuộc sống vì hình tượng nhân vật không lệ thuộc máy móc vào yếu tố cá biệt. Sự kiện trong thực tế với sự kiện trong văn học có một khoảng cách lớn. Sợi dâỵ mỏng manh nối giữa chúng chính là hình tượng nhân vật, là tư tưởng của người viết."
+
+],
+[
+    "“Hình tượng văn học là sự tổng hợp những tư tưởng và say mê, là kết quả của một tấm lòng đầy thiết tha” (Biêlinxki). Hình tượng nhân vật trong tác phẩm bao giờ cũng mang dấu ấn mạnh mẽ của chủ quan nhà văn, bộc lộ tiếng nói riêng, phong cách độc đáo của người nghệ sĩ. Mỗi hình tượng nhân vật điển hình lại tỏa chiếu ra một ánh sáng riêng. Đó chính là ánh sáng của tư tưởng nhà văn, của lí tưởng thẩm mĩ được soi chiếu qua hình tượng. Hình tượng nhân vật là nơi gửi gắm trái tim sôi nổi nhiệt thành, đầỵ yêu thương của người viết. Đằng sau ngòi bút lạnh lùng; sắc sảo xây dựng nên một hình tượng Chí Phèo là trái tim Nam Cao nhức nhối những nhịp đập yêu thương và căm phẫn. Ông xây dựng Chí Phèo trong bi kịch bị cự tụyệt quyền làm người không chỉ để cất lên tiếng nói tố cáo xã hội mà còn là tiếng nói cảm thông đòi quyền sống, quyền hạnh phúc cho con người. Những trang viết của Nguyễn Du cũng thấm đầy nước mắt khi miêu tả cuộc đời khổ đau của Thúy Kiều. Nhà thơ đã khóc cùng nhân vật, cười cùng nhân vật; nâng niu nhân vật lên bằng ngòi bút tình thương đáy lòng bác ái. Tư tưởng cùa nhà văn soi sáng trong các hình tượng nhân vật. Nó luôn hướng con người tới những giá trị đích thực của văn chương và cuộc sống. Văn học luôn là điểm tựa để con người vươn lên trên hoàn cảnh nghiệt ngã, hướng tới chân – thiện – mĩ cuộc đời. “Văn học là nhân học” (M. Gorki). Mọi yếu tố của văn học đều mang giá trị nhân văn, nhân đạo hóa con người; chỉ ra cho con người sự xấu xa để vươn tới cái cao cả của tâm hồ. Đó chính là thứ ánh sáng “được sinh ra từ tâm trí của nhà văn” không bao giờ tắt trong mọi tác phẩm văn chương chhân chính.",
+    "“Hình tượng nhân vật được sinh ra từ tâm trí” bằng tài năng và tâm huyết của nhà văn, làm nên đặc điểm phong cách từng tác giả. Nó tỏa ra thứ ánh sáng của riêng người viết, ánh sáng của tài năng, của lương tri. Không một hình tượng nhân vật nào giống hình tượng nhân vật nào bởi nghề văn đòi hỏi sự sáng tạo, sự thâm nhập thực tế để xây dựng nên những hình tượng nhân vật bất hủ. Khi người nghệ sĩ đã thâm nhập sâu sắc vào nhân vật, họ như được sống cuộc đời của nhân vật, xúc động, yêu thương, vui buồn, đau khổ, giận hờn… như cảnh ngộ của chính mình. Đó là những giây phút “tự quên mình” đồng thời in dấu chủ quan của mình vào đối tượng miêu tả. Các nghệ sĩ vĩ đại như L.Tôn-xtôi, M. Gorki, Banzắc, Phlô-be… đều có sự thâm nhập sâu sắc như vậy. Banzắc kể lại, sau khi đi theo và lắng nghe những người công nhân nói chuyện với nhau, ông nhanh chóng nhập thân vào đối tượng sâu sắc đến mức cảm thấy như mình cùng đang mặc những quần áo rách rưới như họ, đang đi những đôi giày rách như họ, những nhu cầu nguyện vọng của họ đều được truyền đến tâm hồn tôi hay nói đúng hơn: với tất cả hồn mình, tôi nhập vào tâm hồn họ. Chỉ có sự thâm nhập thực tế bằng cả con người và trái tim thì người nghệ sĩ mới có thể sáng tạo nên những hình tượng nhân vật bất hủ, những nhân vật vừa là con người của quần chúng; vừa là con người của văn chương, vừa mang tính hiện thực, vừa mang tính nghệ thuật độc đáo. Bàn về giá trị của hình tượng điển hình trong tác phẩm, lời nhận định còn đặt ra yêu cầu của người nghệ sĩ chân chính. Đó là những yêu cầu của văn học muôn đời."
+
+],
+[
+    "Mỗi người nghệ sĩ khi sáng tạo mang trong mình một nhiệt huyết sáng tạo cháy bỏng và con mắt tinh nhạy, nhìn hiện thực cuộc sống với con mắt của người đầu tiên; đặc biệt là “sống toàn tim, toàn trí, toàn hồn – sống toàn thân và thức nhọn giác quan” để xây dựng hình tượng nhân vật mang ý nghĩa, ẩn chứa bao điều huỵền diệu, sâu sắc về nhân sinh. Và người tiếp nhận do đó khi thưởng thức tác phẩm cũng cần phải nâng cao trình độ thẩm mĩ, tìm hiểu và nhận ra ý nghĩa, giá trị của những hình tượng nhân vật.",
+    "Nhà văn là kẻ đã dùng những hình tượng và từ ngữ hoàn chỉnh lạ lùng để cô đặc lại những ý nghĩ, những cảm xúc, những giọt máu và những giọt lệ cay đắng, nóng bóng của thế gian này. Hơn bất kì một nghề nghiệp, tôi yêu nghề văn bởi hình tượng nhân vật được sinh ra từ tâm trí của tôi và hiện thực cuộc đời dắt tôi đến một chân trời mới, một tâm hồn mới và những điều kì diệu chỉ thấy trong mơ.",
+    "Tạ Thị Bảo Chân",
+    "THPT Đào  Duy Từ-Thái Nguyên",
+    "Bài đoạt giải Nhất – 18/20 điểm"
+]
+
+    ]
+},
+            "Ngôn từ & hình ảnh": {
+                type: "grid",
+                items: [
+                    {
+    title: "Dòng sông soi bóng cuộc đời",
+    preview: "Thơ phản chiếu hiện thực và cảm xúc con người.",
+    details: `
+        <p class='font-semibold text-green-900 mb-2'>Phân tích:</p>
+
+        <p class='pl-2'>• "Dòng sông" → sự vận động liên tục, không ngừng nghỉ.</p>
+
+        <p class='pl-2 mb-3'>• "Soi bóng cuộc đời" → phản chiếu hiện thực và tâm hồn con người.</p>
+
+        <p class='font-bold text-red-500 mb-3'>➜ Thơ là tấm gương phản ánh đời sống.</p>
+
+        <p class='font-semibold text-green-900 mb-2'>Hiệu quả:</p>
+
+        <p class='pl-2'>• Tạo hình ảnh mềm mại, giàu chất thơ.</p>
+
+        <p class='pl-2'>• Khẳng định mối quan hệ mật thiết giữa thơ và cuộc sống.</p>
+    `
+},
+                    {
+    title: "Khối pha lê lấp lánh",
+    preview: "Vẻ đẹp tinh khiết và giá trị nghệ thuật của hình tượng nhân vật.",
+    details: `
+        <p class='font-semibold text-green-900 mb-2'>Phân tích:</p>
+
+        <p class='pl-2'>• "Pha lê" → trong suốt, tinh khiết và quý giá.</p>
+
+        <p class='pl-2 mb-3'>• "Lấp lánh" → sức hấp dẫn, khả năng tỏa sáng.</p>
+
+        <p class='font-bold text-red-500 mb-3'>➜ Hình tượng nhân vật là linh hồn của tác phẩm.</p>
+
+        <p class='font-semibold text-green-900 mb-2'>Hiệu quả:</p>
+
+        <p class='pl-2'>• Nâng tầm giá trị nghệ thuật của nhân vật.</p>
+
+        <p class='pl-2'>• Gợi cảm giác đẹp đẽ, sang trọng và bền vững.</p>
+    `
+},
+                    {
+    title: "Vỉa quặng cuộc đời",
+    preview: "Nguồn chất liệu phong phú để nhà văn khám phá.",
+    details: `
+        <p class='font-semibold text-green-900 mb-2'>Phân tích:</p>
+
+        <p class='pl-2'>• "Quặng" → nguyên liệu thô còn ẩn chứa giá trị.</p>
+
+        <p class='pl-2 mb-3'>• Nhà văn phải khai phá và chắt lọc từ hiện thực.</p>
+
+        <p class='font-bold text-red-500 mb-3'>➜ Cuộc sống là kho báu của sáng tạo văn chương.</p>
+
+        <p class='font-semibold text-green-900 mb-2'>Hiệu quả:</p>
+
+        <p class='pl-2'>• Nhấn mạnh vai trò của trải nghiệm thực tế.</p>
+
+        <p class='pl-2'>• Làm nổi bật công sức lao động nghệ thuật.</p>
+    `
+},
+                    {
+    title: "Sợi chỉ đỏ",
+    preview: "Mạch liên kết xuyên suốt của văn học.",
+    details: `
+        <p class='font-semibold text-green-900 mb-2'>Phân tích:</p>
+
+        <p class='pl-2'>• "Sợi chỉ đỏ" → đường dây xuyên suốt và bền chặt.</p>
+
+        <p class='pl-2 mb-3'>• Chỉ hình tượng nhân vật luôn hiện diện trong văn học.</p>
+
+        <p class='font-bold text-red-500 mb-3'>➜ Nhân vật là trung tâm của tác phẩm.</p>
+
+        <p class='font-semibold text-green-900 mb-2'>Hiệu quả:</p>
+
+        <p class='pl-2'>• Khái quát vấn đề ngắn gọn nhưng sâu sắc.</p>
+
+        <p class='pl-2'>• Tăng sức thuyết phục cho lập luận.</p>
+    `
+},
+                    {
+    title: "Ánh sáng riêng",
+    preview: "Nét độc đáo chỉ có ở mỗi hình tượng nhân vật.",
+    details: `
+        <p class='font-semibold text-green-900 mb-2'>Phân tích:</p>
+
+        <p class='pl-2'>• "Ánh sáng" → giá trị, sức sống và vẻ đẹp.</p>
+
+        <p class='pl-2 mb-3'>• "Riêng" → bản sắc không thể trộn lẫn.</p>
+
+        <p class='font-bold text-red-500 mb-3'>➜ Mỗi nhân vật lớn đều có sức sống độc đáo.</p>
+
+        <p class='font-semibold text-green-900 mb-2'>Hiệu quả:</p>
+
+        <p class='pl-2'>• Tôn vinh cá tính sáng tạo của nhà văn.</p>
+
+        <p class='pl-2'>• Làm nổi bật giá trị riêng của nhân vật văn học.</p>
+    `
+},
+                    {
+    title: "Thổi linh hồn",
+    preview: "Biến hình tượng nghệ thuật trở nên sống động.",
+    details: `
+        <p class='font-semibold text-green-900 mb-2'>Phân tích:</p>
+
+        <p class='pl-2'>• Gợi liên tưởng thần thoại tạo ra sự sống.</p>
+
+        <p class='pl-2 mb-3'>• Nhà văn gửi tư tưởng, cảm xúc vào nhân vật.</p>
+
+        <p class='font-bold text-red-500 mb-3'>➜ Nhân vật sống bằng tâm huyết của người viết.</p>
+
+        <p class='font-semibold text-green-900 mb-2'>Hiệu quả:</p>
+
+        <p class='pl-2'>• Làm nổi bật vai trò sáng tạo của nhà văn.</p>
+
+        <p class='pl-2'>• Tạo hình ảnh giàu sức gợi và cảm xúc.</p>
+    `
+},
+{
+    title: "Ánh sáng của lương tri",
+    preview: "Phần người đẹp đẽ còn sót lại trong con người.",
+    details: `
+        <p class='font-semibold text-green-900 mb-2'>Phân tích:</p>
+
+        <p class='pl-2'>• "Ánh sáng" → điều tốt đẹp, nhân văn.</p>
+
+        <p class='pl-2 mb-3'>• Chỉ khát vọng làm người lương thiện của Chí Phèo.</p>
+
+        <p class='font-bold text-red-500 mb-3'>➜ Dù bị tha hóa, con người vẫn khao khát lương thiện.</p>
+
+        <p class='font-semibold text-green-900 mb-2'>Hiệu quả:</p>
+
+        <p class='pl-2'>• Thể hiện chiều sâu tư tưởng nhân đạo.</p>
+
+        <p class='pl-2'>• Gây xúc động mạnh cho người đọc.</p>
+    `
+},
+                ]
+            },
+  "Mở/Kết bài": {
+    type: "text",
+    pages: [
+        [
+            `<div class="space-y-6 text-gray-800 select-none">
+
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Cách tác giả mở bài:</h3>
+                    <p class="text-gray-700 leading-relaxed pl-1">
+                        Mở bài đi theo 3 lớp tư duy rất rõ:
+                        <br><br>
+
+                        <b>(1) Khái quát vấn đề văn học</b><br>
+                        “Văn học nói bằng hình tượng…”<br>
+                        → Mở bằng nhận định lý luận khái quát, không vào đề ngay.<br><br>
+
+                        <b>(2) Nâng vấn đề lên cấp độ cốt lõi</b><br>
+                        “Cái thần của văn chương chính là ở hình tượng nhân vật”<br>
+                        → Từ văn học chung → trọng tâm hình tượng nhân vật<br><br>
+
+                        <b>(3) Đưa ra vấn đề nghị luận</b><br>
+                        “Có ý kiến cho rằng…”<br>
+                        → Chốt vấn đề một cách tự nhiên, hợp lí.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Vì sao mở bài này ấn tượng?</h3>
+                    <ul class="space-y-2 pl-1 font-semibold text-[15px]">
+                        <li class="text-red-500">
+                            ❌ Không vào đề kiểu học sinh (“Trong cuộc sống…”, “Hiện nay…”, “Em xin trình bày…”)
+                        </li>
+                        <li class="text-emerald-600">✔ Có chiều sâu khái quát hóa</li>
+                        <li class="text-emerald-600">✔ Dẫn dắt mượt, không gãy ý</li>
+                        <li class="text-emerald-600">✔ Ngôn ngữ giàu hình ảnh + học thuật</li>
+                    </ul>
+
+                    <p class="text-red-500 font-bold text-sm italic mt-2 pl-1">
+                        ⇒ Người đọc không bị “học bài” mà như bước vào một không gian văn chương
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Kỹ thuật viết được sử dụng:</h3>
+
+                    <ul class="list-disc list-inside space-y-2 pl-3 text-gray-700">
+                        <li>Khái quát hóa: từ “văn học” → bản chất văn học</li>
+                        <li>Trích dẫn gián tiếp: “có ý kiến cho rằng…”</li>
+                        <li>Ẩn dụ hóa: “khối pha lê”, “cái thần”</li>
+                        <li>
+                            Dẫn dắt theo tầng:
+                            <br>• Tầng 1: Văn học
+                            <br>• Tầng 2: Nghệ thuật
+                            <br>• Tầng 3: Hình tượng nhân vật
+                            <br>• Tầng 4: Vấn đề nghị luận
+                        </li>
+                    </ul>
+
+                    <p class="text-red-500 font-bold text-sm italic mt-3 pl-1">
+                        ⇒ Đây là cách kéo người đọc suy nghĩ cùng tác giả, không phải chỉ đọc thụ động
+                    </p>
+                </div>
+
+                <div class="bg-[#3a7d44] text-white rounded-2xl p-6 shadow-md mt-8">
+
+                    <div class="font-bold text-sm uppercase mb-4">
+                        Gợi ý áp dụng (Mở bài)
+                    </div>
+
+                    <div class="space-y-4">
+
+                        <details class="group border-b border-green-600/40 pb-3 cursor-pointer">
+                            <summary class="font-semibold flex justify-between items-center hover:text-green-200">
+                                <span>Cách 1: Mở bài giàu hình ảnh</span>
+                                <span class="group-open:rotate-180 transition">▼</span>
+                            </summary>
+                            <p class="text-green-100/90 text-[15px] leading-relaxed pt-2 pl-2 border-l-2 border-green-400/50">
+                                Văn học không chỉ là tiếng nói của đời sống mà còn là nơi kết tinh giá trị tinh thần sâu sắc.
+                                Trong đó, hình tượng nhân vật chính là linh hồn của tác phẩm – nơi nhà văn gửi gắm tư tưởng và cảm xúc.
+                                Vì vậy, có ý kiến cho rằng:
+                                “Hình tượng nhân vật được sinh ra từ tâm trí của nhà văn nhưng chỉ thực sự sống bằng tâm trí của người đọc”.
+                            </p>
+                        </details>
+
+                        <details class="group border-b border-green-600/40 pb-3 cursor-pointer">
+                            <summary class="font-semibold flex justify-between items-center hover:text-green-200">
+                                <span>Cách 2: Mở bài tư duy</span>
+                                <span class="group-open:rotate-180 transition">▼</span>
+                            </summary>
+                            <p class="text-green-100/90 text-[15px] leading-relaxed pt-2 pl-2 border-l-2 border-green-400/50">
+                                Trong văn học, hình tượng nhân vật không chỉ phản ánh hiện thực mà còn là kết tinh tư tưởng nghệ thuật của nhà văn.
+                                Chính vì vậy, có ý kiến cho rằng:
+                                “Hình tượng nhân vật được sinh ra từ tâm trí của nhà văn nhưng chỉ thực sự sống bằng tâm trí của người đọc”,
+                                gợi mở mối quan hệ giữa sáng tạo và tiếp nhận.
+                            </p>
+                        </details>
+
+                        <details class="group cursor-pointer">
+                            <summary class="font-semibold flex justify-between items-center hover:text-green-200">
+                                <span>Cách 3: Mở bài câu hỏi</span>
+                                <span class="group-open:rotate-180 transition">▼</span>
+                            </summary>
+                            <p class="text-green-100/90 text-[15px] leading-relaxed pt-2 pl-2 border-l-2 border-green-400/50">
+                                Điều gì làm nên sức sống lâu bền của tác phẩm văn học?
+                                Phải chăng chính là hình tượng nhân vật – nơi giao thoa giữa tâm trí nhà văn và người đọc?
+                                Từ đó, có ý kiến cho rằng:
+                                “Hình tượng nhân vật được sinh ra từ tâm trí của nhà văn nhưng chỉ thực sự sống bằng tâm trí của người đọc”.
+                            </p>
+                        </details>
+
+                    </div>
+                </div>
+
+            </div>`
+        ],
+   [
+            `<div class="space-y-6 text-gray-800 select-none">
+
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Cách tác giả kết bài:</h3>
+
+                    <p class="text-gray-700 leading-relaxed pl-1">
+                        Kết bài có 3 lớp:
+
+                        <br><br>
+
+                        <b>(1) Khẳng định lại vấn đề</b><br>
+                        → Hình tượng nhân vật là sản phẩm sáng tạo của nhà văn
+
+                        <br><br>
+
+                        <b>(2) Mở rộng sang tư tưởng nghệ thuật</b><br>
+                        → “Ánh sáng của tài năng, của lương tri”<br>
+                        → Nâng từ “văn học” → “giá trị nhân văn”
+
+                        <br><br>
+
+                        <b>(3) Kết bằng trải nghiệm cá nhân</b><br>
+                        → “Tôi yêu nghề văn…”<br>
+                        → Chuyển sang cái tôi trữ tình
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Vì sao kết bài này ấn tượng?</h3>
+
+                    <ul class="space-y-2 pl-1 font-semibold text-[15px]">
+
+                        <li class="text-red-500">
+                            ❌ Không “tóm tắt lại” kiểu:
+                            <br>“Bài văn đã chứng minh…”
+                            <br>→ Thay vào đó là mở rộng + nâng tầng ý nghĩa
+                        </li>
+
+                        <li class="text-emerald-600">
+                            ✔ Có chiều sâu triết lí
+                        </li>
+
+                        <li class="text-emerald-600">
+                            ✔ Biến kết bài thành suy tưởng văn học
+                        </li>
+
+                        <li class="text-emerald-600">
+                            ✔ Có chất cảm xúc cá nhân → tạo “hơi người”
+                        </li>
+
+                    </ul>
+
+                    <p class="text-red-500 font-bold text-sm italic mt-2 pl-1">
+                        ⇒ Người đọc không bị “học bài” mà như bước vào một không gian văn chương
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Kỹ thuật viết được sử dụng:</h3>
+
+                    <ul class="list-disc list-inside space-y-2 pl-3 text-gray-700">
+
+                        <li>
+                            Khẳng định + mở rộng:
+                            <br>Không chỉ chốt lại mà nâng lên giá trị nhân văn
+                        </li>
+
+                        <li>
+                            Triết lí hóa vấn đề:
+                            <br>→ Biến luận điểm thành nhận thức về con người
+                        </li>
+
+                        <li>
+                            Cá nhân hóa (cái tôi người viết):
+                            <br>→ Tạo dư âm cảm xúc
+                        </li>
+
+                        <li>
+                            Ngôn ngữ giàu hình ảnh:
+                            <br>→ “Ánh sáng”, “giọt máu”, “giọt lệ”
+                        </li>
+
+                    </ul>
+
+                    <p class="text-red-500 font-bold text-sm italic mt-3 pl-1">
+                        ⇒ Đây là cách kéo người đọc suy nghĩ cùng tác giả, không phải chỉ đọc thụ động
+                    </p>
+                </div>
+
+                <div class="bg-[#3a7d44] text-white rounded-2xl p-6 shadow-md mt-8">
+
+                    <div class="font-bold text-sm uppercase mb-4">
+                        Gợi ý áp dụng (kết bài)
+                    </div>
+
+                    <div class="space-y-4">
+
+                        <details class="group border-b border-green-600/40 pb-3 cursor-pointer">
+                            <summary class="font-semibold flex justify-between items-center hover:text-green-200">
+                                <span>Cách 1: Kết bài chuẩn nghị luận</span>
+                                <span class="group-open:rotate-180 transition">▼</span>
+                            </summary>
+
+                            <p class="text-green-100/90 text-[15px] leading-relaxed pt-2 pl-2 border-l-2 border-green-400/50">
+                                Như vậy, hình tượng nhân vật không chỉ là sản phẩm sáng tạo của nhà văn mà còn là nơi hội tụ tư tưởng và cảm xúc của người đọc. 
+                                Chính sự giao thoa ấy đã tạo nên sức sống lâu bền cho tác phẩm văn học, giúp văn chương vượt qua giới hạn thời gian để chạm đến trái tim nhiều thế hệ.
+                            </p>
+                        </details>
+
+                        <details class="group border-b border-green-600/40 pb-3 cursor-pointer">
+                            <summary class="font-semibold flex justify-between items-center hover:text-green-200">
+                                <span>Cách 2: Kết bài giàu cảm xúc</span>
+                                <span class="group-open:rotate-180 transition">▼</span>
+                            </summary>
+
+                            <p class="text-green-100/90 text-[15px] leading-relaxed pt-2 pl-2 border-l-2 border-green-400/50">
+                                Hình tượng nhân vật, suy cho cùng, không chỉ được sinh ra từ tâm trí của nhà văn mà còn được nuôi dưỡng trong tâm trí của người đọc. 
+                                Chính sự đồng sáng tạo ấy đã làm cho văn học trở thành dòng chảy không ngừng, soi chiếu và nuôi dưỡng tâm hồn con người qua mọi thời đại.
+                            </p>
+                        </details>
+
+                        <details class="group cursor-pointer">
+                            <summary class="font-semibold flex justify-between items-center hover:text-green-200">
+                                <span>Cách 3: Kết bài nâng cao tư duy</span>
+                                <span class="group-open:rotate-180 transition">▼</span>
+                            </summary>
+
+                            <p class="text-green-100/90 text-[15px] leading-relaxed pt-2 pl-2 border-l-2 border-green-400/50">
+                                Điều gì làm nên sức sống lâu bền của tác phẩm văn học?
+                                Phải chăng chính là hình tượng nhân vật – nơi giao thoa giữa tâm trí nhà văn và người đọc?
+                                Từ đó, có ý kiến cho rằng:
+                                “Hình tượng nhân vật được sinh ra từ tâm trí của nhà văn nhưng chỉ thực sự sống bằng tâm trí của người đọc”.
+                            </p>
+
+                        </details>
+
+                    </div>
+                </div>
+
+            </div>`
+        ]
+    ]
+},
+           "Cách lập luận": { 
+    type: "text", 
+    pages: [
+
+        // TRANG 1
+        `<div class="space-y-8 text-gray-800 select-none pb-6">
+
+            <div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Trình tự lập luận của bài:</h3>
+
+                <p class="text-gray-600 text-[15px] italic mb-3">
+                    Bài viết triển khai theo một mạch tư duy lí luận – nghệ thuật rất rõ ràng:
+                </p>
+
+                <ol class="list-decimal list-inside space-y-2 pl-1 font-medium text-gray-700 text-[15px]">
+                    <li>Khái quát bản chất văn học – vai trò hình tượng</li>
+                    <li>Giải thích nhận định lí luận</li>
+                    <li>Phân tích bản chất “hình tượng nhân vật”</li>
+                    <li>Chứng minh bằng dẫn chứng văn học</li>
+                    <li>Mở rộng – nâng cao – triết lí hóa vấn đề</li>
+                </ol>
+            </div>
+
+            <hr class="border-gray-200/80 my-2" />
+
+            <div class="space-y-5">
+
+                <div class="space-y-1.5">
+                    <p class="font-bold text-gray-900 text-[16px]">1. Khái quát vấn đề – tạo nền tư duy</p>
+
+                    <p class="text-gray-600 text-[15px] pl-1">
+                        Mở đầu bài viết không đi thẳng vào luận đề mà xây dựng nền tảng lí luận:
+                    </p>
+
+                    <div class="pl-5 space-y-1 text-gray-700 text-[15px]">
+                        <p>• Văn học gắn với hình tượng nghệ thuật</p>
+                        <p>• Hình tượng là “khối pha lê lấp lánh” của tác phẩm</p>
+                    </div>
+
+                    <p class="text-gray-600 text-[15px] pl-1 mt-2">
+                        👉 Hiệu quả:
+                    </p>
+
+                    <div class="pl-5 space-y-1 text-gray-700 text-[15px]">
+                        <p>• Tạo không gian tư duy văn học ngay từ đầu</p>
+                        <p>• Định hướng vấn đề theo chiều sâu lí luận</p>
+                    </div>
+                </div>
+
+                <div class="space-y-1.5">
+                    <p class="font-bold text-gray-900 text-[16px]">2. Giải thích nhận định – làm rõ luận đề</p>
+
+                    <p class="text-gray-600 text-[15px] pl-1">
+                        Tác giả triển khai ý kiến theo hướng:
+                    </p>
+
+                    <div class="pl-5 space-y-1 text-gray-700 text-[15px]">
+                        <p>• Hình tượng nhân vật là trung tâm của văn học</p>
+                        <p>• Nhà văn sáng tạo hình tượng từ hiện thực nhưng mang dấu ấn chủ quan</p>
+                    </div>
+
+                    <p class="text-red-500 font-bold text-sm mt-2 pl-1">
+                        ➜ Đây là bước “giải mã vấn đề” trước khi phân tích sâu
+                    </p>
+                </div>
+
+            </div>
+        </div>`,
+
+        // TRANG 2
+        `<div class="space-y-6 text-gray-800 select-none pb-6">
+
+            <div class="space-y-6">
+
+                <div class="space-y-1.5">
+                    <p class="font-bold text-gray-900 text-[16px]">3. Phân tích bản chất hình tượng nhân vật</p>
+
+                    <p class="text-gray-600 text-[15px] pl-1">
+                        Tác giả làm rõ đặc trưng của hình tượng nghệ thuật:
+                    </p>
+
+                    <div class="pl-5 space-y-1 text-gray-700 text-[15px]">
+                        <p>• Kết hợp giữa cái riêng và cái chung</p>
+                        <p>• Mang tính điển hình hóa hiện thực</p>
+                        <p>• Chứa tư tưởng và cảm xúc của nhà văn</p>
+                    </div>
+
+                    <p class="text-red-500 font-bold text-sm mt-2 pl-1">
+                        ➜ Đây là bước chuyển từ “khái niệm” sang “bản chất nghệ thuật”
+                    </p>
+                </div>
+
+                <div class="space-y-1.5">
+                    <p class="font-bold text-gray-900 text-[16px]">4. Chứng minh bằng dẫn chứng văn học</p>
+
+                    <p class="text-gray-600 text-[15px] pl-1">
+                        Hệ thống dẫn chứng được sử dụng:
+                    </p>
+
+                    <div class="pl-5 space-y-1 text-gray-700 text-[15px]">
+                        <p>• Chí Phèo, Bá Kiến (Nam Cao)</p>
+                        <p>• Thúy Kiều, Mã Giám Sinh (Nguyễn Du)</p>
+                        <p>• Chị Dậu, lão Hạc…</p>
+                    </div>
+
+                    <p class="text-red-500 font-bold text-sm mt-2 pl-1">
+                        ➜ Dẫn chứng không chỉ minh họa mà còn “cụ thể hóa lí luận”
+                    </p>
+                </div>
+
+                <div class="space-y-1.5">
+                    <p class="font-bold text-gray-900 text-[16px]">5. Mở rộng – nâng cao – triết lí hóa</p>
+
+                    <p class="text-gray-600 text-[15px] pl-1">
+                        Tác giả không dừng ở phân tích mà nâng vấn đề lên tầng tư tưởng:
+                    </p>
+
+                    <div class="pl-5 space-y-1 text-gray-700 text-[15px]">
+                        <p>• Hình tượng nhân vật là nơi giao thoa giữa nhà văn và người đọc</p>
+                        <p>• Văn học là sự tái sinh qua tâm trí người tiếp nhận</p>
+                        <p>• Người đọc là “đồng sáng tạo” tác phẩm</p>
+                    </div>
+
+                    <p class="text-red-500 font-bold text-sm mt-2 pl-1">
+                        ➜ Đây là bước tạo chiều sâu triết lí cho bài viết
+                    </p>
+                </div>
+
+            </div>
+        </div>`
+    ]
+},
+     "Dẫn chứng": { 
+    type: "text", 
+    pages: [
+        [
+            `<div class="space-y-6 text-gray-800 select-none">
+
+                <div class="border-b border-gray-100 pb-4">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">1. Dẫn chứng từ Nam Cao</h3>
+
+                    <p class="text-gray-600 text-[15px] pl-2">
+                        Hệ thống nhân vật như <b>Chí Phèo, Bá Kiến, lão Hạc</b> được dùng như những “tượng đài nghệ thuật”.
+                        Chúng không chỉ là cá thể trong truyện mà còn là hình tượng điển hình phản ánh xã hội phong kiến – thực dân.
+                    </p>
+
+                    <div class="mt-2 pl-1">
+                        <p class="font-semibold text-gray-900 text-sm">Cách sử dụng dẫn chứng:</p>
+                        <p class="text-gray-600 text-[15px] pl-2">
+                            Tác giả không kể lại cốt truyện mà chỉ gọi tên nhân vật để gợi toàn bộ hệ thống ý nghĩa.
+                            Mỗi nhân vật được “nén” thành một biểu tượng: Chí Phèo là bi kịch bị cự tuyệt quyền làm người,
+                            Bá Kiến là bộ mặt giai cấp thống trị.
+                        </p>
+                    </div>
+                </div>
+
+            </div>`
+        ],
+
+        [
+            `<div class="space-y-6 text-gray-800 select-none">
+
+                <div class="border-b border-gray-100 pb-4">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">2. Dẫn chứng từ Nguyễn Du</h3>
+
+                    <p class="text-gray-600 text-[15px] pl-2">
+                        Các nhân vật như <b>Thúy Kiều, Mã Giám Sinh, Từ Hải</b> được dùng như hệ thống hình tượng tiêu biểu
+                        phản ánh xã hội phong kiến và số phận con người.
+                    </p>
+
+                    <div class="mt-2 pl-1">
+                        <p class="font-semibold text-gray-900 text-sm">Cách sử dụng dẫn chứng:</p>
+                        <p class="text-gray-600 text-[15px] pl-2">
+                            Không phân tích dài dòng cốt truyện, tác giả khai thác nhân vật như những “mã văn hóa”:
+                            Kiều là bi kịch tài hoa bạc mệnh, Mã Giám Sinh là hiện thân của sự tha hóa đạo đức trong xã hội phong kiến.
+                        </p>
+                    </div>
+                </div>
+
+            </div>`
+        ],
+
+        [
+            `<div class="space-y-6 text-gray-800 select-none">
+
+                <div class="border-b border-gray-100 pb-4">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">3. Dẫn chứng từ Hoàng Cầm</h3>
+
+                    <div class="text-[#ef4444] font-medium pl-4 italic border-l-2 border-red-300 my-2 space-y-0.5">
+                        <p>“Anh đưa em về bên kia sông Đuống”</p>
+                        <p>“Sao xót xa như rụng bàn tay”</p>
+                    </div>
+
+                    <div class="mt-2 pl-1">
+                        <p class="font-semibold text-gray-900 text-sm">Cách sử dụng dẫn chứng:</p>
+                        <p class="text-gray-600 text-[15px] pl-2">
+                            Hiện thực chiến tranh không được kể lại bằng sự kiện mà được “hình tượng hóa” qua cảm xúc.
+                            Hình ảnh thơ biến nỗi đau tinh thần thành trải nghiệm vật lý (“rụng bàn tay”),
+                            qua đó cho thấy sức sống của hình tượng chỉ thật sự tồn tại trong tâm trí người đọc.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-[#3a7d44] text-white rounded-2xl p-6 shadow-md relative mt-6">
+
+                    <span class="absolute -top-3 left-6 bg-[#1b4322] text-white text-xs font-bold px-4 py-1 rounded-md uppercase tracking-wider">
+                        Công thức sử dụng dẫn chứng chuẩn HSG
+                    </span>
+
+                    <div class="space-y-4 mt-3 text-[14px]">
+
+                        <div>
+                            <p class="font-bold text-yellow-300 text-[15px]">✔ Cách làm đúng:</p>
+                            <p class="text-green-100/90">
+                                Gọi tên nhân vật → nén ý nghĩa → gắn trực tiếp với luận điểm về hình tượng nhân vật.
+                            </p>
+                        </div>
+
+                        <div class="border-t border-green-600/40 pt-4">
+                            <p class="font-bold text-red-200 text-[15px]">❌ Tránh:</p>
+                            <p class="text-green-100/90">
+                                Kể lại truyện hoặc phân tích lan man → làm mất chức năng lập luận của dẫn chứng.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>`
+        ]
+    ]
+},
+     "Lật ngược vấn đề": { 
+    type: "text", 
+    pages: [
+        [
+            `<div class="space-y-6 text-gray-800 select-none">
+
+                <div class="space-y-5">
+
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">1. Nếu chỉ nhấn mạnh vai trò nhà văn thì sao?</h3>
+                        <p class="text-gray-600 text-[15px] pl-1">
+                            Nếu chỉ xem hình tượng nhân vật là sản phẩm “có sẵn” từ nhà văn:
+                        </p>
+
+                        <div class="pl-5 text-gray-700 text-[15px] space-y-1 mt-2">
+                            <p>• Người đọc chỉ còn vai trò tiếp nhận thụ động</p>
+                            <p>• Tác phẩm bị hiểu như một sản phẩm “đóng kín”</p>
+                        </div>
+
+                        <p class="text-red-500 font-semibold text-sm mt-2">
+                            ❌ Như vậy sẽ làm giảm giá trị sống động của văn học
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">2. Vai trò của người đọc trong tiếp nhận</h3>
+                        <p class="text-gray-600 text-[15px] pl-1">
+                            Thực tế cho thấy hình tượng nhân vật chỉ thực sự có đời sống khi được tiếp nhận:
+                        </p>
+
+                        <div class="pl-5 text-gray-700 text-[15px] space-y-1 mt-2">
+                            <p>• Người đọc tưởng tượng và tái tạo hình tượng</p>
+                            <p>• Mỗi người đọc có một cách “hiện thực hóa” khác nhau</p>
+                        </div>
+
+                        <p class="text-red-500 font-semibold text-sm mt-2">
+                            ❌ Không có người đọc → hình tượng chỉ tồn tại ở dạng tiềm năng
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">3. Khẳng định lại (đảo chiều nhận thức)</h3>
+                        <p class="text-gray-700 text-[15px] pl-1">
+                            Từ đó có thể thấy:
+                        </p>
+
+                        <div class="pl-5 text-gray-700 text-[15px] space-y-1 mt-2">
+                            <p>• Nhà văn tạo nên “hình hài” nhân vật</p>
+                            <p>• Người đọc tạo nên “sự sống” cho nhân vật</p>
+                        </div>
+
+                        <p class="text-red-500 font-bold text-sm mt-2">
+                            ➜ Hình tượng nhân vật là kết quả của quá trình đồng sáng tạo
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">4. Mở rộng tư duy</h3>
+                        <p class="text-gray-600 text-[15px] pl-1">
+                            Văn học không phải là một sản phẩm cố định, mà là một quá trình vận động:
+                        </p>
+
+                        <div class="pl-5 text-gray-700 text-[15px] space-y-1 mt-2">
+                            <p>• Từ sáng tạo của nhà văn</p>
+                            <p>• Đến tái tạo trong tâm trí người đọc</p>
+                        </div>
+
+                        <p class="text-red-500 font-semibold text-sm mt-2">
+                            ➜ Tác phẩm chỉ “hoàn chỉnh” khi được tiếp nhận
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="mt-6 space-y-3">
+
+                    <details class="group bg-green-800 text-white rounded-xl overflow-hidden shadow-md">
+                        <summary class="flex justify-between items-center p-4 font-bold cursor-pointer bg-green-700 list-none">
+                            <span>1. Nếu không có người đọc, tác phẩm văn học có còn tồn tại không?</span>
+                            <span class="transition-transform group-open:rotate-180 text-yellow-300">▼</span>
+                        </summary>
+                        <div class="p-4 bg-green-700/40 text-[14px] border-t border-green-600/50">
+                            <p>
+                                Tác phẩm vẫn tồn tại về mặt văn bản, nhưng giá trị thẩm mỹ và sức sống của hình tượng chỉ thực sự được kích hoạt trong quá trình tiếp nhận của người đọc.
+                            </p>
+                        </div>
+                    </details>
+
+                    <details class="group bg-green-800 text-white rounded-xl overflow-hidden shadow-md">
+                        <summary class="flex justify-between items-center p-4 font-bold cursor-pointer bg-green-700 list-none">
+                            <span>2. Người đọc có làm thay đổi tác phẩm không?</span>
+                            <span class="transition-transform group-open:rotate-180 text-yellow-300">▼</span>
+                        </summary>
+                        <div class="p-4 bg-green-700/40 text-[14px] border-t border-green-600/50">
+                            <p>
+                                Người đọc không thay đổi văn bản, nhưng góp phần tạo ra nhiều tầng nghĩa khác nhau, làm phong phú đời sống của hình tượng nhân vật.
+                            </p>
+                        </div>
+                    </details>
+
+                    <details class="group bg-green-800 text-white rounded-xl overflow-hidden shadow-md">
+                        <summary class="flex justify-between items-center p-4 font-bold cursor-pointer bg-green-700 list-none">
+                            <span>3. Điều gì làm nên “sự sống” của hình tượng nhân vật?</span>
+                            <span class="transition-transform group-open:rotate-180 text-yellow-300">▼</span>
+                        </summary>
+                        <div class="p-4 bg-green-700/40 text-[14px] border-t border-green-600/50">
+                            <p>
+                                Chính sự gặp gỡ giữa sáng tạo của nhà văn và cảm thụ của người đọc đã làm cho hình tượng nhân vật trở nên sống động và có sức sống lâu bền.
+                            </p>
+                        </div>
+                    </details>
+
+                </div>
+
+            </div>`
+        ]
+    ]
+},
+    };
+
+        let currentTab = "Mở/Kết bài"; 
+        let currentPage = 0;
+
+        // --- HÀM RENDER NỘI DUNG CHÍNH ---
+        function renderContent() {
+            const titleElement = document.getElementById('contentTitle');
+            const bodyElement = document.getElementById('contentBody');
+            const paginationCtrl = document.getElementById('paginationCtrl');
+            const displayArea = document.getElementById('displayArea');
+            
+            const currentData = articlesData[currentTab];
+            if (!currentData) return;
+
+            titleElement.innerText = currentTab === "Dẫn chứng" ? "Dẫn chứng & cách dùng" : currentTab;
+            displayArea.style.opacity = 0.4;
+
+            setTimeout(() => {
+                if (currentData.type === "text") {
+                    paginationCtrl.classList.remove('hidden');
+                    
+                    const totalPages = currentData.pages.length;
+                    const pageParagraphs = currentData.pages[currentPage];
+                    
+                    document.getElementById('pageNumber').innerText = `Trang ${currentPage + 1} / ${totalPages}`;
+                    
+                    // Chuẩn hóa việc render: Chấp nhận cả chuỗi HTML và mảng chuỗi văn bản
+                    if (Array.isArray(pageParagraphs)) {
+                        bodyElement.innerHTML = pageParagraphs.map(para => {
+                            const cleaned = para.trim();
+                            if (cleaned.startsWith("<")) {
+                                return cleaned;
+                            }
+                            return `<p class='mb-4'>${cleaned}</p>`;
+                        }).join("");
+                    } else {
+                        bodyElement.innerHTML = pageParagraphs;
+                    }
+                    
+                    document.getElementById('btnPrev').disabled = (currentPage === 0);
+                    document.getElementById('btnNext').disabled = (currentPage === totalPages - 1);
+                    
+                } else if (currentData.type === "grid") {
+                    paginationCtrl.classList.add('hidden');
+                    
+                    let gridHtml = `<div class='grid grid-cols-1 md:grid-cols-2 gap-6 mt-4'>`;
+                    currentData.items.forEach((item, index) => {
+                        gridHtml += `
+                            <div onclick="openModal('${item.title}', ${index})" class="bg-[#14532d] hover:bg-[#1f663b] text-white p-8 rounded-2xl shadow-md transition-all duration-300 transform hover:-translate-y-1 cursor-pointer flex flex-col justify-center items-center text-center min-h-[140px]">
+                                <h4 class="text-xl font-bold tracking-wide">${item.title}</h4>
+                                <p class="text-xs text-green-200/80 mt-2 font-light line-clamp-2">${item.preview}</p>
+                            </div>
+                        `;
+                    });
+                    gridHtml += `</div>`;
+                    bodyElement.innerHTML = gridHtml;
+                }
+                displayArea.style.opacity = 1;
+            }, 100);
+        }
+
+        // --- HÀM XỬ LÝ POPUP MODAL ---
+        function openModal(title, index) {
+            const modal = document.getElementById('infoModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalContent = document.getElementById('modalContent');
+            
+            const itemDetails = articlesData[currentTab].items[index].details;
+            
+            modalTitle.innerText = title;
+            modalContent.innerHTML = itemDetails;
+            
+            modal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('infoModal');
+            modal.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        // --- ĐIỀU HƯỚNG TABS SIDEBAR ---
+        function changeTab(tabName) {
+            currentTab = tabName;
+            currentPage = 0;
+            const buttons = document.querySelectorAll('.sidebar-item');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            const targetTab = document.getElementById(`tab-${tabName}`);
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
+            renderContent();
+        }
+
+        function nextPage() {
+            if (currentPage < articlesData[currentTab].pages.length - 1) {
+                currentPage++;
+                renderContent();
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 0) {
+                currentPage--;
+                renderContent();
+            }
+        }
+
+        // Khởi động giao diện mượt mà khi load trang hoàn tất
+        document.addEventListener("DOMContentLoaded", () => {
+            changeTab('Mở/Kết bài');
+        });
+    </script>
+</body>
+</html>
