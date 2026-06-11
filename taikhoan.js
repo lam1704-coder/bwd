@@ -56,27 +56,27 @@ if (formDangKy) {
 // ==========================================
 // 3. XỬ LÝ FORM ĐĂNG NHẬP
 // ==========================================
+// XỬ LÝ FORM ĐĂNG NHẬP
 const formDangNhap = document.getElementById("formDangNhap");
 if (formDangNhap) {
     formDangNhap.addEventListener("submit", async (e) => {
-        e.preventDefault(); // Ngăn trình duyệt tải lại trang
+        e.preventDefault(); // Ngăn load lại trang
         
-        // Lấy dữ liệu từ ô input
         const email = document.getElementById("login-email").value; 
         const password = document.getElementById("login-password").value;
 
         try {
-            // Gọi API
             const response = await fetch("https://backend-wkbh.onrender.com/api/auth/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password })
+                body: JSON.stringify({ email: email, password: password })
             });
 
+            // Lấy dữ liệu dạng JSON
             const data = await response.json();
             
             if (response.ok) {
-                // Lưu trạng thái vào localStorage
+                // Đăng nhập thành công
                 localStorage.setItem("isLoggedIn", "true");
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("role", data.role);
@@ -91,11 +91,13 @@ if (formDangNhap) {
                     window.location.href = "index.html";
                 }
             } else {
-                alert("Lỗi: " + data.message);
+                // Xử lý lỗi từ server (Ví dụ: sai mật khẩu)
+                alert("Lỗi: " + (data.message || "Đăng nhập thất bại"));
             }
         } catch (error) {
+            // Xử lý lỗi kết nối mạng
             console.error("Lỗi kết nối:", error);
             alert("Không thể kết nối đến Server! Hãy kiểm tra kết nối mạng.");
         }
-    });
-}
+    }); // <--- Đóng ngoặc của addEventListener
+} // <--- Đóng ngoặc của if (formDangNhap)
