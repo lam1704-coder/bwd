@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
+<script>
+    // Kiểm tra trạng thái: Nếu chưa đăng nhập thì lập tức chuyển hướng về trang tài khoản
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+        window.location.href = "taikhoan.html"; 
+    }
+</script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,13 +26,13 @@
         }
         .layout-container { display: flex; max-width: 1240px; margin: 0 auto; padding: 20px 0; align-items: flex-start; }
 
-        /* === HIỆU ỨNG KÍNH MỜ (GLASSMORPHISM) === */
+        /* === HIỆU ỨNG KÍNH MỜ (GLASSMORPHISM) - ĐÃ ĐỔI NỀN HỒNG NHẠT === */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.55);
+            background: rgba(255, 230, 238, 0.75); /* Màu hồng pastel nhạt có độ trong suốt */
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 32px rgba(244, 143, 177, 0.15); /* Bóng đổ ám ánh hồng */
         }
 
         /* === SIDEBAR === */
@@ -68,7 +74,7 @@
 
         /* THẺ BÀI VIẾT */
         .card { border-radius: 25px; padding: 25px; transition: transform 0.3s, box-shadow 0.3s; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.12); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(244, 143, 177, 0.25); } /* Đổi bóng đổ hover ánh hồng */
         .post-card { display: flex; gap: 25px; position: relative; }
         .post-image { width: 300px; height: 200px; border-radius: 15px; object-fit: cover; box-shadow: 0 5px 15px rgba(0,0,0,0.1); cursor: pointer; transition: 0.3s;}
         .post-image:hover { opacity: 0.8; }
@@ -125,7 +131,7 @@
 
 <div class="layout-container">
     <aside class="sidebar glass-panel">
-        <div class="avatar"></div>
+        <div class="avatar" style="background-image: url('images/avt.jpg');"></div>
         <ul class="menu">
             <li class="menu-item active" onclick="changeContent(this, 'view-for-you')">✨ Tác phẩm tiêu biểu</li>
             <li class="menu-item" id="menu-following" onclick="changeContent(this, 'view-following')">👥 Theo dõi</li>
@@ -142,7 +148,7 @@
             
             <article class="card glass-panel">
                 <div class="post-card">
-                    <img src="https://images.unsplash.com/photo-1533630664797-2a54b9d0317e?auto=format&fit=crop&w=400&q=80" class="post-image" onclick="viewPostDetail('nc-1')">
+                    <img src="images/chipheo.jpg" class="post-image" onclick="viewPostDetail('nc-1')">
                     <div class="post-content">
                         <h2 class="post-title" onclick="viewPostDetail('nc-1')">Chí Phèo - Bi kịch bị cự tuyệt quyền làm người</h2>
                         <span class="post-author" data-avatar="https://upload.wikimedia.org/wikipedia/commons/e/e0/Nam_Cao.jpg" onclick="viewProfile('Nam Cao')">@Nam Cao</span>
@@ -159,7 +165,7 @@
                 </div>
                 <div class="comment-section">
                     <div class="comment-input-area">
-                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80" class="comment-avatar">
+                        <img src="images/avt.jpg" class="comment-avatar">
                         <input type="text" class="comment-input" placeholder="Bạn nghĩ sao về tác phẩm này?">
                         <button class="btn-action follow" style="margin: 0;" onclick="postComment(this, 'Nam Cao', 'Chí Phèo')">Gửi</button>
                     </div>
@@ -169,7 +175,7 @@
 
             <article class="card glass-panel">
                 <div class="post-card">
-                    <img src="https://images.unsplash.com/photo-1506461883276-594a12b11cf3?auto=format&fit=crop&w=400&q=80" class="post-image" onclick="viewPostDetail('vtp-1')">
+                    <img src="images/sodo.jpg" class="post-image" onclick="viewPostDetail('vtp-1')">
                     <div class="post-content">
                         <h2 class="post-title" onclick="viewPostDetail('vtp-1')">Số Đỏ - Bức tranh biếm họa xã hội thượng lưu</h2>
                         <span class="post-author" data-avatar="https://upload.wikimedia.org/wikipedia/commons/a/af/Vu_Trong_Phung.jpg" onclick="viewProfile('Vũ Trọng Phụng')">@Vũ Trọng Phụng</span>
@@ -188,7 +194,7 @@
 
             <article class="card glass-panel">
                 <div class="post-card">
-                    <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80" class="post-image" onclick="viewPostDetail('kl-1')">
+                    <img src="images/vonhat.jpg" class="post-image" onclick="viewPostDetail('kl-1')">
                     <div class="post-content">
                         <h2 class="post-title" onclick="viewPostDetail('kl-1')">Vợ Nhặt - Khát vọng sống giữa bờ vực cái chết</h2>
                         <span class="post-author" data-avatar="https://upload.wikimedia.org/wikipedia/commons/e/ec/NhavanKimLan.jpg" onclick="viewProfile('Kim Lân')">@Kim Lân</span>
@@ -207,7 +213,7 @@
 
             <article class="card glass-panel">
                 <div class="post-card">
-                    <img src="https://images.unsplash.com/photo-1583417657209-d3efcb2bc6f1?auto=format&fit=crop&w=400&q=80" class="post-image" onclick="viewPostDetail('tl-1')">
+                    <img src="images/haitre.jpg" class="post-image" onclick="viewPostDetail('tl-1')">
                     <div class="post-content">
                         <h2 class="post-title" onclick="viewPostDetail('tl-1')">Hai Đứa Trẻ - Chuyến tàu mang theo ánh sáng</h2>
                         <span class="post-author" data-avatar="https://upload.wikimedia.org/wikipedia/commons/3/30/Thach_Lam_01.jpg" onclick="viewProfile('Thạch Lam')">@Thạch Lam</span>
@@ -330,7 +336,7 @@
     const fullPostsDatabase = {
         // --- 1. NAM CAO ---
         "nc-1": { 
-            title: "Chí Phèo - Bi kịch bị cự tuyệt quyền làm người", author: "Nam Cao", avatar: "https://upload.wikimedia.org/wikipedia/commons/e/e0/Nam_Cao.jpg", date: "NĂM 1941", image: "https://images.unsplash.com/photo-1533630664797-2a54b9d0317e?auto=format&fit=crop&w=1200&q=80", 
+            title: "Chí Phèo - Bi kịch bị cự tuyệt quyền làm người", author: "Nam Cao", avatar: "images/namcao.jpg", date: "NĂM 1941", image: "images/chipheo.jpg", 
             content: `
                 <p style="margin-bottom: 20px; text-align: justify;"><strong>Chí Phèo</strong> là một kiệt tác của nền văn xuôi hiện thực Việt Nam. Xuất hiện lần đầu năm 1941 với tên gọi "Cái lò gạch cũ", tác phẩm đã làm rung chuyển thi đàn bởi ngòi bút lạnh lùng mà chan chứa tình yêu thương của Nam Cao. Chí Phèo không chỉ là câu chuyện của một cá nhân, mà là bản án đanh thép tố cáo chế độ phong kiến nông thôn Việt Nam đã bóp nghẹt, chà đạp lên nhân phẩm con người.</p>
                 <p style="margin-bottom: 20px; text-align: justify;">Từ một anh canh điền khỏe mạnh, hiền lành như đất, chỉ vì cơn ghen tuông bóng gió của Bá Kiến, Chí bị đẩy vào nhà tù thực dân. Nhà tù ấy đã nhào nặn một người nông dân lương thiện thành một "con quỷ dữ của làng Vũ Đại". Trở về làng, Chí chìm trong những cơn say triền miên, sống bằng nghề rạch mặt ăn vạ, bán linh hồn cho quỹ dữ. Nam Cao đã miêu tả nỗi đau tận cùng của con người: nỗi đau không được thừa nhận là một con người. Những tiếng chửi của Chí ở đầu tác phẩm thực chất là tiếng kêu cứu tuyệt vọng của một sinh linh khao khát được giao tiếp với đồng loại nhưng chỉ nhận lại sự im lặng lạnh lẽo.</p>
@@ -338,22 +344,22 @@
             ` 
         },
         "nc-2": { 
-            title: "Lão Hạc - Vẻ đẹp khuất lấp sau bộ quần áo rách tươm", author: "Nam Cao", avatar: "https://upload.wikimedia.org/wikipedia/commons/e/e0/Nam_Cao.jpg", date: "NĂM 1943", image: "https://images.unsplash.com/photo-1518706318534-19266df1d3fa?auto=format&fit=crop&w=1200&q=80", 
+            title: "Lão Hạc - Vẻ đẹp khuất lấp sau bộ quần áo rách tươm", author: "Nam Cao", avatar: "images/namcao.jpg", date: "NĂM 1943", image: "images/laohac.jpg", 
             content: `
                 <p style="margin-bottom: 20px; text-align: justify;"><strong>Lão Hạc</strong> là một trong những truyện ngắn xuất sắc nhất viết về đề tài người nông dân của Nam Cao. Nếu như Chí Phèo là bi kịch bị tha hóa, thì Lão Hạc lại là bức tượng đài sừng sững về nhân cách cao thượng, vẻ đẹp tâm hồn trong sáng dẫu phải sống trong cảnh nghèo đói cùng cực.</p>
                 <p style="margin-bottom: 20px; text-align: justify;">Câu chuyện xoay quanh cuộc đời của một lão nông nghèo khổ, góa vợ, con trai vì không có tiền cưới vợ nên phẫn chí đi phu đồn điền cao su. Lão sống thui thủi một mình, bầu bạn với "cậu Vàng" - con chó mà con trai lão để lại. Đối với lão Hạc, con chó không chỉ là vật nuôi mà là kỷ vật, là niềm an ủi duy nhất trong chuỗi ngày cô độc, héo hon chờ con. Nam Cao đã khắc họa vô cùng tinh tế diễn biến tâm lý phức tạp, đầy giằng xé của lão khi quyết định bán con chó. Những giọt nước mắt ứa ra, cái mếu máo như con nít của lão Hạc là minh chứng cho một trái tim nhân hậu đến nhói lòng.</p>
-                <p style="margin-bottom: 20px; text-align: justify;">Cái chết của lão Hạc ở cuối truyện - một cái chết dữ dội, vật vã bằng bả chó - là một sự giải thoát, nhưng cũng là một sự hy sinh tột bậc. Lão chọn cái chết để không phạm vào tiền mảnh vườn của con, không làm phiền hàng xóm láng giềng. Đằng sau bộ dạng gầy gò, khắc khổ, bộ quần áo rách rưới ấy là một lòng tự trọng cao ngất trời. Lão Hạc khiến ta nhận ra rằng: Sự nghèo đói có thể bóc lột thể xác con người, nhưng không thể làm hoen ố được nhân phẩm và tình phụ tử thiêng liêng.</p>
+                <p style="margin-bottom: 20px; text-align: justify;">Cái chết của lão Hạc ở cuối truyện - một cái chết dữ dội, vật vã bằng bả chó - là một sự giải thoát, nhưng cũng là một sự hy sinh tột bậc. Lão chọn cái chết để không phạm vào tiền mảnh vườn của con, không làm phiền hàng xóm láng diễn. Đằng sau bộ dạng gầy gò, khắc khổ, bộ quần áo rách rưới ấy là một lòng tự trọng cao ngất trời. Lão Hạc khiến ta nhận ra rằng: Sự nghèo đói có thể bóc lột thể xác con người, nhưng không thể làm hoen ố được nhân phẩm và tình phụ tử thiêng liêng.</p>
             ` 
         },
         "nc-3": { 
-            title: "Đời Thừa - Bi kịch của người trí thức nghèo", author: "Nam Cao", avatar: "https://upload.wikimedia.org/wikipedia/commons/e/e0/Nam_Cao.jpg", date: "NĂM 1943", image: "https://images.unsplash.com/photo-1455390582262-044cdead27d8?auto=format&fit=crop&w=1200&q=80", 
+            title: "Đời Thừa - Bi kịch của người trí thức nghèo", author: "Nam Cao", avatar: "images/namcao.jpg", date: "NĂM 1943", image: "images/doithua.jpg", 
             content: `
                 <p style="margin-bottom: 20px; text-align: justify;">Khác với những tác phẩm viết về nông dân, <strong>Đời Thừa</strong> đi sâu vào bi kịch tinh thần của tầng lớp trí thức tiểu tư sản trước Cách mạng tháng Tám. Nhân vật Hộ là một nhà văn có tài, có hoài bão lớn lao, khao khát viết nên một tác phẩm "làm mờ hết mọi tác phẩm cùng thời", mang giá trị nhân đạo sâu sắc. Nhưng gánh nặng cơm áo gạo tiền đã tàn nhẫn bóp nghẹt những ước mơ nghệ thuật cao đẹp ấy.</p>
                 <p style="margin-bottom: 20px; text-align: justify;">Hộ là một người giàu lòng trắc ẩn, anh cưu mang Từ - một cô gái bị phụ tình, mang thai đứa con rơi. Sự hy sinh của Hộ ban đầu xuất phát từ tình thương, nhưng rồi chính tình thương và trách nhiệm gia đình đã trói buộc anh vào vòng xoáy mưu sinh. Để có tiền mua sữa cho con, thuốc cho vợ, Hộ buộc phải viết những bài báo "nhàn nhạt", những cuốn sách rẻ tiền. Điều này đi ngược lại với tuyên ngôn nghệ thuật của anh, khiến Hộ rơi vào bi kịch của sự tự khinh bỉ chính mình.</p>
                 <p style="margin-bottom: 20px; text-align: justify;">Bi kịch lên đến đỉnh điểm khi Hộ tìm đến rượu để giải sầu. Trong cơn say, anh đánh đập, hắt hủi Từ - người vợ hiền thục mà anh hằng yêu thương. Tỉnh rượu, Hộ lại khóc lóc, ăn năn hối hận. Vòng luẩn quẩn: Khát vọng - Thất vọng - Say xỉn - Bạo hành - Hối hận cứ lặp đi lặp lại. Nam Cao đã chỉ ra một sự thật đau đớn: Xã hội thối nát không chỉ làm con người chết mòn về thể xác, mà còn giết chết những lý tưởng cao đẹp, biến những con người lương thiện, tài hoa trở thành những "kẻ sống thừa" đầy đớn đau và bế tắc.</p>
             ` 
         },
-        "nc-4": { title: "Một Bữa No - Cái đói quay quắt và nhân phẩm", author: "Nam Cao", avatar: "https://upload.wikimedia.org/wikipedia/commons/e/e0/Nam_Cao.jpg", date: "NĂM 1943", image: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1200&q=80", content: "<p style='margin-bottom: 20px;'>Tác phẩm là một bức tranh thê thảm về cái đói dằn vặt con người, khiến người ta đánh mất cả lòng tự trọng chỉ vì một miếng ăn...</p><p>Nam Cao lột tả sự tàn nhẫn của miếng ăn trong xã hội cũ.</p>" },
+        "nc-4": { title: "Một Bữa No - Cái đói quay quắt và nhân phẩm", author: "Nam Cao", avatar: "images/namcao.jpg", date: "NĂM 1943", image: "images/motno.jpg", content: "<p style='margin-bottom: 20px;'>Tác phẩm là một bức tranh thê thảm về cái đói dằn vặt con người, khiến người ta đánh mất cả lòng tự trọng chỉ vì một miếng ăn...</p><p>Nam Cao lột tả sự tàn nhẫn của miếng ăn trong xã hội cũ.</p>" },
 
         // --- 2. VŨ TRỌNG PHỤNG ---
         "vtp-1": { 
@@ -451,7 +457,7 @@
     // ==========================================
     const authorsDatabase = {
         "Nam Cao": {
-            avatar: "https://upload.wikimedia.org/wikipedia/commons/e/e0/Nam_Cao.jpg", role: "Nhà văn hiện thực",
+            avatar: "images/namcao.jpg", role: "Nhà văn hiện thực",
             posts: [
                 { id: "nc-1", image: fullPostsDatabase["nc-1"].image, title: fullPostsDatabase["nc-1"].title, desc: "Bản án đanh thép về bi kịch tha hóa của người nông dân.", date: fullPostsDatabase["nc-1"].date },
                 { id: "nc-2", image: fullPostsDatabase["nc-2"].image, title: fullPostsDatabase["nc-2"].title, desc: "Vẻ đẹp nhân cách khuất lấp sau bộ quần áo rách tươm.", date: fullPostsDatabase["nc-2"].date },
@@ -460,7 +466,7 @@
             ]
         },
         "Vũ Trọng Phụng": {
-            avatar: "https://upload.wikimedia.org/wikipedia/commons/a/af/Vu_Trong_Phung.jpg", role: "Ông vua phóng sự đất Bắc",
+            avatar: "images/vtp.jpg", role: "Ông vua phóng sự đất Bắc",
             posts: [
                 { id: "vtp-1", image: fullPostsDatabase["vtp-1"].image, title: fullPostsDatabase["vtp-1"].title, desc: "Cuộc đời lên voi của Xuân Tóc Đỏ và xã hội rởm đời.", date: fullPostsDatabase["vtp-1"].date },
                 { id: "vtp-2", image: fullPostsDatabase["vtp-2"].image, title: fullPostsDatabase["vtp-2"].title, desc: "Sức mạnh đồng tiền và bản chất thối nát của quan lại.", date: fullPostsDatabase["vtp-2"].date },
@@ -469,7 +475,7 @@
             ]
         },
         "Kim Lân": {
-            avatar: "https://upload.wikimedia.org/wikipedia/commons/e/ec/NhavanKimLan.jpg", role: "Nhà văn của nông thôn",
+            avatar: "images/kl.jpg", role: "Nhà văn của nông thôn",
             posts: [
                 { id: "kl-1", image: fullPostsDatabase["kl-1"].image, title: fullPostsDatabase["kl-1"].title, desc: "Niềm khao khát sống mãnh liệt giữa bối cảnh nạn đói.", date: fullPostsDatabase["kl-1"].date },
                 { id: "kl-2", image: fullPostsDatabase["kl-2"].image, title: fullPostsDatabase["kl-2"].title, desc: "Tình yêu làng chợ Dầu hòa quyện với tình yêu đất nước.", date: fullPostsDatabase["kl-2"].date },
@@ -478,7 +484,7 @@
             ]
         },
         "Thạch Lam": {
-            avatar: "https://upload.wikimedia.org/wikipedia/commons/3/30/Thach_Lam_01.jpg", role: "Nhà văn lãng mạn",
+            avatar: "images/tl.jpg", role: "Nhà văn lãng mạn",
             posts: [
                 { id: "tl-1", image: fullPostsDatabase["tl-1"].image, title: fullPostsDatabase["tl-1"].title, desc: "Khát vọng đổi đời của phố huyện nghèo qua chuyến tàu đêm.", date: fullPostsDatabase["tl-1"].date },
                 { id: "tl-2", image: fullPostsDatabase["tl-2"].image, title: fullPostsDatabase["tl-2"].title, desc: "Tình người ấm áp xua tan cái giá rét mùa đông.", date: fullPostsDatabase["tl-2"].date },
@@ -487,7 +493,7 @@
             ]
         },
         "Nguyễn Tuân": {
-            avatar: "https://upload.wikimedia.org/wikipedia/commons/c/c5/NguyenTuan.jpg", role: "Bậc thầy tùy bút",
+            avatar: "images/nt.jpg", role: "Bậc thầy tùy bút",
             posts: [
                 { id: "nt-1", image: fullPostsDatabase["nt-1"].image, title: fullPostsDatabase["nt-1"].title, desc: "Vẻ đẹp hùng vĩ của Sông Đà và tài hoa của người lái đò.", date: fullPostsDatabase["nt-1"].date },
                 { id: "nt-2", image: fullPostsDatabase["nt-2"].image, title: fullPostsDatabase["nt-2"].title, desc: "Thiên lương tỏa sáng chốn ngục tù tăm tối.", date: fullPostsDatabase["nt-2"].date },

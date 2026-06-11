@@ -7,15 +7,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    
+    <script>
+        if (localStorage.getItem("isLoggedIn") === "true") {
+            window.location.href = "taikhoan.html"; 
+        }
+    </script>
 </head>
 <body class="auth-body">
 
-    <a href="#" class="back-home-btn"><i class="fa-solid fa-arrow-left"></i> Về trang chủ</a>
+    <a href="taikhoan.html" class="back-home-btn"><i class="fa-solid fa-arrow-left"></i> Về trang chủ</a>
 
     <div class="auth-wrapper">
         <div class="auth-box">
-            <div class="logo-box" style="display: flex; justify-content: center; margin-bottom: 20px;">
-                <img src="images/Logo_.png" alt="Tên Website của bạn" class="logo-image" style="display: block; width: 140px; height: auto;">
+            <div class="logo-box" style="display: flex; justify-content: center; margin-bottom: 20px; background-color: transparent;">
+                <img src="images/Logo_.png" alt="Tên Website của bạn" class="logo-image" style="display: block; width: 140px; height: auto; mix-blend-mode: multiply;">
             </div>
 
             <form id="formDangNhap" class="auth-form active">
