@@ -6,6 +6,41 @@
         window.location.href = "taikhoan.html"; 
     }
 </script>
+
+<audio id="myAudio" loop>
+    <source src="nhacnen.mp3" type="audio/mpeg">
+    <source src="nhacnen" type="audio/mpeg">
+</audio>
+
+<script>
+    var audio = document.getElementById("myAudio");
+
+    // Hàm này sẽ ép nhạc phát khi hệ thống nhận diện được chuyển động
+    function tuDongPhatNhac() {
+        audio.play().then(function() {
+            console.log("-> Nhạc nền đã kích hoạt thành công!");
+            HuyRinhRap(); // Phát được rồi thì dừng rình để tránh nhạc bị phát lại từ đầu
+        }).catch(function(error) {
+            // Trình duyệt vẫn cứng đầu chặn thì kệ nó, chờ người dùng cử động tiếp
+            console.log("Trình duyệt vẫn đang chặn, chờ cử động tiếp theo...");
+        });
+    }
+
+    // Hàm gỡ bỏ các sự kiện sau khi nhạc đã chạy
+    function HuyRinhRap() {
+        document.removeEventListener('mousemove', tuDongPhatNhac);
+        document.removeEventListener('scroll', tuDongPhatNhac);
+        document.removeEventListener('touchstart', tuDongPhatNhac);
+        document.removeEventListener('click', tuDongPhatNhac);
+    }
+
+    // "Rình" mọi hành động của người dùng: Di chuột, Cuộn trang, Chạm tay (điện thoại), hoặc Click
+    document.addEventListener('mousemove', tuDongPhatNhac);
+    document.addEventListener('scroll', tuDongPhatNhac);
+    document.addEventListener('touchstart', tuDongPhatNhac);
+    document.addEventListener('click', tuDongPhatNhac);
+</script>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -631,6 +666,8 @@
         }
     </style>
 </head>
+
+
 <body>
     <audio id="bg-music" loop src="audio/nhacnen.mp3" preload="auto"></audio>
 
