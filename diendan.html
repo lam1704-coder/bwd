@@ -67,7 +67,10 @@
         .animated-text {
             font-family: 'Anton', sans-serif;
             background: linear-gradient(270deg, #166534, #4ade80, #14532d, #166534);
-            background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-size: 300% 300%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             animation: shineText 4s ease infinite; font-size: 28px; margin: 10px 0 20px 0; font-weight: normal; letter-spacing: 1px;
         }
         @keyframes shineText { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
@@ -127,6 +130,8 @@
         .profile-role { color: #166534; font-weight: 600; font-size: 14px; background: #fff; display: inline-block; padding: 5px 15px; border-radius: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);}
     </style>
 </head>
+<body style="background-image: url('images/back.jpg'); background-size: cover;">
+    </body>
 <body>
 
 <div class="layout-container">
@@ -254,7 +259,7 @@
                 <h3 class="animated-text" style="font-size: 24px; text-align: left; margin-bottom: 20px;">CẢM NHẬN VỀ TÁC PHẨM</h3>
                 <div class="comment-section" style="display: block; border-top: none; padding-top: 0; margin-top: 0;">
                     <div class="comment-input-area">
-                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80" class="comment-avatar">
+                        <img src="images/avt.jpg" class="comment-avatar">
                         <input type="text" class="comment-input" placeholder="Viết bình luận cảm nhận của bạn...">
                         <button class="btn-action follow" style="margin: 0;" onclick="postComment(this, document.getElementById('detail-author').innerText.replace('@', ''), document.getElementById('detail-title').innerText)">Gửi</button>
                     </div>
@@ -678,7 +683,7 @@
         
         commentList.innerHTML += `
             <div class="comment-item" style="background: rgba(22, 101, 52, 0.1); border-color: rgba(22, 101, 52, 0.2);">
-                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80" class="comment-avatar">
+                <img src="images/avt.jpg" class="comment-avatar">
                 <div class="comment-text">
                     <h4 style="color: #166534;">Bạn</h4>
                     <p>${text}</p>
@@ -696,7 +701,7 @@
             if(authorData) {
                 commentList.innerHTML += `
                     <div class="comment-item" style="margin-left: 50px;">
-                        <img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=100&q=80" class="comment-avatar">
+                        <img src="images/avt.jpg" class="comment-avatar">
                         <div class="comment-text">
                             <h4>Độc giả Văn học</h4>
                             <p>Cảm nhận của bạn về tác phẩm này hay quá! Mình rất đồng tình ❤️</p>
