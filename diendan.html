@@ -6,64 +6,7 @@
         window.location.href = "taikhoan.html"; 
     }
 </script>
-<script>
-    const audio = document.getElementById('bg-music');
-    const toggleBtn = document.getElementById('music-toggle-btn');
-    
-    // Lấy thời gian nhạc đang nghe dở (nếu có)
-    const savedTime = localStorage.getItem('musicTime') || 0;
-    audio.currentTime = parseFloat(savedTime);
 
-    // HÀM CỐ GẮNG TỰ ĐỘNG PHÁT NHẠC
-    function attemptAutoplay() {
-        audio.play().then(() => {
-            // Trình duyệt cho phép phát (Thường là khi chuyển trang)
-            localStorage.setItem('musicPlaying', 'true');
-            updateUI(true);
-        }).catch((error) => {
-            // Trình duyệt chặn (Lần đầu vào web). Đợi người dùng click bất kỳ đâu
-            updateUI(false);
-            document.body.addEventListener('click', function startOnFirstInteraction() {
-                audio.play();
-                localStorage.setItem('musicPlaying', 'true');
-                updateUI(true);
-                document.body.removeEventListener('click', startOnFirstInteraction);
-            }, { once: true });
-        });
-    }
-
-    // Chạy thử tự động phát ngay khi trang vừa tải xong
-    attemptAutoplay();
-
-    // Liên tục lưu lại thời gian bài hát mỗi giây
-    setInterval(() => {
-        if (!audio.paused) {
-            localStorage.setItem('musicTime', audio.currentTime);
-        }
-    }, 1000);
-
-    // Hàm Bật/Tắt nhạc chủ động khi người dùng bấm vào nút
-    function toggleMusic() {
-        if (audio.paused) {
-            audio.play();
-            localStorage.setItem('musicPlaying', 'true');
-            updateUI(true);
-        } else {
-            audio.pause();
-            localStorage.setItem('musicPlaying', 'false');
-            updateUI(false);
-        }
-    }
-
-    // Hàm cập nhật giao diện nút (khi tắt nhạc, nút sẽ mờ đi một chút để báo hiệu)
-    function updateUI(playing) {
-        if (playing) {
-            toggleBtn.style.opacity = '1';
-        } else {
-            toggleBtn.style.opacity = '0.5';
-        }
-    }
-</script>
 
 <head>
     <meta charset="UTF-8">
