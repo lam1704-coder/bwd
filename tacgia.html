@@ -56,9 +56,127 @@
             .footer-flex { display: flex; justify-content: space-between; }
             .footer-col ul { list-style: none; margin-top: 10px; }
             .footer-col ul li { margin-bottom: 5px; }
+            .card-pink{
+    transition: all 0.5s ease;
+}
+
+.card-pink{
+    transition: all 0.5s ease;
+    opacity: 0.5;
+    position: relative;
+}
+
+.card-pink.active{
+    opacity: 1;
+    transform: translateY(-12px) scale(1.08);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    border: 2px solid white;
+}
+
+.author-name{
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    font-weight: bold;
+    color: #2e6f21;
+    opacity: 0;
+    transition: 0.4s;
+    white-space: nowrap;
+}
+
+.card-pink.active .author-name{
+    opacity: 1;
+}
+.card-pink{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+.slider-wrapper{
+    width: 720px;
+}
         </style>
     </head>
     <body>
+       <audio id="bg-music" loop src="audio/nhacnen.mp3" preload="auto"></audio>
+
+<button id="music-toggle-btn" onclick="toggleMusic()" 
+        style="position: fixed; bottom: 130px; right: 30px; z-index: 9999; 
+               background-color: #ffcce0; color: #d81b60; border: 2px solid #fff; 
+               border-radius: 50%; width: 45px; height: 45px; 
+               display: flex; justify-content: center; align-items: center; 
+               cursor: pointer; box-shadow: 0 4px 15px rgba(216, 27, 96, 0.2); 
+               transition: all 0.3s ease;"
+        onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 6px 20px rgba(216, 27, 96, 0.4)';"
+        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 15px rgba(216, 27, 96, 0.2)';">
+    <svg id="music-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M9 13c0 1.105-1.12 2-2.5 2S4 14.105 4 13s1.12-2 2.5-2 2.5.895 2.5 2z"/>
+        <path fill-rule="evenodd" d="M9 3v10H8V3h1z"/>
+        <path d="M8 2.82a1 1 0 0 1 .804-.98l3-.6A1 1 0 0 1 13 2.22V4L8 5V2.82z"/>
+    </svg>
+</button>
+
+<script>
+    const audio = document.getElementById('bg-music');
+    const toggleBtn = document.getElementById('music-toggle-btn');
+    
+    // Lấy thời gian nhạc đang nghe dở (nếu có)
+    const savedTime = localStorage.getItem('musicTime') || 0;
+    audio.currentTime = parseFloat(savedTime);
+
+    // HÀM CỐ GẮNG TỰ ĐỘNG PHÁT NHẠC
+    function attemptAutoplay() {
+        audio.play().then(() => {
+            // Trình duyệt cho phép phát (Thường là khi chuyển trang)
+            localStorage.setItem('musicPlaying', 'true');
+            updateUI(true);
+        }).catch((error) => {
+            // Trình duyệt chặn (Lần đầu vào web). Đợi người dùng click bất kỳ đâu
+            updateUI(false);
+            document.body.addEventListener('click', function startOnFirstInteraction() {
+                audio.play();
+                localStorage.setItem('musicPlaying', 'true');
+                updateUI(true);
+                document.body.removeEventListener('click', startOnFirstInteraction);
+            }, { once: true });
+        });
+    }
+
+    // Chạy thử tự động phát ngay khi trang vừa tải xong
+    attemptAutoplay();
+
+    // Liên tục lưu lại thời gian bài hát mỗi giây
+    setInterval(() => {
+        if (!audio.paused) {
+            localStorage.setItem('musicTime', audio.currentTime);
+        }
+    }, 1000);
+
+    // Hàm Bật/Tắt nhạc chủ động khi người dùng bấm vào nút
+    function toggleMusic() {
+        if (audio.paused) {
+            audio.play();
+            localStorage.setItem('musicPlaying', 'true');
+            updateUI(true);
+        } else {
+            audio.pause();
+            localStorage.setItem('musicPlaying', 'false');
+            updateUI(false);
+        }
+    }
+
+    // Hàm cập nhật giao diện nút (khi tắt nhạc, nút sẽ mờ đi một chút để báo hiệu)
+    function updateUI(playing) {
+        if (playing) {
+            toggleBtn.style.opacity = '1';
+        } else {
+            toggleBtn.style.opacity = '0.5';
+        }
+    }
+</script>
 
        <!-- Đoạn CSS nhúng và cấu hình font chữ -->
 <style>
@@ -91,6 +209,35 @@
     .btn-more span {
         font-family: 'Montserrat', sans-serif;
     }
+    .auto-slider{
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+}
+
+#cardContainer{
+    display:flex;
+    gap:30px;
+    width:max-content;
+    animation: slideCards 15s linear infinite !important;
+}
+#cardContainer:hover{
+    animation-play-state: paused;
+}
+
+@keyframes slideCards{
+    0%{
+        transform: translateX(0);
+    }
+
+    50%{
+        transform: translateX(-180px);
+    }
+
+    100%{
+        transform: translateX(0);
+    }
+}
 </style>
 
 <section class="hero-section">
@@ -144,31 +291,12 @@
            <h3 class="section-title" style="font-family: 'Anton', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; color: #2e6f21;">
     Người truyền cảm hứng
 </h3>
-<div class="static-cards" style="
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-    gap: 20px; /* Thu hẹp gap một chút để cân đối với mũi tên */
-    padding: 30px;
-    width: 100%;
-    box-sizing: border-box;
-    overflow: hidden; /* Ẩn các phần tử tràn ra ngoài */
-">
-    <div class="nav-arrow-static" id="prevBtn" style="
-        width: 0; 
-        height: 0; 
-        border-top: 12px solid transparent;
-        border-bottom: 12px solid transparent;
-        border-right: 18px solid #739d6f; 
-        cursor: pointer;
-        user-select: none;
-        z-index: 10;
-    "></div>
+<div class="static-cards auto-slider">
     
-    <div class="slider-wrapper" style="
-        width: 510px; /* (150px * 3) + (30px * 2) = 510px */
-        overflow: hidden;
-    ">
+   <div class="slider-wrapper" style="
+    width: 100%;
+    overflow: visible;
+">
         <div class="card-container" id="cardContainer" style="
             display: flex; 
             gap: 30px;
@@ -190,6 +318,9 @@
                 <div style="width: 110px; height: 110px; border: 2px solid rgba(255, 255, 255, 0.6); box-shadow: inset 0 0 4px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 4px;">
                     <img src="images/vo.jpg" alt="hoa" style="width: 100%; height: 100%; object-fit: cover; object-position: center; filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.15));">
                 </div>
+                <div class="author-name">
+    Võ Phạm Trúc Linh
+</div>
             </div>
 
             <div class="card-pink" style="
@@ -205,7 +336,11 @@
             ">
                 <div style="width: 110px; height: 110px; border: 2px solid rgba(255, 255, 255, 0.6); box-shadow: inset 0 0 4px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 4px;">
                     <img src="images/pmai (1).jpg" alt="hoa" style="width: 100%; height: 100%; object-fit: cover; object-position: center; filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.15));">
+                    
                 </div>
+                <div class="author-name">
+    Cô Sương Mai
+</div>
             </div>
 
             <div class="card-pink" style="
@@ -221,7 +356,11 @@
             ">
                 <div style="width: 110px; height: 110px; border: 2px solid rgba(255, 255, 255, 0.6); box-shadow: inset 0 0 4px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 4px;">
                     <img src="images/pvan_.jpg" alt="hoa" style="width: 100%; height: 100%; object-fit: cover; object-position: center; filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.15));">
+                  
                 </div>
+                  <div class="author-name">
+    Trạm Văn
+</div>
             </div>
             
             <div class="card-pink" style="
@@ -237,48 +376,108 @@
             ">
                 <div style="width: 110px; height: 110px; border: 2px solid rgba(255, 255, 255, 0.6); box-shadow: inset 0 0 4px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 4px;">
                     <img src="images/rubik.jpg" alt="hoa" style="width: 100%; height: 100%; object-fit: cover; object-position: center; filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.15));">
+                    
                 </div>
+                <div class="author-name">
+    RUBIK Văn Chương
+</div>
             </div>
+            <div class="card-pink" style="
+                width: 150px; 
+                height: 180px; 
+                background-color: #ffd6e0; 
+                border-radius: 4px; 
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            ">
+                <div style="width: 110px; height: 110px; border: 2px solid rgba(255, 255, 255, 0.6); box-shadow: inset 0 0 4px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 4px;">
+                    <img src="images/kyhoa.jpg" alt="hoa" style="width: 100%; height: 100%; object-fit: cover; object-position: center; filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.15));">
+                    
 
         </div>
-    </div>
-
-    <div class="nav-arrow-static" id="nextBtn" style="
-        width: 0; 
-        height: 0; 
-        border-top: 12px solid transparent;
-        border-bottom: 12px solid transparent;
-        border-left: 18px solid #739d6f; 
-        cursor: pointer;
-        user-select: none;
-        z-index: 10;
-    "></div>
+        <div class="author-name">
+    Ký Họa Văn Chương
 </div>
-
-<script>
-    const container = document.getElementById('cardContainer');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    
-    let currentIndex = 0;
-    const step = 180; 
-    const maxIndex = 1; 
-
-    nextBtn.addEventListener('click', () => {
-        if (currentIndex < maxIndex) {
-            currentIndex++;
-            container.style.transform = `translateX(-${currentIndex * step}px)`;
-        }
-    });
-
-    prevBtn.addEventListener('click', () => {
-        if (currentIndex > 0) {
-            currentIndex--;
-            container.style.transform = `translateX(-${currentIndex * step}px)`;
-        }
-    });
-</script>
-
+    </div>
+    <div class="card-pink" style="
+                width: 150px; 
+                height: 180px; 
+                background-color: #ffd6e0; 
+                border-radius: 4px; 
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            ">
+                <div style="width: 110px; height: 110px; border: 2px solid rgba(255, 255, 255, 0.6); box-shadow: inset 0 0 4px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 4px;">
+                    <img src="images/tàu.jpg" alt="hoa" style="width: 100%; height: 100%; object-fit: cover; object-position: center; filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.15));">
+                
+</div>
+<div class="author-name">
+    Chuyến Tàu Văn Chương
+</div>
+</div>
+ <div class="card-pink" style="
+                width: 150px; 
+                height: 180px; 
+                background-color: #ffd6e0; 
+                border-radius: 4px; 
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            ">
+                <div style="width: 110px; height: 110px; border: 2px solid rgba(255, 255, 255, 0.6); box-shadow: inset 0 0 4px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 4px;">
+                    <img src="images/vanhoc.jpg" alt="hoa" style="width: 100%; height: 100%; object-fit: cover; object-position: center; filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.15));">
+                
+</div>
+<div class="author-name">
+    Văn Học Trong Tôi
+</div>
+</div>
+ <div class="card-pink" style="
+                width: 150px; 
+                height: 180px; 
+                background-color: #ffd6e0; 
+                border-radius: 4px; 
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            ">
+                <div style="width: 110px; height: 110px; border: 2px solid rgba(255, 255, 255, 0.6); box-shadow: inset 0 0 4px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 4px;">
+                    <img src="images/hẻm.jpg" alt="hoa" style="width: 100%; height: 100%; object-fit: cover; object-position: center; filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.15));">
+                
+</div>
+<div class="author-name">
+    Hẻm Văn Chương
+</div>
+</div>
+ <div class="card-pink" style="
+                width: 150px; 
+                height: 180px; 
+                background-color: #ffd6e0; 
+                border-radius: 4px; 
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            ">
+                <div style="width: 110px; height: 110px; border: 2px solid rgba(255, 255, 255, 0.6); box-shadow: inset 0 0 4px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 4px;">
+                    <img src="images/khoảng trời.jpg" alt="hoa" style="width: 100%; height: 100%; object-fit: cover; object-position: center; filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.15));">
+                
+</div>
+<div class="author-name">
+    Khoảng Trời Văn Chương
+</div>
+</div>
 </div>
         </section>
 
@@ -330,11 +529,11 @@
                     </div>
 
                     <div class="polaroid-item">
-                        <a href="star.html" class="polaroid-link">
+                        <a href="vanchuong.html" class="polaroid-link">
                             <img src="images/bông hoa (1).png" class="pin-flower">
                             <div class="photo-card">
-                                <img src="https://via.placeholder.com/200x250" alt="5">
-                                <p>star</p>
+                                <img src="images/vanchuong.png" alt="5">
+                                <p>Chạm dừng văn chương</p>
                             </div>
                         </a>
                     </div>
@@ -362,6 +561,26 @@
                 track.style.transform = `translateX(-${currentPos}px)`;
             }
         </script>
+                 <script>
+const cards = document.querySelectorAll(".card-pink");
+
+let activeIndex = 0;
+
+function updateActiveCard() {
+    cards.forEach(card => card.classList.remove("active"));
+    cards[activeIndex].classList.add("active");
+
+    activeIndex++;
+
+    if(activeIndex >= cards.length){
+        activeIndex = 0;
+    }
+}
+
+updateActiveCard();
+
+setInterval(updateActiveCard, 3000);
+</script>
 
     </body>
     </html>

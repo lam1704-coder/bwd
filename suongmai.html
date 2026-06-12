@@ -191,6 +191,82 @@
     </style>
 </head>
 <body>
+   <audio id="bg-music" loop src="audio/nhacnen.mp3" preload="auto"></audio>
+
+<button id="music-toggle-btn" onclick="toggleMusic()" 
+        style="position: fixed; bottom: 130px; right: 30px; z-index: 9999; 
+               background-color: #ffcce0; color: #d81b60; border: 2px solid #fff; 
+               border-radius: 50%; width: 45px; height: 45px; 
+               display: flex; justify-content: center; align-items: center; 
+               cursor: pointer; box-shadow: 0 4px 15px rgba(216, 27, 96, 0.2); 
+               transition: all 0.3s ease;"
+        onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 6px 20px rgba(216, 27, 96, 0.4)';"
+        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 15px rgba(216, 27, 96, 0.2)';">
+    <svg id="music-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M9 13c0 1.105-1.12 2-2.5 2S4 14.105 4 13s1.12-2 2.5-2 2.5.895 2.5 2z"/>
+        <path fill-rule="evenodd" d="M9 3v10H8V3h1z"/>
+        <path d="M8 2.82a1 1 0 0 1 .804-.98l3-.6A1 1 0 0 1 13 2.22V4L8 5V2.82z"/>
+    </svg>
+</button>
+
+<script>
+    const audio = document.getElementById('bg-music');
+    const toggleBtn = document.getElementById('music-toggle-btn');
+    
+    // Lấy thời gian nhạc đang nghe dở (nếu có)
+    const savedTime = localStorage.getItem('musicTime') || 0;
+    audio.currentTime = parseFloat(savedTime);
+
+    // HÀM CỐ GẮNG TỰ ĐỘNG PHÁT NHẠC
+    function attemptAutoplay() {
+        audio.play().then(() => {
+            // Trình duyệt cho phép phát (Thường là khi chuyển trang)
+            localStorage.setItem('musicPlaying', 'true');
+            updateUI(true);
+        }).catch((error) => {
+            // Trình duyệt chặn (Lần đầu vào web). Đợi người dùng click bất kỳ đâu
+            updateUI(false);
+            document.body.addEventListener('click', function startOnFirstInteraction() {
+                audio.play();
+                localStorage.setItem('musicPlaying', 'true');
+                updateUI(true);
+                document.body.removeEventListener('click', startOnFirstInteraction);
+            }, { once: true });
+        });
+    }
+
+    // Chạy thử tự động phát ngay khi trang vừa tải xong
+    attemptAutoplay();
+
+    // Liên tục lưu lại thời gian bài hát mỗi giây
+    setInterval(() => {
+        if (!audio.paused) {
+            localStorage.setItem('musicTime', audio.currentTime);
+        }
+    }, 1000);
+
+    // Hàm Bật/Tắt nhạc chủ động khi người dùng bấm vào nút
+    function toggleMusic() {
+        if (audio.paused) {
+            audio.play();
+            localStorage.setItem('musicPlaying', 'true');
+            updateUI(true);
+        } else {
+            audio.pause();
+            localStorage.setItem('musicPlaying', 'false');
+            updateUI(false);
+        }
+    }
+
+    // Hàm cập nhật giao diện nút (khi tắt nhạc, nút sẽ mờ đi một chút để báo hiệu)
+    function updateUI(playing) {
+        if (playing) {
+            toggleBtn.style.opacity = '1';
+        } else {
+            toggleBtn.style.opacity = '0.5';
+        }
+    }
+</script>
 
     <!-- BANNER HERO -->
     <header class="hero">
@@ -199,7 +275,7 @@
                 HỌC VĂN CÙNG
             </h1>
             <!-- Sử dụng Playfair Display mang tinh thần nghệ thuật, văn học -->
-            <p style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 48px; color: var(--accent-green); margin: 0; font-weight: 700;">
+            <p style="font-family: '1FTV Eastin Hikary', serif; font-style: italic; font-size: 48px; color: var(--accent-green); margin: 0; font-weight: 700;">
                 Cô Sương Mai
             </p>
         </div>
@@ -230,7 +306,7 @@
 
     <!-- PHẦN GIỚI THIỆU (INTRO) -->
     <section class="intro">
-        <img src="images/smbb.jpg" alt="Cô Sương Mai">
+        <img src="images/SM.jpg" alt="Cô Sương Mai">
         <p>
             Văn học không phải là những bài văn mẫu rập khuôn, mà là tấm gương phản chiếu tâm hồn và tư duy của chính bạn. Qua lăng kính của <strong>Cô Sương Mai</strong>, mỗi tác phẩm không còn là những dòng chữ khô khan trên trang giấy thi, mà trở thành một thế giới sống động, tràn ngập hơi thở thời đại và cảm xúc sâu lắng. Hãy cùng cô mở lòng, lắng nghe ngôn từ và đánh thức người nghệ sĩ bên trong bạn.
         </p>
@@ -238,17 +314,17 @@
 
     <!-- LƯỚI 9 ẢNH CHÍNH (3x3) -->
     <section class="grid-main">
-        <div class="img-card"><img src="images/sm1.jpg" alt="Lớp học Văn"></div>
-        <div class="img-card"><img src="images/sm2.jpg" alt="Tài liệu ôn thi"></div>
-        <div class="img-card"><img src="images/sm3.jpg" alt="Khoảnh khắc học tập"></div>
+        <div class="img-card"><img src="images/suongmai1.jpg" alt="Lớp học Văn"></div>
+        <div class="img-card"><img src="images/suongmai2.jpg" alt="Tài liệu ôn thi"></div>
+        <div class="img-card"><img src="images/suongmai3.jpg" alt="Khoảnh khắc học tập"></div>
         
-        <div class="img-card"><img src="images/sm4.jpg" alt="Bài giảng sáng tạo"></div>
-        <div class="img-card"><img src="images/sm5.jpg" alt="Bí kíp đạt điểm cao"></div> 
-        <div class="img-card"><img src="images/sm6.jpg" alt="Nhật ký học văn"></div>
+        <div class="img-card"><img src="images/suongmai4.jpg" alt="Bài giảng sáng tạo"></div>
+        <div class="img-card"><img src="images/suongmai5.jpg" alt="Bí kíp đạt điểm cao"></div> 
+        <div class="img-card"><img src="images/suongmai6.jpg" alt="Nhật ký học văn"></div>
         
-        <div class="img-card"><img src="images/sm7.jpg" alt="Cảm hứng văn chương"></div>
-        <div class="img-card"><img src="images/sm8.jpg" alt="Sách và những người bạn"></div>
-        <div class="img-card"><img src="images/sm9.jpg" alt="Sự tiến bộ của học viên"></div>
+        <div class="img-card"><img src="images/suongmai7.jpg" alt="Cảm hứng văn chương"></div>
+        <div class="img-card"><img src="images/suongmai8.jpg" alt="Sách và những người bạn"></div>
+        <div class="img-card"><img src="images/suongmai9.jpg" alt="Sự tiến bộ của học viên"></div>
     </section>
 
     <!-- DÒNG CHỮ TRÍCH DẪN GIỮA TRANG -->
@@ -258,10 +334,10 @@
 
     <!-- LƯỚI 4 ẢNH PHỤ FOOTER (1x4) -->
     <section class="grid-footer">
-        <div class="img-card"><img src="images/sm10.jpg" alt="Feedback học viên 1"></div>
-        <div class="img-card"><img src="images/sm11.jpg" alt="Feedback học viên 2"></div>
-        <div class="img-card"><img src="images/sm12.jpg" alt="Feedback học viên 3"></div>
-        <div class="img-card"><img src="images/sm13.jpg" alt="Feedback học viên 4"></div>
+        <div class="img-card"><img src="images/s1.jpg" alt="Feedback học viên 1"></div>
+        <div class="img-card"><img src="images/s2.jpg" alt="Feedback học viên 2"></div>
+        <div class="img-card"><img src="images/s3.jpg" alt="Feedback học viên 3"></div>
+        <div class="img-card"><img src="images/s4.jpg" alt="Feedback học viên 4"></div>
     </section>
 
    

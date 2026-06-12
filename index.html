@@ -494,25 +494,8 @@
 .hidden-left
 .hidden-right
         /* ========================================================
-           5. QUOTE (TRÍCH DẪN) & FOOTER
+           5. QUOTE (TRÍCH DẪN) & FLOATING BUTTON
            ======================================================== */
-
-.social-icons { 
-    margin-top: 20px; 
-}
-
-.social-icons i { 
-    margin-right: 15px; 
-    color: #666; 
-    font-size: 18px; 
-    cursor: pointer; 
-    transition: transform 0.3s, color 0.3s;
-}
-
-.social-icons i:hover {
-    color: #d81b60;
-    transform: scale(1.2); /* Phóng to nhẹ icon khi rê chuột */
-}
 
 .floating-btn {
     position: fixed;
@@ -550,7 +533,93 @@
     margin-bottom: 3px; 
 }
 
+        /* ========================================================
+           6. CSS CHO CHÂN TRANG (FOOTER MỚI THÊM)
+           ======================================================== */
+        .footer-section {
+            background: rgba(255, 230, 240, 0.85); /* Tông hồng trong suốt */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 60px 10% 20px;
+            border-top: 2px solid #ffcce0;
+            margin-top: 50px;
+        }
 
+        .footer-cols {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-col h3 {
+            color: var(--primary-green);
+            font-family: 'Anton', sans-serif;
+            font-size: 24px;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .footer-col p, .footer-col ul {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.8;
+            font-weight: 500;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            transition: all 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: #d81b60;
+            padding-left: 8px; /* Hiệu ứng lùi chữ khi hover */
+        }
+
+        .footer-col ul li i {
+            width: 25px;
+            color: var(--primary-green);
+        }
+
+        .social-icons { 
+            margin-top: 20px; 
+        }
+
+        .social-icons i { 
+            margin-right: 15px; 
+            color: #666; 
+            font-size: 20px; 
+            cursor: pointer; 
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .social-icons i:hover {
+            color: #d81b60;
+            transform: scale(1.2); /* Phóng to nhẹ icon khi rê chuột */
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #f8bbd0;
+            color: #888;
+            font-size: 14px;
+            font-weight: 500;
+        }
 
         /* ========================================================
            CSS HIỆU ỨNG CUỘN TRANG (SCROLL ANIMATION)
@@ -600,10 +669,86 @@
 
 
 <body>
+    <audio id="bg-music" loop src="audio/nhacnen.mp3" preload="auto"></audio>
+
+<button id="music-toggle-btn" onclick="toggleMusic()" 
+        style="position: fixed; bottom: 130px; right: 30px; z-index: 9999; 
+               background-color: #ffcce0; color: #d81b60; border: 2px solid #fff; 
+               border-radius: 50%; width: 45px; height: 45px; 
+               display: flex; justify-content: center; align-items: center; 
+               cursor: pointer; box-shadow: 0 4px 15px rgba(216, 27, 96, 0.2); 
+               transition: all 0.3s ease;"
+        onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 6px 20px rgba(216, 27, 96, 0.4)';"
+        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 15px rgba(216, 27, 96, 0.2)';">
+    <svg id="music-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M9 13c0 1.105-1.12 2-2.5 2S4 14.105 4 13s1.12-2 2.5-2 2.5.895 2.5 2z"/>
+        <path fill-rule="evenodd" d="M9 3v10H8V3h1z"/>
+        <path d="M8 2.82a1 1 0 0 1 .804-.98l3-.6A1 1 0 0 1 13 2.22V4L8 5V2.82z"/>
+    </svg>
+</button>
+
+<script>
+    const audio = document.getElementById('bg-music');
+    const toggleBtn = document.getElementById('music-toggle-btn');
+    
+    // Lấy thời gian nhạc đang nghe dở (nếu có)
+    const savedTime = localStorage.getItem('musicTime') || 0;
+    audio.currentTime = parseFloat(savedTime);
+
+    // HÀM CỐ GẮNG TỰ ĐỘNG PHÁT NHẠC
+    function attemptAutoplay() {
+        audio.play().then(() => {
+            // Trình duyệt cho phép phát (Thường là khi chuyển trang)
+            localStorage.setItem('musicPlaying', 'true');
+            updateUI(true);
+        }).catch((error) => {
+            // Trình duyệt chặn (Lần đầu vào web). Đợi người dùng click bất kỳ đâu
+            updateUI(false);
+            document.body.addEventListener('click', function startOnFirstInteraction() {
+                audio.play();
+                localStorage.setItem('musicPlaying', 'true');
+                updateUI(true);
+                document.body.removeEventListener('click', startOnFirstInteraction);
+            }, { once: true });
+        });
+    }
+
+    // Chạy thử tự động phát ngay khi trang vừa tải xong
+    attemptAutoplay();
+
+    // Liên tục lưu lại thời gian bài hát mỗi giây
+    setInterval(() => {
+        if (!audio.paused) {
+            localStorage.setItem('musicTime', audio.currentTime);
+        }
+    }, 1000);
+
+    // Hàm Bật/Tắt nhạc chủ động khi người dùng bấm vào nút
+    function toggleMusic() {
+        if (audio.paused) {
+            audio.play();
+            localStorage.setItem('musicPlaying', 'true');
+            updateUI(true);
+        } else {
+            audio.pause();
+            localStorage.setItem('musicPlaying', 'false');
+            updateUI(false);
+        }
+    }
+
+    // Hàm cập nhật giao diện nút (khi tắt nhạc, nút sẽ mờ đi một chút để báo hiệu)
+    function updateUI(playing) {
+        if (playing) {
+            toggleBtn.style.opacity = '1';
+        } else {
+            toggleBtn.style.opacity = '0.5';
+        }
+    }
+</script>
 
     <nav class="navbar fade-in">
         <div class="logo">
-            <img src="images/logo_.png" alt="Văn Chương" class="logo-img" onerror="this.src='https://via.placeholder.com/150x50/fff/d81b60?text=VĂN+CHƯƠNG'">
+            <img src="images/logo.png" alt="Văn Chương" class="logo-img" onerror="this.src='https://via.placeholder.com/150x50/fff/d81b60?text=VĂN+CHƯƠNG'">
         </div>
         <ul class="nav-links">
             <li><a href="./index.html">Trang chủ</a></li>
@@ -752,11 +897,51 @@ Văn chương suy cho cùng cũng giống như dòng nước mát lành tưới 
     </p>
 
 </div>
-<div class="quote-wrapper">
-    <blockquote class="quote-section">
+</section> <div class="quote-wrapper">
+    <blockquote class="quote-section slide-up" style="text-align: center; padding: 40px; font-style: italic; color: #555;">
         "Học Văn không chỉ là ghi nhớ..."
     </blockquote>
 </div>
+
+<footer class="footer-section glass-panel slide-up">
+    <div class="footer-cols">
+        <div class="footer-col">
+            <h3>VỀ CHÚNG MÌNH</h3>
+            <p>Chạm Văn Chương là nơi lưu giữ những xúc cảm đẹp nhất về văn học. Nơi kết nối những tâm hồn đồng điệu, yêu cái đẹp và say mê con chữ.</p>
+            <div class="social-icons">
+                <i class="fa-brands fa-facebook"></i>
+                <i class="fa-brands fa-instagram"></i>
+                <i class="fa-brands fa-tiktok"></i>
+                <i class="fa-brands fa-youtube"></i>
+            </div>
+        </div>
+
+        <div class="footer-col">
+            <h3>LIÊN KẾT NHANH</h3>
+            <ul>
+                <li><a href="./index.html">Trang chủ</a></li>
+                <li><a href="./diendan.html">Diễn đàn</a></li>
+                <li><a href="./tacpham.html">Tác phẩm</a></li>
+                <li><a href="./chuabai.html">Chữa bài</a></li>
+                <li><a href="./tacgia.html">Tác giả</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h3>LIÊN HỆ</h3>
+            <ul>
+                <li><i class="fa-solid fa-location-dot"></i> Đà Nẵng, Việt Nam</li>
+                <li><i class="fa-solid fa-envelope"></i> lienhe@chamvanchuong.com</li>
+                <li><i class="fa-solid fa-phone"></i> +84 123 456 789</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        &copy; 2026 Chạm Văn Chương. Tất cả các quyền được bảo lưu.
+    </div>
+</footer>
+
 <div class="floating-btn" onclick="window.location.href='chuabai.html'">
     <i class="fa-brands fa-pagelines"></i>
     Viết cùng<br>Thưởng Văn
