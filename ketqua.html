@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="vi">
-    <script>
-    // Kiểm tra trạng thái: Nếu chưa đăng nhập thì lập tức chuyển hướng về trang tài khoản
-    if (localStorage.getItem("isLoggedIn") !== "true") {
+ <script>
+    // Kiểm tra token: Nếu chưa đăng nhập thì lập tức chuyển hướng về trang tài khoản
+    if (!localStorage.getItem("token")) {
         window.location.href = "taikhoan.html"; 
     }
 </script>
@@ -241,7 +241,7 @@
 </div>
 
 <script>
-    // 1. Chuyển Tab
+    // 1. Hàm Chuyển Tab (Giữ nguyên logic của bạn)
     function openTab(tabId) {
         document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
         document.querySelectorAll('.tab-item').forEach(item => item.classList.remove('active'));
@@ -249,70 +249,85 @@
         event.currentTarget.classList.add('active');
     }
 
-    // 2. Render Dữ liệu
-    function renderKetQua() {
-        // --- ĐỔ DỮ LIỆU BÀI GỐC CỦA NGƯỜI DÙNG VÀO CỘT TRÁI ---
-        const baiGoc = localStorage.getItem("baiChoChua");
-        if(baiGoc) {
-            document.getElementById("baiLamGoc").innerText = baiGoc;
-        } else {
-            // Hiển thị đoạn văn mẫu nếu localStorage rỗng (chưa nhập bài)
-            document.getElementById("baiLamGoc").innerText = "Sừng sững nơi đầu sóng, ngọn hải đăng khước từ chốn lặng tờ để phô diễn giá trị ánh sáng tại những tọa độ hiểm trở nhất. Con người cũng vậy, sự bản lĩnh không đo bằng sự bình yên hưởng lạc mà bằng tư thế hiên ngang trước cuồng phong số phận. Để trở thành điểm tựa, mỗi người phải tự rèn một trái tim gang thép để không bị nhấn chìm giữa muôn trùng sóng dữ.";
+    // 2. Fetch và Render Dữ liệu từ API Backend
+    async function renderKetQua() {
+        // Lấy ID bài viết từ URL (?id=...) và Token từ localStorage
+        const urlParams = new URLSearchParams(window.location.search);
+        const essayId = urlParams.get('id');
+        const token = localStorage.getItem("token");
+
+        // Kiểm tra bảo mật cơ bản
+        if (!essayId || !token) {
+            alert("Không tìm thấy bài viết hoặc bạn chưa đăng nhập!");
+            window.location.href = "taikhoan.html";
+            return;
         }
 
-        // --- ĐỔ DỮ LIỆU ADMIN ĐÃ CHẤM VÀO CỘT PHẢI ---
-        const containerLoi = document.getElementById("danhSachLoi");
-        let dataLoi = [];
-        
         try {
-            const storedData = localStorage.getItem("danhSachLoiAdmin");
-            if(storedData) {
-                dataLoi = JSON.parse(storedData);
-            } else {
-                // Dữ liệu mẫu nếu Admin chưa chấm
-                dataLoi = [
-                    {
-                        tieuDe: "Dùng từ chưa sát nghĩa",
-                        doanGoc: "...ngọn hải đăng khước từ chốn lặng tờ...",
-                        nhanXet: "Từ 'lặng tờ' gợi sự tĩnh mịch, đôi khi mang nghĩa tiêu cực. Trong văn cảnh ca ngợi sự bản lĩnh nên dùng từ mang sắc thái bình yên nhưng vẫn trang trọng.",
-                        goiY: "Thay bằng từ 'tĩnh lặng' hoặc 'an yên'."
+            // ĐÃ SỬA: Thay localhost bằng link Render
+let response = await fetch(`https://backend-wkbh.onrender.com/api/essays/${essayId}/result`, {
+    method: 'GET',
+    headers: { 
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+    }
+});
+
+            if (response.ok) {
+                let essay = await response.json();
+                
+                // --- ĐỔ DỮ LIỆU BÀI GỐC ---
+                document.getElementById("baiLamGoc").innerText = essay.originalContent || "Không có nội dung bài gốc.";
+
+                // Kiểm tra xem bài đã được admin chấm chưa
+                if (essay.status === "graded" && essay.grading) {
+                    
+                    // --- ĐỔ DỮ LIỆU ĐÁNH GIÁ CHUNG ---
+                    document.getElementById("noiDungDanhGia").innerText = essay.grading.generalEvaluation || "Chưa có đánh giá chung.";
+                    
+                    // --- ĐỔ DỮ LIỆU GỢI Ý NÂNG CẤP ---
+                    document.getElementById("noiDungGoiY").innerText = essay.grading.upgradeSuggestion || "Chưa có gợi ý.";
+
+                    // --- ĐỔ DỮ LIỆU DANH SÁCH LỖI ---
+                    const containerLoi = document.getElementById("danhSachLoi");
+                    let htmlContent = "";
+                    
+                    if (essay.grading.errorBlocks && essay.grading.errorBlocks.length > 0) {
+                        // Vòng lặp lấy đúng các field title, original, comment, suggestion từ MongoDB
+                        essay.grading.errorBlocks.forEach(loi => {
+                            htmlContent += `
+                                <div class="feedback-card">
+                                    <div class="card-title">${loi.title || 'Lỗi'}</div>
+                                    <ul class="card-list">
+                                        <li>Đoạn gốc: <span class="text-red">"${loi.original || ''}"</span></li>
+                                        <li><strong>Nhận xét:</strong> ${loi.comment || ''}</li>
+                                        <li><strong>Gợi ý:</strong> <span class="text-green">"${loi.suggestion || ''}"</span></li>
+                                    </ul>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        htmlContent = "<p style='color:#666;'>Không có lỗi chi tiết nào cần sửa.</p>";
                     }
-                ];
+                    containerLoi.innerHTML = htmlContent;
+
+                } else {
+                    alert("Bài viết này chưa được chấm xong!");
+                    window.location.href = "chuabai.html";
+                }
+            } else {
+                const errorData = await response.json();
+                alert("Lỗi: " + (errorData.message || "Không thể tải kết quả!"));
+                window.location.href = "chuabai.html";
             }
-        } catch (e) {
-            console.error("Lỗi đọc dữ liệu:", e);
+        } catch (error) {
+            console.error("Lỗi khi fetch dữ liệu:", error);
+            alert("Mất kết nối tới server!");
         }
-
-        let htmlContent = "";
-        if(dataLoi.length === 0) {
-            htmlContent = "<p style='color:#666;'>Không có lỗi nào cần sửa.</p>";
-        } else {
-            dataLoi.forEach(loi => {
-                htmlContent += `
-                    <div class="feedback-card">
-                        <div class="card-title">${loi.tieuDe}</div>
-                        <ul class="card-list">
-                            <li>Đoạn gốc: <span class="text-red">"${loi.doanGoc}"</span></li>
-                            <li><strong>Nhận xét:</strong> ${loi.nhanXet}</li>
-                            <li><strong>Gợi ý:</strong> <span class="text-green">"${loi.goiY}"</span></li>
-                        </ul>
-                    </div>
-                `;
-            });
-        }
-        containerLoi.innerHTML = htmlContent;
-
-        const dg = localStorage.getItem("danhGiaChung");
-        if(dg) document.getElementById("noiDungDanhGia").innerText = dg;
-
-        const gy = localStorage.getItem("goiYNangCap");
-        if(gy) document.getElementById("noiDungGoiY").innerText = gy;
     }
 
-    // Chạy khi load xong trang
+    // Chạy hàm render khi trang vừa load xong
     window.onload = renderKetQua;
-
 </script>
-
 </body>
 </html>

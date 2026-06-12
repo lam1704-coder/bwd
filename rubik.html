@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTS - Rubik Văn Chương</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Hệ màu tone xanh rêu / xanh bơ nhạt theo đúng asset ảnh của TTS */
+            --primary-moss: #3b5240;    /* Xanh rêu trầm thanh lịch */
+            --accent-sage: #5b705f;     /* Xanh bơ dịu nhẹ */
+            --bg-light: #f7f9f6;        /* Nền trắng kem nhã nhặn */
+            --border-soft: #d2dad4;     /* Đường viền mảnh, mờ nhẹ tạo sự thanh thoát */
+            --text-dark: #2d3830;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #ffffff;
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* BANNER HERO CHIA ĐÔI THANH LỊCH */
+        .rubik-hero {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            min-height: 500px;
+            border-bottom: 1px solid var(--border-soft);
+        }
+
+        .hero-title-block {
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 10%;
+        }
+
+        .hero-title-block h1 {
+            font-family: 'Anton', sans-serif;
+            font-size: 85px;
+            line-height: 0.9;
+            margin: 0;
+            letter-spacing: 2px;
+            color: var(--primary-moss);
+        }
+        .hero-title-block p {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 38px;
+            color: var(--accent-sage);
+            margin: 10px 0 0 0;
+            font-weight: 500;
+        }
+
+        .hero-image-block {
+            background: url('images/rubik.jpg') top center / cover no-repeat;
+            border-left: 1px solid var(--border-soft);
+        }
+
+        /* THỐNG KÊ DẠNG KHỐI PHẲNG NHẸ NHÀNG */
+        .rubik-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-soft);
+        }
+
+        .stat-box {
+            padding: 30px 15px;
+            text-align: center;
+            border-right: 1px solid var(--border-soft);
+        }
+
+        .stat-box:last-child { border-right: none; }
+
+        .stat-box strong {
+            display: block;
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: var(--primary-moss);
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .stat-box span {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #7a8a7f;
+        }
+
+        /* PHẦN GIỚI THIỆU */
+        .rubik-intro {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 50px;
+            max-width: 1100px;
+            margin: 70px auto;
+            padding: 0 5%;
+            align-items: center;
+        }
+
+        .rubik-intro img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            border: 1px solid var(--border-soft);
+            box-shadow: 0 10px 30px rgba(59, 82, 64, 0.05);
+        }
+
+        .rubik-intro p {
+            font-size: 16px;
+            line-height: 1.85;
+            color: #4a544e;
+            font-weight: 400;
+        }
+
+        /* ===================================================
+           LƯỚI RUBIK MESH: KHÍT TUYỆT ĐỐI NHƯNG RẤT THANH THOÁT
+           =================================================== */
+        .rubik-grid-section {
+            max-width: 1100px;
+            margin: 0 auto 70px;
+            padding: 0 5%;
+        }
+
+        .rubik-mesh {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-auto-rows: 145px; /* Chiều cao vừa vặn cho các ô */
+            gap: 15px; /* Khoảng hở tạo độ thở thanh mảnh cho ảnh */
+        }
+
+        .rubik-card {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-soft);
+            background: var(--bg-light);
+            border-radius: 8px; /* Bo góc nhẹ giúp giảm bớt sự thô cứng */
+        }
+
+        .rubik-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Tự động lấp đầy khít các ô trống */
+            display: block;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .rubik-card:hover img {
+            transform: scale(1.04);
+        }
+
+        /* Phân chia kích thước các khối để xếp gạch khít 100% */
+        .block-square-big { grid-column: span 4; grid-row: span 2; }
+        .block-banner-mid { grid-column: span 5; grid-row: span 2; }
+        .block-tall-long  { grid-column: span 3; grid-row: span 4; } /* Khối dành riêng cho ảnh trích dẫn dọc dài */
+        
+        .block-square-v2  { grid-column: span 4; grid-row: span 2; }
+        .block-banner-v2  { grid-column: span 5; grid-row: span 2; }
+        
+        .block-half-footer { grid-column: span 6; grid-row: span 2; }
+        .block-quarter-ft  { grid-column: span 3; grid-row: span 2; }
+
+        /* ĐOẠN TRÍCH DẪN GIỮA TRANG */
+        .rubik-quote {
+            padding: 60px 10%;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 19px;
+            line-height: 1.8;
+            color: var(--primary-moss);
+            max-width: 800px;
+            margin: 0 auto 70px;
+        }
+
+        /* FOOTER CHÂN TRANG */
+        footer {
+            border-top: 1px solid var(--border-soft);
+            background: var(--bg-light);
+            padding: 60px 10%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .footer-brand h3 {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 26px;
+            margin: 0 0 15px 0;
+            color: var(--primary-moss);
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #616b64;
+            max-width: 340px;
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .footer-col h4 {
+            font-size: 12px;
+            color: #8c9b90;
+            text-transform: uppercase;
+            margin-top: 0;
+            margin-bottom: 15px;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        .footer-col p {
+            font-size: 14px;
+            margin: 8px 0;
+            color: #4a544e;
+        }
+
+        /* RESPONSIVE TRÊN ĐIỆN THOẠI ĐỂ KHÔNG BỊ TRỐNG LỖI Ô */
+        @media (max-width: 992px) {
+            .rubik-hero { grid-template-columns: 1fr; min-height: auto; }
+            .hero-image-block { height: 280px; border-left: none; border-top: 1px solid var(--border-soft); }
+            .rubik-stats { grid-template-columns: repeat(2, 1fr); }
+            .stat-box { border-bottom: 1px solid var(--border-soft); }
+            .stat-box:nth-child(odd) { border-right: 1px solid var(--border-soft); }
+            .stat-box:nth-child(3), .stat-box:nth-child(4) { border-bottom: none; }
+            .rubik-intro { grid-template-columns: 1fr; text-align: center; gap: 30px; }
+            .rubik-intro img { width: 50%; margin: 0 auto; }
+            
+            /* Đưa lưới ảnh về dạng 2 cột đều đặn trên mobile để triệt tiêu lỗ hổng */
+            .rubik-mesh { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 180px; }
+            .rubik-card, [class*="block-"] { grid-column: span 1 !important; grid-row: span 1 !important; }
+            
+            footer { grid-template-columns: 1fr; gap: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="rubik-hero">
+        <div class="hero-title-block">
+            <h1>RUBIK</h1>
+            <p>Văn Chương</p>
+        </div>
+        <div class="hero-image-block"></div>
+    </header>
+
+    <section class="rubik-stats">
+        <div class="stat-box">
+            <strong>230K+</strong>
+            <span>Độc giả đồng hành</span>
+        </div>
+        <div class="stat-box">
+            <strong>6 Mặt</strong>
+            <span>Tư duy toàn diện</span>
+        </div>
+        <div class="stat-box">
+            <strong>9.25+</strong>
+            <span>Band điểm bứt phá</span>
+        </div>
+        <div class="stat-box">
+            <strong>Top 1</strong>
+            <span>Sơ đồ khối Ngữ Văn</span>
+        </div>
+    </section>
+
+    <section class="rubik-intro">
+        <img src="images/rubik.jpg" alt="Rubik Văn Chương TTS">
+        <p>
+            Không đi theo lối mòn của những bài văn mẫu dài dòng và rập khuôn, **Rubik Văn Chương** mở ra một trạm dừng chân tư duy hoàn toàn khác biệt dành cho sĩ tử thế hệ mới. Chúng tôi tin rằng văn chương là một tổ hợp của những cấu trúc logic và góc nhìn đa diện. Giống như việc giải mã một khối Rubik, khi bạn nắm vững quy luật xoay chuyển luận điểm, biết cách ráp nối các tầng nghĩa lý luận và dẫn chứng đời sống, mọi đề thi Ngữ Văn hóc búa nhất đều trở nên dễ dàng bẻ khóa.
+        </p>
+    </section>
+
+    <div class="rubik-grid-section">
+        <div class="rubik-mesh">
+            <div class="rubik-card block-square-big">
+                <img src="images/rb7.jpg" alt="Lý luận văn học">
+            </div>
+            
+            <div class="rubik-card block-banner-mid">
+                <img src="images/rb8.jpg" alt="Đặc biệt cho kì thi THPT">
+            </div>
+            
+            <div class="rubik-card block-tall-long">
+                <img src="images/rb6.jpg" alt="Thưởng thức sách">
+            </div>
+            
+            <div class="rubik-card block-square-v2">
+                <img src="images/rb4.jpg" alt="Vườn từ 7-8 lên 9.25">
+            </div>
+            
+            <div class="rubik-card block-banner-v2">
+                <img src="images/rb5.jpg" alt="Tư duy viết lách">
+            </div>
+        </div>
+    </div>
+
+    <div class="rubik-quote">
+        "Văn chương là câu chuyện của những góc nhìn. Đừng chỉ nhìn tác phẩm ở một mặt phẳng cố định, hãy học cách xoay khối Rubik tư duy để tìm ra những tầng sâu ý nghĩa ẩn sau từng trang sách."
+    </div>
+
+    <div class="rubik-grid-section">
+        <div class="rubik-mesh" style="grid-auto-rows: 130px;">
+            <div class="rubik-card block-half-footer">
+                <img src="images/rb3.jpg" alt="Feedback TTS-er 1">
+            </div>
+            <div class="rubik-card block-quarter-ft">
+                <img src="images/rb2.jpg" alt="Feedback TTS-er 2">
+            </div>
+            <div class="rubik-card block-quarter-ft">
+                <img src="images/rb1.jpg" alt="Feedback TTS-er 3">
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+</html>
