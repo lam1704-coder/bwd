@@ -13,10 +13,8 @@
 
     <title>Chạm Văn Chương</title>
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
@@ -83,6 +81,7 @@
 
         body {
             font-family: var(--font-body);
+            overflow-x: hidden; /* Tránh thanh cuộn ngang khi có hiệu ứng trượt */
         }
 
         h2 {
@@ -220,58 +219,173 @@
         .lens-focused p {
             color: var(--btn-green);
         }
-#lensSlider {
-    cursor: grab;
-    overflow: hidden;
-}
-#lensSlider {
-    display: flex;
-    gap: 12px;
-    width: max-content;
-    cursor: grab;
-    will-change: transform;
-}
-.lens-card {
-    transition: transform 0.4s ease, filter 0.4s ease, opacity 0.4s ease;
-    transform: scale(0.92);
-    opacity: 0.5;
-    filter: blur(1.2px);
-}
+        
+        #lensSlider {
+            display: flex;
+            gap: 12px;
+            width: max-content;
+            cursor: grab;
+            will-change: transform;
+        }
+        
+        .lens-card {
+            transition: transform 0.4s ease, filter 0.4s ease, opacity 0.4s ease;
+            transform: scale(0.92);
+            opacity: 0.5;
+            filter: blur(1.2px);
+        }
 
-/* card đang active */
-.lens-card.active {
-    transform: scale(1);
-    opacity: 1;
-    filter: blur(0);
-}
+        .lens-card.active {
+            transform: scale(1);
+            opacity: 1;
+            filter: blur(0);
+        }
 
-/* hover ưu tiên hơn active */
-.lens-card:hover {
-    transform: scale(1.06);
-    opacity: 1;
-    filter: blur(0);
-}
+        .lens-card:hover {
+            transform: scale(1.06);
+            opacity: 1;
+            filter: blur(0);
+        }
+
+        /* ===== SCROLL REVEAL ANIMATIONS (HIỆU ỨNG CUỘN) ===== */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        /* Lớp .active sẽ được JavaScript thêm vào khi cuộn tới */
+        .reveal-up.active, 
+        .reveal-left.active, 
+        .reveal-right.active {
+            opacity: 1;
+            transform: translate(0);
+        }
+
+        /* Delay để các phần tử xuất hiện lần lượt */
+        .delay-100 { transition-delay: 0.1s; }
+        .delay-200 { transition-delay: 0.2s; }
+        .delay-300 { transition-delay: 0.3s; }
     </style>
 </head>
 
 <body class="bg-main">
+    <audio id="bg-music" loop src="audio/nhacnen.mp3" preload="auto"></audio>
 
-    <!-- DECOR -->
-    <img src="images/./hoa 2.png" class="super1" alt="decor">
-    <img src="images/./hoa 1.png" class="super2" alt="decor">
+<button id="music-toggle-btn" onclick="toggleMusic()" 
+        style="position: fixed; bottom: 130px; right: 30px; z-index: 9999; 
+               background-color: #ffcce0; color: #d81b60; border: 2px solid #fff; 
+               border-radius: 50%; width: 45px; height: 45px; 
+               display: flex; justify-content: center; align-items: center; 
+               cursor: pointer; box-shadow: 0 4px 15px rgba(216, 27, 96, 0.2); 
+               transition: all 0.3s ease;"
+        onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 6px 20px rgba(216, 27, 96, 0.4)';"
+        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 15px rgba(216, 27, 96, 0.2)';">
+    <svg id="music-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M9 13c0 1.105-1.12 2-2.5 2S4 14.105 4 13s1.12-2 2.5-2 2.5.895 2.5 2z"/>
+        <path fill-rule="evenodd" d="M9 3v10H8V3h1z"/>
+        <path d="M8 2.82a1 1 0 0 1 .804-.98l3-.6A1 1 0 0 1 13 2.22V4L8 5V2.82z"/>
+    </svg>
+</button>
 
-    <!-- SECTION BOOK -->
+<script>
+    const audio = document.getElementById('bg-music');
+    const toggleBtn = document.getElementById('music-toggle-btn');
+    
+    // Lấy thời gian nhạc đang nghe dở (nếu có)
+    const savedTime = localStorage.getItem('musicTime') || 0;
+    audio.currentTime = parseFloat(savedTime);
+
+    // HÀM CỐ GẮNG TỰ ĐỘNG PHÁT NHẠC
+    function attemptAutoplay() {
+        audio.play().then(() => {
+            // Trình duyệt cho phép phát (Thường là khi chuyển trang)
+            localStorage.setItem('musicPlaying', 'true');
+            updateUI(true);
+        }).catch((error) => {
+            // Trình duyệt chặn (Lần đầu vào web). Đợi người dùng click bất kỳ đâu
+            updateUI(false);
+            document.body.addEventListener('click', function startOnFirstInteraction() {
+                audio.play();
+                localStorage.setItem('musicPlaying', 'true');
+                updateUI(true);
+                document.body.removeEventListener('click', startOnFirstInteraction);
+            }, { once: true });
+        });
+    }
+
+    // Chạy thử tự động phát ngay khi trang vừa tải xong
+    attemptAutoplay();
+
+    // Liên tục lưu lại thời gian bài hát mỗi giây
+    setInterval(() => {
+        if (!audio.paused) {
+            localStorage.setItem('musicTime', audio.currentTime);
+        }
+    }, 1000);
+
+    // Hàm Bật/Tắt nhạc chủ động khi người dùng bấm vào nút
+    function toggleMusic() {
+        if (audio.paused) {
+            audio.play();
+            localStorage.setItem('musicPlaying', 'true');
+            updateUI(true);
+        } else {
+            audio.pause();
+            localStorage.setItem('musicPlaying', 'false');
+            updateUI(false);
+        }
+    }
+
+    // Hàm cập nhật giao diện nút (khi tắt nhạc, nút sẽ mờ đi một chút để báo hiệu)
+    function updateUI(playing) {
+        if (playing) {
+            toggleBtn.style.opacity = '1';
+        } else {
+            toggleBtn.style.opacity = '0.5';
+        }
+    }
+</script>
+
+    <button onclick="window.history.back()" 
+            style="position: fixed; top: 30px; left: 30px; z-index: 9999; 
+                   background-color: #166534; color: white; border: none; 
+                   border-radius: 50px; padding: 12px 24px; font-family: 'Montserrat', sans-serif; 
+                   font-size: 14px; font-weight: 600; cursor: pointer; 
+                   box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; 
+                   align-items: center; gap: 8px; transition: all 0.3s ease;"
+            onmouseover="this.style.transform='scale(1.05) translateY(-2px)'; this.style.backgroundColor='#14532d'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.3)';"
+            onmouseout="this.style.transform='scale(1) translateY(0)'; this.style.backgroundColor='#166534'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.2)';">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+        </svg>
+        Quay lại
+    </button>
+
+    <img src="images/./hoa 2.png" class="super1 reveal-left" alt="decor">
+    <img src="images/./hoa 1.png" class="super2 reveal-right" alt="decor">
+
     <section class="section-book min-h-screen flex flex-col justify-center py-20 relative">
 
-        <div class="text-center mb-10 relative z-20">
+        <div class="text-center mb-10 relative z-20 reveal-up">
             <img src="images/./CHỮ 2.png"
                 alt="Logo"
                 class="mx-auto w-[600px] h-[400px] object-cover object-center">
         </div>
 
-        <div
-            class="max-w-[1500px] mx-auto w-[90%] bg-white/10 backdrop-blur-xl border border-white/30 rounded-[3rem] p-10 shadow-2xl relative z-10">
-
+        <div class="max-w-[1500px] mx-auto w-[90%] bg-white/10 backdrop-blur-xl border border-white/30 rounded-[3rem] p-10 shadow-2xl relative z-10 reveal-up delay-200">
             <div class="flex items-center justify-between gap-5 md:gap-10">
 
                 <div id="prevBook" class="arrow-btn flex-shrink-0">
@@ -311,171 +425,154 @@
         </div>
     </section>
 
-    <!-- PODCAST -->
-    <section class="section-podcast min-h-screen flex items-center py-20">
-
+    <section class="section-podcast min-h-screen flex items-center py-20 overflow-hidden">
         <div class="max-w-[1600px] mx-auto px-20 grid grid-cols-2 gap-32 items-center">
 
             <div>
-                <h2 class="text-[5rem] mb-6">PODCAST</h2>
+                <h2 class="text-[5rem] mb-6 reveal-left">PODCAST</h2>
 
-                <div class="podcast-desc">
+                <div class="podcast-desc reveal-left delay-100">
                     Chào mừng bạn đến với không gian Podcast của chúng mình.
                     Những trang sách trở nên sống động qua từng giọng đọc và giai điệu.
                 </div>
 
-                <a href="xemthem.html" class="btn-primary">
+                <a href="xemthem.html" class="btn-primary reveal-left delay-200">
                     Xem thêm
                 </a>
             </div>
 
             <div class="flex justify-center">
-
-                <div class="podcast-img-box">
+                <div class="podcast-img-box reveal-right delay-200">
                     <img src="images/./PODCAST.png"
                         class="w-full h-full object-cover"
                         alt="Podcast">
                 </div>
-
             </div>
 
         </div>
     </section>
 
-    <!-- BANNER -->
     <section class="section-banner w-full relative h-[1000px]">
-
         <a href="xemchitiet.html"
-            class="btn-primary absolute top-[650px] left-[20%]">
+            class="btn-primary absolute top-[650px] left-[20%] reveal-up">
             XEM CHI TIẾT
         </a>
-
     </section>
 
-    <!-- LENS -->
     <section class="section-lens min-h-screen py-20 overflow-hidden">
 
-        <div class="max-w-[1500px] mx-auto px-10">
-            <h2 class="text-6xl mb-20">
+        <div class="max-w-[1500px] mx-auto px-10 text-center">
+            <h2 class="text-6xl mb-20 reveal-up">
                 Văn học là gì qua những lăng kính?
             </h2>
         </div>
 
         <div id="lensSlider"
-            class="flex gap-12 overflow-x-auto no-scrollbar snap-x snap-mandatory py-20 scroll-smooth">
+            class="flex gap-12 overflow-x-auto no-scrollbar snap-x snap-mandatory py-20 scroll-smooth reveal-up delay-200">
 
             <div class="flex-shrink-0 w-[calc((100vw-1500px)/2+40px)] hidden md:block"></div>
 
-            <!-- CARD 1 -->
             <a href="./mua-xuan.html"
                 class="snap-center lens-card flex-shrink-0">
-
                 <div class="lens-img-container">
                     <img src="images/./B1.jpg" alt="">
                 </div>
-
                 <p>MÙA XUÂN NHỊP THỞ DỊU DÀNG TRONG THƠ CA</p>
             </a>
 
-            <!-- CARD 2 -->
             <a href="ngon-hai-dang.html"
                 class="snap-center lens-card flex-shrink-0">
-
                 <div class="lens-img-container">
                     <img src="images/./B2.jpg" alt="">
                 </div>
-
                 <p>HÌNH ẢNH ẨN DỤ VỀ NGỌN HẢI ĐĂNG</p>
             </a>
 
-            <!-- CARD 3 -->
             <a href="cay-tre.html"
                 class="snap-center lens-card flex-shrink-0">
-
                 <div class="lens-img-container">
                     <img src="images/./B3.jpg" alt="">
                 </div>
-
                 <p>KHÁM PHÁ BIỂU TƯỢNG CÂY TRE</p>
             </a>
+            
             <a href="images/./cay-tre.html"
                 class="snap-center lens-card flex-shrink-0">
-
                 <div class="lens-img-container">
                     <img src="images/NN.jpg" alt="">
                 </div>
-
                 <p>VẺ ĐẸP CỦA NGÔN NGỮ</p>
             </a>
+            
             <a href="images/./cay-tre.html"
                 class="snap-center lens-card flex-shrink-0">
-
                 <div class="lens-img-container">
                     <img src="images/TRIẾT.webp" alt="">
                 </div>
-
                 <p>VẤN ĐỀ TRIẾT HỌC</p>
             </a>
+            
             <a href="images/./cay-tre.html"
                 class="snap-center lens-card flex-shrink-0">
-
                 <div class="lens-img-container">
                     <img src="images/TẾT.jpg" alt="">
                 </div>
-
                 <p>Ý NGHĨA CỦA TẾT</p>
             </a>
-
-
-
 
             <div class="flex-shrink-0 w-[40vw]"></div>
 
         </div>
     </section>
 
-
-    <!-- JAVASCRIPT -->
     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // ================= LENS SLIDER LOOP =================
+            const slider = document.getElementById("lensSlider");
+            const cards = document.querySelectorAll(".lens-card");
 
-document.addEventListener("DOMContentLoaded", () => {
+            let pos = 0;
+            let speed = 0.6;
+            let pause = false;
 
-    const slider = document.getElementById("lensSlider");
-    const cards = document.querySelectorAll(".lens-card");
-
-    let pos = 0;
-    let speed = 0.6;
-    let pause = false;
-
-    function loop() {
-
-        if (!pause) {
-            pos -= speed;
-
-            if (Math.abs(pos) >= slider.scrollWidth / 2) {
-                pos = 0;
+            function loop() {
+                if (!pause) {
+                    pos -= speed;
+                    if (Math.abs(pos) >= slider.scrollWidth / 2) {
+                        pos = 0;
+                    }
+                    slider.style.transform = `translateX(${pos}px)`;
+                }
+                requestAnimationFrame(loop);
             }
 
-            slider.style.transform = `translateX(${pos}px)`;
-        }
+            loop();
 
-        requestAnimationFrame(loop);
-    }
+            cards.forEach(card => {
+                card.addEventListener("mouseenter", () => { pause = true; });
+                card.addEventListener("mouseleave", () => { pause = false; });
+            });
 
-    loop();
+            // ================= SCROLL REVEAL (HIỆU ỨNG CUỘN) =================
+            const revealElements = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right');
 
-    cards.forEach(card => {
-        card.addEventListener("mouseenter", () => {
-            pause = true;
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Thêm class 'active' khi phần tử lọt vào màn hình
+                        entry.target.classList.add('active');
+                        // Nếu chỉ muốn hiệu ứng chạy 1 lần rồi giữ nguyên, dùng dòng dưới:
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, {
+                root: null,
+                threshold: 0.15, // Kích hoạt khi cuộn thấy 15% của khối
+                rootMargin: "0px 0px -50px 0px"
+            });
+
+            revealElements.forEach(el => revealObserver.observe(el));
         });
-
-        card.addEventListener("mouseleave", () => {
-            pause = false;
-        });
-    });
-});
-
-</script>
+    </script>
 </body>
-
 </html>

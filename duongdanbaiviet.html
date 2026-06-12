@@ -29,6 +29,82 @@
     </style>
 </head>
 <body>
+   <audio id="bg-music" loop src="audio/nhacnen.mp3" preload="auto"></audio>
+
+<button id="music-toggle-btn" onclick="toggleMusic()" 
+        style="position: fixed; bottom: 130px; right: 30px; z-index: 9999; 
+               background-color: #ffcce0; color: #d81b60; border: 2px solid #fff; 
+               border-radius: 50%; width: 45px; height: 45px; 
+               display: flex; justify-content: center; align-items: center; 
+               cursor: pointer; box-shadow: 0 4px 15px rgba(216, 27, 96, 0.2); 
+               transition: all 0.3s ease;"
+        onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 6px 20px rgba(216, 27, 96, 0.4)';"
+        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 15px rgba(216, 27, 96, 0.2)';">
+    <svg id="music-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M9 13c0 1.105-1.12 2-2.5 2S4 14.105 4 13s1.12-2 2.5-2 2.5.895 2.5 2z"/>
+        <path fill-rule="evenodd" d="M9 3v10H8V3h1z"/>
+        <path d="M8 2.82a1 1 0 0 1 .804-.98l3-.6A1 1 0 0 1 13 2.22V4L8 5V2.82z"/>
+    </svg>
+</button>
+
+<script>
+    const audio = document.getElementById('bg-music');
+    const toggleBtn = document.getElementById('music-toggle-btn');
+    
+    // Lấy thời gian nhạc đang nghe dở (nếu có)
+    const savedTime = localStorage.getItem('musicTime') || 0;
+    audio.currentTime = parseFloat(savedTime);
+
+    // HÀM CỐ GẮNG TỰ ĐỘNG PHÁT NHẠC
+    function attemptAutoplay() {
+        audio.play().then(() => {
+            // Trình duyệt cho phép phát (Thường là khi chuyển trang)
+            localStorage.setItem('musicPlaying', 'true');
+            updateUI(true);
+        }).catch((error) => {
+            // Trình duyệt chặn (Lần đầu vào web). Đợi người dùng click bất kỳ đâu
+            updateUI(false);
+            document.body.addEventListener('click', function startOnFirstInteraction() {
+                audio.play();
+                localStorage.setItem('musicPlaying', 'true');
+                updateUI(true);
+                document.body.removeEventListener('click', startOnFirstInteraction);
+            }, { once: true });
+        });
+    }
+
+    // Chạy thử tự động phát ngay khi trang vừa tải xong
+    attemptAutoplay();
+
+    // Liên tục lưu lại thời gian bài hát mỗi giây
+    setInterval(() => {
+        if (!audio.paused) {
+            localStorage.setItem('musicTime', audio.currentTime);
+        }
+    }, 1000);
+
+    // Hàm Bật/Tắt nhạc chủ động khi người dùng bấm vào nút
+    function toggleMusic() {
+        if (audio.paused) {
+            audio.play();
+            localStorage.setItem('musicPlaying', 'true');
+            updateUI(true);
+        } else {
+            audio.pause();
+            localStorage.setItem('musicPlaying', 'false');
+            updateUI(false);
+        }
+    }
+
+    // Hàm cập nhật giao diện nút (khi tắt nhạc, nút sẽ mờ đi một chút để báo hiệu)
+    function updateUI(playing) {
+        if (playing) {
+            toggleBtn.style.opacity = '1';
+        } else {
+            toggleBtn.style.opacity = '0.5';
+        }
+    }
+</script>
 
     <div class="w-full relative h-[400px] overflow-hidden">
         <img src="images/mây hồng.png" class="w-full h-full object-cover">
