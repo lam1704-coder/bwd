@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="vi">
-    <script>
-    // Kiểm tra trạng thái: Nếu chưa đăng nhập thì lập tức chuyển hướng về trang tài khoản
-    if (localStorage.getItem("isLoggedIn") !== "true") {
+ <script>
+    // Kiểm tra token: Nếu chưa đăng nhập thì lập tức chuyển hướng về trang tài khoản
+    if (!localStorage.getItem("token")) {
         window.location.href = "taikhoan.html"; 
     }
 </script>
@@ -264,14 +264,14 @@
         }
 
         try {
-            // Gọi API GET lấy chi tiết bài viết đã chấm
-            let response = await fetch(`http://localhost:5000/api/essays/${essayId}/result`, {
-                method: 'GET',
-                headers: { 
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
+            // ĐÃ SỬA: Thay localhost bằng link Render
+let response = await fetch(`https://backend-wkbh.onrender.com/api/essays/${essayId}/result`, {
+    method: 'GET',
+    headers: { 
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+    }
+});
 
             if (response.ok) {
                 let essay = await response.json();
