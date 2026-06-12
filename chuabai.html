@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
+<script>
+    // Kiểm tra token thay vì isLoggedIn
+    if (!localStorage.getItem("token")) {
+        window.location.href = "taikhoan.html"; 
+    }
+</script>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -313,17 +319,37 @@
 </div>
 
 <script>
-    function kichHoatChuaBai(){
+    async function kichHoatChuaBai(){
         let text = document.getElementById("main-textarea").value;
         if(!text.trim()){ 
             alert("Vui lòng nhập nội dung!"); 
             return; 
         }
-        localStorage.setItem("baiChoChua", text);
-        // Chuyển hướng tới trang cho.html như code cũ
-        window.location.href = "cho.html";
+
+        const token = localStorage.getItem("token");
+
+        try {
+            // Đã sửa lại đúng đuôi API: /api/essays/submit
+            let response = await fetch("https://backend-wkbh.onrender.com/api/essays/submit", {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
+                },
+                body: JSON.stringify({ originalContent: text })
+            });
+
+            if (response.ok) {
+                let data = await response.json();
+                window.location.href = `cho.html?id=${data.essayId}`;
+            } else {
+                alert("Lỗi khi gửi bài. Vui lòng thử lại!");
+            }
+        } catch (error) {
+            console.error("Lỗi:", error);
+            alert("Mất kết nối tới server Backend!");
+        }
     }
 </script>
-
 </body>
 </html>

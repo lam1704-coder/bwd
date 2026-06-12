@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="vi">
+   <script>
+    // Kiểm tra trạng thái: Nếu chưa đăng nhập thì lập tức chuyển hướng về trang tài khoản
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+        window.location.href = "taikhoan.html"; 
+    }
+</script> 
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Chạm Văn Chương</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ===== BACKGROUND ===== */
+
+        .bg-main {
+            background-image: url('./bg_header.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+
+        .section-book {
+            background-image: url('images/nen1.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .section-podcast {
+            background-color: #ffd8dccc;
+            min-height: 1000px;
+        }
+
+        .section-banner {
+            background-image: url('images/nền 2.png');
+            min-height: 1000px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .section-lens {
+            background-color: #ffd8dccc;
+            min-height: 1000px;
+        }
+
+        /* ===== FLOATING DECOR ===== */
+
+        .super1 {
+            position: absolute;
+            top: 500px;
+            left: -50px;
+            z-index: 999;
+            width: 300px;
+            pointer-events: none;
+        }
+
+        .super2 {
+            position: absolute;
+            top: 1900px;
+            right: 0;
+            z-index: 999;
+            width: 450px;
+            pointer-events: none;
+        }
+
+        /* ===== UI ===== */
+
+        :root {
+            --font-header: 'Anton', sans-serif;
+            --font-body: 'Montserrat', sans-serif;
+            --btn-green: #5b6b32;
+        }
+
+        body {
+            font-family: var(--font-body);
+        }
+
+        h2 {
+            font-family: var(--font-header);
+            color: #1a4731;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background-color: #166534;
+            color: white;
+            padding: 1rem 3rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            transition: 0.3s;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary:hover {
+            background-color: #15803d;
+            transform: translateY(-2px);
+        }
+
+        .podcast-desc {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            color: #1f2937;
+            text-align: justify;
+            margin-bottom: 2rem;
+        }
+
+        .podcast-img-box {
+            width: 600px;
+            height: 600px;
+            border-radius: 3rem;
+            overflow: hidden;
+            border: 15px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        /* ===== BOOK SLIDER ===== */
+
+        .book-card-item {
+            flex-shrink: 0;
+            width: 500px;
+            height: 600px;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 8px solid white;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .book-card-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .arrow-btn {
+            width: 70px;
+            height: 70px;
+            background-color: var(--btn-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .arrow-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .triangle {
+            width: 0;
+            height: 0;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            border-left: 20px solid #ffffff;
+            margin-left: 6px;
+        }
+
+        .left-tri {
+            transform: rotate(180deg);
+            margin-left: -6px;
+        }
+
+        /* ===== LENS ===== */
+
+        .lens-card {
+            transition: 0.4s;
+            width: 450px;
+        }
+
+        .lens-img-container {
+            aspect-ratio: 1/1;
+            width: 100%;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            border: 10px solid white;
+        }
+
+        .lens-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .lens-card p {
+            margin-top: 2rem;
+            text-align: center;
+            font-weight: bold;
+            color: #6b7280;
+            font-size: 1.2rem;
+        }
+
+        .lens-focused {
+            transform: scale(1.1);
+        }
+
+        .lens-focused p {
+            color: var(--btn-green);
+        }
+#lensSlider {
+    cursor: grab;
+    overflow: hidden;
+}
+#lensSlider {
+    display: flex;
+    gap: 12px;
+    width: max-content;
+    cursor: grab;
+    will-change: transform;
+}
+.lens-card {
+    transition: transform 0.4s ease, filter 0.4s ease, opacity 0.4s ease;
+    transform: scale(0.92);
+    opacity: 0.5;
+    filter: blur(1.2px);
+}
+
+/* card đang active */
+.lens-card.active {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0);
+}
+
+/* hover ưu tiên hơn active */
+.lens-card:hover {
+    transform: scale(1.06);
+    opacity: 1;
+    filter: blur(0);
+}
+    </style>
+</head>
+
+<body class="bg-main">
+
+    <!-- DECOR -->
+    <img src="images/./hoa 2.png" class="super1" alt="decor">
+    <img src="images/./hoa 1.png" class="super2" alt="decor">
+
+    <!-- SECTION BOOK -->
+    <section class="section-book min-h-screen flex flex-col justify-center py-20 relative">
+
+        <div class="text-center mb-10 relative z-20">
+            <img src="images/./CHỮ 2.png"
+                alt="Logo"
+                class="mx-auto w-[600px] h-[400px] object-cover object-center">
+        </div>
+
+        <div
+            class="max-w-[1500px] mx-auto w-[90%] bg-white/10 backdrop-blur-xl border border-white/30 rounded-[3rem] p-10 shadow-2xl relative z-10">
+
+            <div class="flex items-center justify-between gap-5 md:gap-10">
+
+                <div id="prevBook" class="arrow-btn flex-shrink-0">
+                    <div class="triangle left-tri"></div>
+                </div>
+
+                <div id="bookSlider"
+                    class="flex gap-10 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth py-5 px-5">
+
+                    <div class="snap-center book-card-item">
+                        <img src="images/./anh1.jpg" alt="">
+                    </div>
+
+                    <div class="snap-center book-card-item">
+                        <img src="images/./anh2.jpg" alt="">
+                    </div>
+
+                    <div class="snap-center book-card-item">
+                        <img src="images/./anh3.jpg" alt="">
+                    </div>
+
+                    <div class="snap-center book-card-item">
+                        <img src="images/./anh4.jpg" alt="">
+                    </div>
+
+                    <div class="snap-center book-card-item">
+                        <img src="images/./anh5.jpg" alt="">
+                    </div>
+
+                </div>
+
+                <div id="nextBook" class="arrow-btn flex-shrink-0">
+                    <div class="triangle"></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PODCAST -->
+    <section class="section-podcast min-h-screen flex items-center py-20">
+
+        <div class="max-w-[1600px] mx-auto px-20 grid grid-cols-2 gap-32 items-center">
+
+            <div>
+                <h2 class="text-[5rem] mb-6">PODCAST</h2>
+
+                <div class="podcast-desc">
+                    Chào mừng bạn đến với không gian Podcast của chúng mình.
+                    Những trang sách trở nên sống động qua từng giọng đọc và giai điệu.
+                </div>
+
+                <a href="xemthem.html" class="btn-primary">
+                    Xem thêm
+                </a>
+            </div>
+
+            <div class="flex justify-center">
+
+                <div class="podcast-img-box">
+                    <img src="images/./PODCAST.png"
+                        class="w-full h-full object-cover"
+                        alt="Podcast">
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- BANNER -->
+    <section class="section-banner w-full relative h-[1000px]">
+
+        <a href="xemchitiet.html"
+            class="btn-primary absolute top-[650px] left-[20%]">
+            XEM CHI TIẾT
+        </a>
+
+    </section>
+
+    <!-- LENS -->
+    <section class="section-lens min-h-screen py-20 overflow-hidden">
+
+        <div class="max-w-[1500px] mx-auto px-10">
+            <h2 class="text-6xl mb-20">
+                Văn học là gì qua những lăng kính?
+            </h2>
+        </div>
+
+        <div id="lensSlider"
+            class="flex gap-12 overflow-x-auto no-scrollbar snap-x snap-mandatory py-20 scroll-smooth">
+
+            <div class="flex-shrink-0 w-[calc((100vw-1500px)/2+40px)] hidden md:block"></div>
+
+            <!-- CARD 1 -->
+            <a href="./mua-xuan.html"
+                class="snap-center lens-card flex-shrink-0">
+
+                <div class="lens-img-container">
+                    <img src="images/./B1.jpg" alt="">
+                </div>
+
+                <p>MÙA XUÂN NHỊP THỞ DỊU DÀNG TRONG THƠ CA</p>
+            </a>
+
+            <!-- CARD 2 -->
+            <a href="ngon-hai-dang.html"
+                class="snap-center lens-card flex-shrink-0">
+
+                <div class="lens-img-container">
+                    <img src="images/./B2.jpg" alt="">
+                </div>
+
+                <p>HÌNH ẢNH ẨN DỤ VỀ NGỌN HẢI ĐĂNG</p>
+            </a>
+
+            <!-- CARD 3 -->
+            <a href="images/./cay-tre.html"
+                class="snap-center lens-card flex-shrink-0">
+
+                <div class="lens-img-container">
+                    <img src="images/./B3.jpg" alt="">
+                </div>
+
+                <p>KHÁM PHÁ BIỂU TƯỢNG CÂY TRE</p>
+            </a>
+            <a href="images/./cay-tre.html"
+                class="snap-center lens-card flex-shrink-0">
+
+                <div class="lens-img-container">
+                    <img src="images/NN.jpg" alt="">
+                </div>
+
+                <p>VẺ ĐẸP CỦA NGÔN NGỮ</p>
+            </a>
+            <a href="images/./cay-tre.html"
+                class="snap-center lens-card flex-shrink-0">
+
+                <div class="lens-img-container">
+                    <img src="images/TRIẾT.webp" alt="">
+                </div>
+
+                <p>VẤN ĐỀ TRIẾT HỌC</p>
+            </a>
+            <a href="images/./cay-tre.html"
+                class="snap-center lens-card flex-shrink-0">
+
+                <div class="lens-img-container">
+                    <img src="images/TẾT.jpg" alt="">
+                </div>
+
+                <p>Ý NGHĨA CỦA TẾT</p>
+            </a>
+
+
+
+
+            <div class="flex-shrink-0 w-[40vw]"></div>
+
+        </div>
+    </section>
+
+
+    <!-- JAVASCRIPT -->
+    <script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const slider = document.getElementById("lensSlider");
+    const cards = document.querySelectorAll(".lens-card");
+
+    let pos = 0;
+    let speed = 0.6;
+    let pause = false;
+
+    function loop() {
+
+        if (!pause) {
+            pos -= speed;
+
+            if (Math.abs(pos) >= slider.scrollWidth / 2) {
+                pos = 0;
+            }
+
+            slider.style.transform = `translateX(${pos}px)`;
+        }
+
+        requestAnimationFrame(loop);
+    }
+
+    loop();
+
+    cards.forEach(card => {
+        card.addEventListener("mouseenter", () => {
+            pause = true;
+        });
+
+        card.addEventListener("mouseleave", () => {
+            pause = false;
+        });
+    });
+});
+
+</script>
+</body>
+
+</html>

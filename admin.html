@@ -86,17 +86,41 @@
 </div>
 
 <script>
+    const token = localStorage.getItem("token");
+    let currentEssayId = null; // Biến lưu trữ ID bài đang chấm
+
     // 1. Kiểm tra quyền admin truy cập
-    if(localStorage.getItem("role") !== "admin"){
-        // Nếu tích hợp phân quyền trang đăng nhập, bỏ comment các dòng dưới
-        // window.location.href = "taikhoan.html";
+    if(!token || localStorage.getItem("role") !== "admin"){
+         window.location.href = "taikhoan.html";
     }
 
-    // 2. Lấy dữ liệu bài từ học viên gửi lên
-    const baiChoChua = localStorage.getItem("baiChoChua");
-    document.getElementById("noiDungBai").innerText = baiChoChua ? baiChoChua : "Hiện chưa có bài nào cần chữa từ hệ thống học viên.";
+    // 2. Tự động tải bài chờ chấm từ Backend
+    async function taiBaiChoChua() {
+        try {
+            let response = await fetch('https://backend-wkbh.onrender.com/api/essays/pending', {
+    method: 'GET',
+    headers: { 'Authorization': `Bearer ${token}` }
+});
+            
+            if (response.ok) {
+                let pendingEssays = await response.json();
+                if(pendingEssays.length > 0) {
+                    currentEssayId = pendingEssays[0]._id;
+                    document.getElementById("noiDungBai").innerText = pendingEssays[0].originalContent;
+                } else {
+                    document.getElementById("noiDungBai").innerText = "Hiện chưa có bài nào cần chữa từ hệ thống học viên.";
+                    currentEssayId = null;
+                }
+            }
+        } catch (error) {
+            document.getElementById("noiDungBai").innerText = "Lỗi kết nối Server!";
+        }
+    }
+    
+    // Gọi hàm ngay khi mở trang
+    taiBaiChoChua(); 
 
-    // 3. Xử lý giao diện khối lỗi động bằng Tailwind CSS
+    // 3. Xử lý giao diện khối lỗi động
     const errorContainer = document.getElementById("danhSachLoiContainer");
 
     function themLoiMoi() {
@@ -104,89 +128,91 @@
         errorBlock.className = "error-block bg-white/60 border-2 border-dashed border-gray-300 p-5 rounded-2xl relative shadow-sm transition-all hover:border-green-600";
         errorBlock.innerHTML = `
             <div class="mb-4">
-                <label class="block font-bold text-sm text-gray-700 mb-1.5 uppercase tracking-wide">Tiêu đề lỗi</label>
-                <input type="text" class="input-tieude w-full px-4 py-2.5 bg-white/90 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-green-700 font-medium text-gray-800" placeholder="Ví dụ: Lỗi lặp từ diễn đạt, Dùng từ sai ngữ cảnh...">
+                <label class="block font-bold text-sm text-gray-700 mb-1.5">Tiêu đề lỗi</label>
+                <input type="text" class="input-tieude w-full px-4 py-2 border rounded-xl outline-none focus:ring-2 focus:ring-green-700">
             </div>
-            
             <div class="mb-4">
-                <label class="block font-bold text-sm text-gray-700 mb-1.5 uppercase tracking-wide">Đoạn văn bị lỗi (Trích từ bài gốc)</label>
-                <input type="text" class="input-doangoc w-full px-4 py-2.5 bg-white/90 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-green-700 font-medium text-gray-800" placeholder="Copy hoặc trích dẫn đoạn văn chứa lỗi của học viên vào đây">
+                <label class="block font-bold text-sm text-gray-700 mb-1.5">Đoạn văn bị lỗi</label>
+                <input type="text" class="input-doangoc w-full px-4 py-2 border rounded-xl outline-none focus:ring-2 focus:ring-green-700">
             </div>
-            
             <div class="mb-4">
-                <label class="block font-bold text-sm text-gray-700 mb-1.5 uppercase tracking-wide">Phân tích / Nhận xét của Giáo viên</label>
-                <textarea class="input-nhanxet w-full min-h-[80px] px-4 py-2.5 bg-white/90 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-green-700 font-medium text-gray-800" placeholder="Giải thích chi tiết tại sao cách viết này chưa ổn và tác hại làm giảm sức thuyết phục ra sao..."></textarea>
+                <label class="block font-bold text-sm text-gray-700 mb-1.5">Nhận xét</label>
+                <textarea class="input-nhanxet w-full min-h-[80px] px-4 py-2 border rounded-xl outline-none focus:ring-2 focus:ring-green-700"></textarea>
             </div>
-            
             <div class="mb-2">
-                <label class="block font-bold text-sm text-gray-700 mb-1.5 uppercase tracking-wide">Câu văn gợi ý viết lại hoàn chỉnh</label>
-                <input type="text" class="input-goiy w-full px-4 py-2.5 bg-white/90 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-green-700 font-medium text-gray-800" placeholder="Nhập phần văn bản mượt mà, trau chuốt sau khi đã sửa đổi">
+                <label class="block font-bold text-sm text-gray-700 mb-1.5">Gợi ý viết lại</label>
+                <input type="text" class="input-goiy w-full px-4 py-2 border rounded-xl outline-none focus:ring-2 focus:ring-green-700">
             </div>
-            
             <div class="flex justify-end mt-4">
-                <button class="bg-red-100 hover:bg-red-200 text-red-600 text-xs font-bold px-4 py-2 rounded-lg transition-all" onclick="this.closest('.error-block').remove()">
-                    🗑️ Xóa khối lỗi này
-                </button>
+                <button class="bg-red-100 text-red-600 px-4 py-2 rounded-lg" onclick="this.closest('.error-block').remove()">🗑️ Xóa</button>
             </div>
         `;
         errorContainer.appendChild(errorBlock);
     }
 
-    // Tự động dựng sẵn 1 khối lỗi khi admin mở trang
     themLoiMoi();
 
-    // 4. Hàm Lưu Nhận Xét - Tích hợp SweetAlert2 và hiệu ứng Toast chuyên nghiệp
-    function guiNhanXet() {
-        const danhGia = document.getElementById("danhGiaChung").value;
-        const goiY = document.getElementById("goiYNangCap").value;
+    // 4. Hàm Lưu Nhận Xét Gửi Lên Backend
+    async function guiNhanXet() {
+        if(!currentEssayId) {
+            Swal.fire('Opps!', 'Không có bài nào đang chờ chấm.', 'warning');
+            return;
+        }
 
-        const mangLoi = [];
-        const cacKhoiLoi = document.querySelectorAll(".error-block");
+        const generalEvaluation = document.getElementById("danhGiaChung").value;
+        const upgradeSuggestion = document.getElementById("goiYNangCap").value;
+        const errorBlocks = [];
         
-        cacKhoiLoi.forEach(khoi => {
-            const tieuDe = khoi.querySelector(".input-tieude").value;
-            const doanGoc = khoi.querySelector(".input-doangoc").value;
-            const nhanXet = khoi.querySelector(".input-nhanxet").value;
-            const loiGoiY = khoi.querySelector(".input-goiy").value;
+        document.querySelectorAll(".error-block").forEach(khoi => {
+            const title = khoi.querySelector(".input-tieude").value;
+            const original = khoi.querySelector(".input-doangoc").value;
+            const comment = khoi.querySelector(".input-nhanxet").value;
+            const suggestion = khoi.querySelector(".input-goiy").value;
 
-            if(tieuDe || doanGoc || nhanXet || loiGoiY) {
-                mangLoi.push({
-                    tieuDe: tieuDe || "Lỗi diễn đạt tổng hợp",
-                    doanGoc: doanGoc || "...",
-                    nhanXet: nhanXet || "Không có nhận xét chi tiết bổ sung.",
-                    goiY: loiGoiY || "..."
+            if(title || original || comment || suggestion) {
+                // Ánh xạ đúng tên biến với backend model (title, original, comment, suggestion)
+                errorBlocks.push({
+                    title: title || "Lỗi diễn đạt",
+                    original: original || "...",
+                    comment: comment || "...",
+                    suggestion: suggestion || "..."
                 });
             }
         });
 
-        // Đóng gói lưu vào LocalStorage
-        localStorage.setItem("danhGiaChung", danhGia);
-        localStorage.setItem("goiYNangCap", goiY);
-        localStorage.setItem("danhSachLoiAdmin", JSON.stringify(mangLoi)); 
-        localStorage.setItem("trangThaiChua", "hoanthanh");
-
-        // Sử dụng SweetAlert2 hiển thị popup chuyên nghiệp
-        Swal.fire({
-            icon: 'success',
-            title: 'Hoàn Thành Chữa Bài!',
-            text: 'Dữ liệu nhận xét đã được lưu và gửi tới trang kết quả của học viên.',
-            confirmButtonColor: '#166534',
-            confirmButtonText: 'Xem trang Kết Quả',
-            showClass: {
-                popup: 'animate__animated animate__fadeInDown'
+        try {
+            // Gửi đánh giá lên API
+             // Sửa lại đúng đuôi API dành cho admin chấm bài, có truyền currentEssayId
+let response = await fetch(`https://backend-wkbh.onrender.com/api/essays/${currentEssayId}/grade`, {
+    method: 'POST', // Hoặc 'PUT' tùy theo bạn cấu hình ở Node.js (dựa vào code cũ của bạn là POST)
+    headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` 
+    },
+    body: JSON.stringify({ generalEvaluation, upgradeSuggestion, errorBlocks })
+});
+            if(response.ok) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Hoàn Thành!',
+                    text: 'Dữ liệu nhận xét đã được gửi tới học viên.',
+                    confirmButtonColor: '#166534',
+                    confirmButtonText: 'Tuyệt vời'
+                }).then(() => {
+                    // Tải lại trang để lấy bài tiếp theo (nếu có)
+                    window.location.reload(); 
+                });
+            } else {
+                Swal.fire('Lỗi', 'Không thể lưu đánh giá!', 'error');
             }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Điều hướng sang trang hiển thị kết quả (Sửa lại tên file khớp với cấu trúc của bạn)
-                window.location.href = "ketqua.html";
-            }
-        });
+        } catch (error) {
+            Swal.fire('Lỗi', 'Mất kết nối server!', 'error');
+        }
     }
 
-    // 5. Đăng xuất tài khoản quản trị
+    // 5. Đăng xuất
     function logout() {
-        localStorage.removeItem("isLoggedIn");
-        localStorage.removeItem("role");
+        localStorage.clear();
         window.location.href = "taikhoan.html";
     }
 </script>

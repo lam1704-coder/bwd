@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+ 
 <head>
 <meta charset="UTF-8">
 <title>Đang chờ chữa bài</title>
@@ -55,19 +56,39 @@ body{
 </div>
 
 <script>
+    // Lấy ID bài viết từ URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const essayId = urlParams.get('id');
+    const token = localStorage.getItem("token");
 
-function kiemTraKetQua(){
-
-    if(localStorage.getItem("trangThaiChua") === "hoanthanh"){
-
-        window.location.href = "ketqua.html";
-
+    // Nếu không có ID hoặc chưa đăng nhập thì quay về
+    if(!essayId || !token) {
+        window.location.href = "chuabai.html";
     }
 
-}
+    async function kiemTraKetQua(){
+        try {
+            // ĐÃ SỬA: Gọi API lấy kết quả bài viết kèm theo essayId
+            let response = await fetch(`https://backend-wkbh.onrender.com/api/essays/${essayId}/result`, {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
 
-setInterval(kiemTraKetQua,2000);
+            if(response.ok) {
+                let essay = await response.json();
+                
+                // Trạng thái trong DB đã chuyển sang 'graded' (đã chấm)
+                if(essay.status === "graded"){
+                    window.location.href = `ketqua.html?id=${essayId}`;
+                }
+            }
+        } catch (error) {
+            console.error("Lỗi kiểm tra:", error);
+        }
+    }
 
+    // Cứ 3 giây hỏi Server 1 lần
+    setInterval(kiemTraKetQua, 3000);
 </script>
 
 </body>

@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
+    <script>
+    // Kiểm tra trạng thái: Nếu chưa đăng nhập thì lập tức chuyển hướng về trang tài khoản
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+        window.location.href = "taikhoan.html"; 
+    }
+</script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -565,10 +571,10 @@
         <ul class="nav-links">
             <li><a href="./index.html">Trang chủ</a></li>
             <li><a href="./diendan.html">Diễn đàn</a></li>
-            <li><a href="./inde.html">Tác phẩm</a></li>
+            <li><a href="./tacpham.html">Tác phẩm</a></li>
             <li><a href="./chuabai.html">Chữa bài</a></li>
             <li><a href="./tacgia.html">Tác giả</a></li>
-            <li><a href="./taikhoan.html"><i class="fa-solid fa-circle-user"></i> Tài khoản</a></li>
+           <li><a href="#" onclick="dangXuat()"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a></li>
         </ul>
     </nav>
 
@@ -618,7 +624,7 @@
         </div>
         
         <div class="tac-pham-cards slide-right">
-            <div class="action-card" onclick="window.location.href='XEMCHITIET.HTML'">
+            <div class="action-card" onclick="window.location.href='xemchitiet.html'">
                 <h3>Phân tích bài viết</h3>
                 <button class="btn-pink">Xem ngay</button>
             </div>
@@ -729,6 +735,14 @@ Văn chương suy cho cùng cũng giống như dòng nước mát lành tưới 
             if (cards[index].classList.contains('active')) return;
             updateCarousel(index);
         }
+        // Hàm xử lý khi nhấn Đăng xuất
+function dangXuat() {
+    // Xóa trạng thái đăng nhập trong bộ nhớ trình duyệt
+    localStorage.removeItem("isLoggedIn");
+    
+    // Chuyển hướng người dùng về trang tài khoản (đăng nhập/đăng ký)
+    window.location.href = "taikhoan.html";
+}
 
         function updateCarousel(activeIndex) {
             cards.forEach((card, i) => {
