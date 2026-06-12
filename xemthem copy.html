@@ -1,28 +1,63 @@
 <!DOCTYPE html>
 <html lang="vi">
-    <script>
-    // Kiểm tra trạng thái: Nếu chưa đăng nhập thì lập tức chuyển hướng về trang tài khoản
-    if (localStorage.getItem("isLoggedIn") !== "true") {
-        window.location.href = "taikhoan.html"; 
-    }
-</script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang Văn Học & Podcast</title>
     <script>
+        // Kiểm tra trạng thái: Nếu chưa đăng nhập thì lập tức chuyển hướng về trang tài khoản
         if (localStorage.getItem("isLoggedIn") !== "true") {
-            // window.location.href = "taikhoan.html";
+            // window.location.href = "taikhoan.html"; 
         }
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .animate-spin-slow { animation: spin 8s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #fdf2f4;
+        }
+
+        .disc-spin {
+            animation: spin 15s linear infinite;
+            animation-play-state: paused; /* Mặc định dừng quay, chỉ quay khi nhạc phát */
+        }
+
+        .playing-disc .disc-spin {
+            animation-play-state: running; /* Quay khi đang phát nhạc */
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        #mainImage {
+            transition: all .5s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,.2), 0 0 40px rgba(255,255,255,.4);
+        }
+
+        .playlist-item {
+            transition: all .4s ease;
+        }
+
+        .playlist-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .playing {
+            transform: scale(1.03);
+        }
+
+        .playing img {
+            border: 5px solid #166534;
+        }
+
+        .glass-card {
+            background: rgba(255,255,255,.25);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,.4);
+        }
     </style>
 </head>
 <body class="bg-[#fdf2f4]">
@@ -47,27 +82,23 @@
         </div>
 
         <div class="grid grid-cols-12 gap-8">
-            <div class="col-span-12 lg:col-span-9 relative rounded-[0.5rem] overflow-hidden shadow-2xl h-[520px] bg-white">
+            <div id="playerContainer" class="col-span-12 lg:col-span-9 relative rounded-[0.5rem] overflow-hidden shadow-2xl h-[520px] bg-white">
                 <img src="images/ANH NEN PC.jpg" class="w-full h-full object-cover opacity-90">
                 
                 <div class="absolute inset-0 flex flex-col items-center justify-start pt-10">
                     <div class="bg-white/40 backdrop-blur-xl p-6 md:p-10 rounded-[1rem] border border-white/50 w-[90%] md:w-[85%] shadow-2xl">
                         <div class="flex flex-col md:flex-row items-center gap-8">
                             <div class="relative">
-                                <img id="mainImage" src="images/nền khung tròn.jpg" class="w-36 h-36 md:w-40 md:h-40 rounded-full border-[8px] border-white object-cover shadow-2xl animate-[spin_10s_linear_infinite]">
+                               <img id="mainImage" src="images/YEUVAN.jpg"
+                                    class="w-36 h-36 md:w-40 md:h-40 rounded-full border-[8px] border-white object-cover shadow-2xl disc-spin">
                                 <div class="absolute inset-0 flex items-center justify-center">
                                     <div class="w-8 h-8 bg-white rounded-full border-4 border-gray-100"></div>
                                 </div>
                             </div>
 
                             <div class="flex-1 text-center md:text-left">
-                                <p class="font-['Montserrat'] text-green-900 font-bold text-lg mb-1 opacity-80 uppercase tracking-wider">
-                                    Tác phẩm
-                                </p>
-                                
-                                <h3 id="mainTitle" class="font-['Anton'] text-4xl md:text-6xl text-green-700 leading-tight tracking-normal uppercase font-bold">
-                                    “VỢ CHỒNG <br> A PHỦ”
-                                </h3>
+                                <p class="font-['Montserrat'] text-green-900 font-bold text-lg mb-1 opacity-80 uppercase tracking-wider"></p>
+                                <h3 id="mainTitle" class="font-['Anton'] text-4xl md:text-6xl text-green-700 leading-tight tracking-normal uppercase font-bold">“YÊU VĂN<br>LẠI TỪ ĐẦU”</h3>
                                 
                                 <div class="mt-4">
                                     <div id="progressContainer" class="w-full bg-gray-200/50 h-2 rounded-full relative overflow-hidden cursor-pointer">
@@ -84,9 +115,7 @@
 
                     <div class="mt-8 flex items-center gap-10">
                         <button id="skipBackBtn" class="text-white hover:scale-125 transition-all drop-shadow-lg text-5xl">⏮</button>
-                        <button id="playPauseBtn" class="bg-white text-green-800 w-20 h-20 rounded-full flex items-center justify-center text-5xl shadow-2xl hover:scale-110 active:scale-95 transition-all">
-                            ▶
-                        </button>
+                        <button id="playPauseBtn" class="bg-white text-green-800 w-20 h-20 rounded-full flex items-center justify-center text-5xl shadow-2xl hover:scale-110 active:scale-95 transition-all">▶</button>
                         <button id="skipForwardBtn" class="text-white hover:scale-125 transition-all drop-shadow-lg text-5xl">⏭</button>
                     </div>
                 </div>
@@ -94,131 +123,170 @@
 
             <div class="col-span-12 lg:col-span-3 flex flex-col gap-6 overflow-y-auto max-h-[720px] pr-4 scrollbar-hide">
                 
-                <div class="w-full playlist-item" data-src="audio/vo-chong-a-phu.mp3" data-title="“VỢ CHỒNG <br> A PHỦ”" data-img="images/nền khung tròn.jpg">
-                    <div class="aspect-square w-full relative overflow-hidden rounded-[1rem] shadow-xl border-4 border-transparent hover:border-green-800 transition-all duration-500 cursor-pointer group">
-                        <img src="images/anh4.jpg" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                <div class="w-full playlist-item"
+                     data-src="audio/test.mp3"
+                     data-title="“YÊU VĂN <br> LẠI TỪ ĐẦU”"
+                     data-img="images/YEUVAN.jpg"
+                     data-description="“Yêu Văn Lại Từ Đầu” không chỉ đơn thuần là một góc nhỏ chia sẻ kiến thức, mà là một hành trình đầy cảm xúc đưa người nghe lội ngược dòng thời gian để tìm lại niềm yêu thích văn chương vốn bị ngủ quên sau những giờ học căng thẳng.">
+                    <div class="aspect-square w-full relative overflow-hidden rounded-[1rem] shadow-xl cursor-pointer group">
+                        <img src="images/YEUVAN.jpg" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     </div>
                 </div>
 
-                <div class="w-full playlist-item" data-src="audio/tac-pham-2.mp3" data-title="“TÁC PHẨM <br> SỐ HAI”" data-img="images/anh5.jpg">
-                    <div class="aspect-square w-full relative overflow-hidden rounded-[1rem] shadow-xl border-4 border-transparent hover:border-green-800 transition-all duration-500 cursor-pointer group">
-                        <img src="images/anh5.jpg" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                <div class="w-full playlist-item"
+                     data-src="audio/vietbac.mp3"
+                     data-title="“TÁC PHẨM <br> VIỆT BẮC"
+                     data-img="images/VIỆT BẮC.jpg"
+                     data-description="“Việt Bắc” không chỉ đơn thuần là một bài thơ, mà còn được ví như một bản hùng ca, một bức tranh hoành tráng bằng ngôn từ về tình quân dân cá nước son sắt trong suốt mười lăm năm kháng chiến chống thực dân Pháp gian khổ mà anh hùng">
+                    <div class="aspect-square w-full relative overflow-hidden rounded-[1rem] shadow-xl cursor-pointer group">
+                        <img src="images/VIỆT BẮC.jpg" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     </div>
                 </div>
 
-                <div class="w-full playlist-item" data-src="audio/tac-pham-3.mp3" data-title="“TÁC PHẨM <br> SỐ BA”" data-img="images/anh6.jpg">
-                    <div class="aspect-square w-full relative overflow-hidden rounded-[1rem] shadow-xl border-4 border-transparent hover:border-green-800 transition-all duration-500 cursor-pointer group">
-                        <img src="images/anh6.jpg" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                <div class="w-full playlist-item"
+                     data-src="audio/vochongaphu.mp3"
+                     data-title="“TÁC PHẨM <br> VỢ CHỒNG A PHỦ”"
+                     data-img="images/nền khung tròn.jpg" 
+                     data-description="Vợ chồng A Phủ là truyện ngắn đặc sắc của nhà văn Tô Hoài, sáng tác năm 1952. Tác phẩm phơi bày bức tranh hiện thực tàn khốc về ách thống trị phong kiến, đồng thời ca ngợi sức sống tiềm tàng, khát vọng tự do mãnh liệt của người lao động vùng cao.">
+                    <div class="aspect-square w-full relative overflow-hidden rounded-[1rem] shadow-xl cursor-pointer group">
+                        <img src="images/nền khung tròn.jpg" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     </div>
                 </div>
 
-                <div class="w-full playlist-item" data-src="audio/tac-pham-4.mp3" data-title="“TÁC PHẨM <br> SỐ BỐN”" data-img="images/anh7.jpg">
-                    <div class="aspect-square w-full relative overflow-hidden rounded-[1rem] shadow-xl border-4 border-transparent hover:border-green-800 transition-all duration-500 cursor-pointer group">
-                        <img src="images/anh7.jpg" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                <div class="w-full playlist-item"
+                     data-src="audio/nldsd.mp3"
+                     data-title="“TÁC PHẨM <br> NGƯỜI LÁI ĐÒ SÔNG ĐÀ”"
+                     data-img="images/NLDSD.jpg"
+                     data-description="“Người lái đò Sông Đà” là một áng tùy bút đặc sắc, nơi thiên tài ngôn từ Nguyễn Tuân đã khắc họa một cách trọn vẹn và ngoạn mục vẻ đẹp vừa hùng vĩ, dữ dội, lại vừa thơ mộng, trữ tình của thiên nhiên Tây Bắc.">
+                    <div class="aspect-square w-full relative overflow-hidden rounded-[1rem] shadow-xl cursor-pointer group">
+                        <img src="images/NLDSD.jpg" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     </div>
                 </div>
 
-                <div class="flex justify-center py-4">
-                    <div class="w-14 h-14 bg-[#14532d] rounded-full flex items-center justify-center text-white shadow-2xl animate-bounce cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"/></svg>
-                    </div>
-                </div>
             </div>
         </div>
 
         <div class="relative -mt-20 w-full px-6 md:px-12 pb-10 z-20">
             <div class="max-w-[1000px]">
-                <p class="font-['Montserrat'] text-green-800 text-xl md:text-1xl leading-relaxed font-light">
-                    <span class="font-bold text-green-800">Vợ chồng A Phủ</span> là truyện ngắn đặc sắc của nhà văn Tô Hoài...
-                </p>
+                <p id="mainDescription" class="font-['Montserrat'] text-green-800 text-xl md:text-1xl leading-relaxed font-light">
+                    </p>
                 <div class="mt-2 flex items-center gap-4">
                     <div class="h-[1px] w-12 bg-green-900/20"></div>
-                    <span class="font-['Montserrat'] text-green-900/50 text-sm italic">Truyện Tây Bắc (1952)</span>
+                    <span class="font-['Montserrat'] text-green-900/50 text-sm italic"></span>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<audio id="podcastAudio" src="test.mp3" preload="metadata"></audio>
+<audio id="podcastAudio" preload="metadata"></audio>
 
 <script>
-    const audio = document.getElementById('podcastAudio');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const progressBar = document.getElementById('progressBar');
-    const progressContainer = document.getElementById('progressContainer');
-    const currentTimeEl = document.getElementById('currentTime');
-    const durationTimeEl = document.getElementById('durationTime');
-    const skipBackBtn = document.getElementById('skipBackBtn');
-    const skipForwardBtn = document.getElementById('skipForwardBtn');
-    
-    // Khai báo thêm các phần tử cần đổi thông tin
-    const mainTitle = document.getElementById('mainTitle');
-    const mainImage = document.getElementById('mainImage');
-    const playlistItems = document.querySelectorAll('.playlist-item');
+const audio = document.getElementById('podcastAudio');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const progressBar = document.getElementById('progressBar');
+const progressContainer = document.getElementById('progressContainer');
+const currentTimeEl = document.getElementById('currentTime');
+const durationTimeEl = document.getElementById('durationTime');
+const playerContainer = document.getElementById('playerContainer');
 
-    function formatTime(seconds) {
-        if (isNaN(seconds)) return "00:00";
-        const min = Math.floor(seconds / 60);
-        const sec = Math.floor(seconds % 60);
-        return `${min < 10 ? '0' : ''}${min}:${sec < 10 ? '0' : ''}${sec}`;
-    }
+const skipBackBtn = document.getElementById('skipBackBtn');
+const skipForwardBtn = document.getElementById('skipForwardBtn');
 
-    audio.addEventListener('loadedmetadata', () => {
-        durationTimeEl.innerText = formatTime(audio.duration);
-    });
+const mainTitle = document.getElementById('mainTitle');
+const mainImage = document.getElementById('mainImage');
+const mainDescription = document.getElementById('mainDescription');
+const playlistItems = document.querySelectorAll('.playlist-item');
 
-    playPauseBtn.addEventListener('click', () => {
-        if (audio.paused) {
-            audio.play();
+// FORMAT TIME
+function formatTime(seconds) {
+    if (isNaN(seconds)) return "00:00";
+    const min = Math.floor(seconds / 60);
+    const sec = Math.floor(seconds % 60);
+    return `${min < 10 ? '0' : ''}${min}:${sec < 10 ? '0' : ''}${sec}`;
+}
+
+// LOAD META
+audio.addEventListener('loadedmetadata', () => {
+    durationTimeEl.innerText = formatTime(audio.duration);
+});
+
+// PLAY / PAUSE LOGIC
+playPauseBtn.addEventListener('click', () => {
+    if (audio.paused) {
+        audio.play().then(() => {
             playPauseBtn.innerText = '⏸';
-        } else {
-            audio.pause();
-            playPauseBtn.innerText = '▶';
-        }
-    });
-
-    audio.addEventListener('timeupdate', () => {
-        currentTimeEl.innerText = formatTime(audio.currentTime);
-        const progressPercent = (audio.currentTime / audio.duration) * 100;
-        progressBar.style.width = `${progressPercent}%`;
-    });
-
-    progressContainer.addEventListener('click', (e) => {
-        const width = progressContainer.clientWidth;
-        const clickX = e.offsetX;
-        const duration = audio.duration;
-        audio.currentTime = (clickX / width) * duration;
-    });
-
-    skipBackBtn.addEventListener('click', () => { audio.currentTime -= 15; });
-    skipForwardBtn.addEventListener('click', () => { audio.currentTime += 15; });
-
-    audio.addEventListener('ended', () => {
+            playerContainer.classList.add('playing-disc');
+        }).catch(err => console.log("Yêu cầu tương tác trước khi phát nhạc:", err));
+    } else {
+        audio.pause();
         playPauseBtn.innerText = '▶';
-        progressBar.style.width = '0%';
-        audio.currentTime = 0;
-    });
+        playerContainer.classList.remove('playing-disc');
+    }
+});
 
-    // TÍNH NĂNG CHỌN BÀI TỪ DANH SÁCH BÊN PHẢI
-    playlistItems.forEach(item => {
-        item.addEventListener('click', () => {
-            // 1. Lấy thông tin từ data-* attributes
-            const newSrc = item.getAttribute('data-src');
-            const newTitle = item.getAttribute('data-title');
-            const newImg = item.getAttribute('data-img');
+// PROGRESS TRACKING
+audio.addEventListener('timeupdate', () => {
+    currentTimeEl.innerText = formatTime(audio.currentTime);
+    const percent = (audio.currentTime / audio.duration) * 100;
+    progressBar.style.width = percent + "%";
+});
 
-            // 2. Cập nhật giao diện
-            mainTitle.innerHTML = newTitle;
-            mainImage.src = newImg;
-            progressBar.style.width = '0%';
+// SEEK BAR
+progressContainer.addEventListener('click', (e) => {
+    const width = progressContainer.clientWidth;
+    const clickX = e.offsetX;
+    if(audio.duration) {
+        audio.currentTime = (clickX / width) * audio.duration;
+    }
+});
 
-            // 3. Đổi file âm thanh và tự động phát
-            audio.src = newSrc;
-            audio.play();
+// SKIP BUTTONS
+skipBackBtn.onclick = () => audio.currentTime -= 15;
+skipForwardBtn.onclick = () => audio.currentTime += 15;
+
+// AUDIO ENDED
+audio.addEventListener('ended', () => {
+    playPauseBtn.innerText = '▶';
+    progressBar.style.width = '0%';
+    playerContainer.classList.remove('playing-disc');
+});
+
+// 🔥 1. XỬ LÝ SỰ KIỆN KHÁN GIẢ CHỌN BÀI (ĐÃ TÁCH KHỎI WINDOW LOAD)
+playlistItems.forEach(item => {
+    item.addEventListener('click', () => {
+        playlistItems.forEach(i => i.classList.remove('playing'));
+        item.classList.add('playing');
+
+        audio.src = item.dataset.src;
+        mainTitle.innerHTML = item.dataset.title;
+        mainImage.src = item.dataset.img;
+        mainDescription.innerHTML = item.dataset.description;
+
+        audio.play().then(() => {
             playPauseBtn.innerText = '⏸';
-        });
+            playerContainer.classList.add('playing-disc');
+        }).catch(err => console.log("Lỗi phát audio:", err));
+
+        // Khởi động lại hoạt ảnh xoay đĩa từ góc 0 độ
+        mainImage.style.animation = 'none';
+        void mainImage.offsetWidth; 
+        mainImage.style.animation = null;
     });
+});
+
+// 🔥 2. TỰ ĐỘNG THIẾT LẬP BÀI ĐẦU TIÊN KHI MỞ TRANG (KHÔNG TỰ PHÁT ĐỂ TRÁNH BỊ CHẶN)
+window.addEventListener('DOMContentLoaded', () => {
+    const firstTrack = document.querySelector('.playlist-item');
+    if(firstTrack){
+        firstTrack.classList.add('playing');
+        audio.src = firstTrack.dataset.src;
+        mainTitle.innerHTML = firstTrack.dataset.title;
+        mainImage.src = firstTrack.dataset.img;
+        mainDescription.innerHTML = firstTrack.dataset.description;
+        audio.load(); // Nạp sẵn thông tin độ dài tệp tin thời gian
+    }
+});
 </script>
 
 </body>

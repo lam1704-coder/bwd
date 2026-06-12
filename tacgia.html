@@ -148,92 +148,137 @@
     display: flex; 
     align-items: center; 
     justify-content: center;
-    gap: 40px; /* Khoảng cách rộng rãi giữa các thẻ và mũi tên */
+    gap: 20px; /* Thu hẹp gap một chút để cân đối với mũi tên */
     padding: 30px;
     width: 100%;
     box-sizing: border-box;
+    overflow: hidden; /* Ẩn các phần tử tràn ra ngoài */
 ">
-    <div class="nav-arrow-static" style="
+    <div class="nav-arrow-static" id="prevBtn" style="
         width: 0; 
         height: 0; 
         border-top: 12px solid transparent;
         border-bottom: 12px solid transparent;
-        border-right: 18px solid #739d6f; /* Tạo tam giác quay sang trái */
+        border-right: 18px solid #739d6f; 
         cursor: pointer;
         user-select: none;
+        z-index: 10;
     "></div>
     
-    <div style="display: flex; gap: 30px;">
-        
-        <div class="card-pink" style="
-            width: 150px; 
-            height: 180px; 
-            background-color: #ffd6e0; /* Màu hồng phấn chuẩn mẫu */
-            border-radius: 4px; 
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+    <div class="slider-wrapper" style="
+        width: 510px; /* (150px * 3) + (30px * 2) = 510px */
+        overflow: hidden;
+    ">
+        <div class="card-container" id="cardContainer" style="
+            display: flex; 
+            gap: 30px;
+            transition: transform 0.4s ease-in-out; /* Tạo hiệu ứng lướt mượt mà */
+            width: max-content;
         ">
-            <div style="
-                width: 110px; 
-                height: 110px; 
-                border: 2px solid rgba(255, 255, 255, 0.6); 
-                box-shadow: inset 0 0 4px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05);
+            
+            <div class="card-pink" style="
+                width: 150px; 
+                height: 180px; 
+                background-color: #ffd6e0; 
+                border-radius: 4px; 
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                flex-shrink: 0; /* Giữ nguyên kích thước, không bị co */
             ">
-                <img src="images/bông hoa (1).png" alt="hoa" style="
-                    width: 50px; 
-                    height: auto;
-                    filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.15));
-                ">
+                <div style="width: 110px; height: 110px; border: 2px solid rgba(255, 255, 255, 0.6); box-shadow: inset 0 0 4px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 4px;">
+                    <img src="images/vo.jpg" alt="hoa" style="width: 100%; height: 100%; object-fit: cover; object-position: center; filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.15));">
+                </div>
             </div>
-        </div>
 
-        <div class="card-pink" style="
-            width: 150px; 
-            height: 180px; 
-            background-color: #ffd6e0; 
-            border-radius: 4px; 
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        ">
-            <div style="width: 110px; height: 110px; border: 2px solid rgba(255, 255, 255, 0.6); box-shadow: inset 0 0 4px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center;">
-                <img src="images/bông hoa (1).png" alt="hoa" style="width: 50px; height: auto; filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.15));">
+            <div class="card-pink" style="
+                width: 150px; 
+                height: 180px; 
+                background-color: #ffd6e0; 
+                border-radius: 4px; 
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            ">
+                <div style="width: 110px; height: 110px; border: 2px solid rgba(255, 255, 255, 0.6); box-shadow: inset 0 0 4px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 4px;">
+                    <img src="images/pmai (1).jpg" alt="hoa" style="width: 100%; height: 100%; object-fit: cover; object-position: center; filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.15));">
+                </div>
             </div>
-        </div>
 
-        <div class="card-pink" style="
-            width: 150px; 
-            height: 180px; 
-            background-color: #ffd6e0; 
-            border-radius: 4px; 
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        ">
-            <div style="width: 110px; height: 110px; border: 2px solid rgba(255, 255, 255, 0.6); box-shadow: inset 0 0 4px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center;">
-                <img src="images/bông hoa (1).png" alt="hoa" style="width: 50px; height: auto; filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.15));">
+            <div class="card-pink" style="
+                width: 150px; 
+                height: 180px; 
+                background-color: #ffd6e0; 
+                border-radius: 4px; 
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            ">
+                <div style="width: 110px; height: 110px; border: 2px solid rgba(255, 255, 255, 0.6); box-shadow: inset 0 0 4px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 4px;">
+                    <img src="images/pvan_.jpg" alt="hoa" style="width: 100%; height: 100%; object-fit: cover; object-position: center; filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.15));">
+                </div>
             </div>
-        </div>
+            
+            <div class="card-pink" style="
+                width: 150px; 
+                height: 180px; 
+                background-color: #ffd6e0; 
+                border-radius: 4px; 
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            ">
+                <div style="width: 110px; height: 110px; border: 2px solid rgba(255, 255, 255, 0.6); box-shadow: inset 0 0 4px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 4px;">
+                    <img src="images/rubik.jpg" alt="hoa" style="width: 100%; height: 100%; object-fit: cover; object-position: center; filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.15));">
+                </div>
+            </div>
 
+        </div>
     </div>
 
-    <div class="nav-arrow-static" style="
+    <div class="nav-arrow-static" id="nextBtn" style="
         width: 0; 
         height: 0; 
         border-top: 12px solid transparent;
         border-bottom: 12px solid transparent;
-        border-left: 18px solid #739d6f; /* Tạo tam giác quay sang phải */
+        border-left: 18px solid #739d6f; 
         cursor: pointer;
         user-select: none;
+        z-index: 10;
     "></div>
+</div>
+
+<script>
+    const container = document.getElementById('cardContainer');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+    let currentIndex = 0;
+    const step = 180; 
+    const maxIndex = 1; 
+
+    nextBtn.addEventListener('click', () => {
+        if (currentIndex < maxIndex) {
+            currentIndex++;
+            container.style.transform = `translateX(-${currentIndex * step}px)`;
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            container.style.transform = `translateX(-${currentIndex * step}px)`;
+        }
+    });
+</script>
+
 </div>
         </section>
 
@@ -263,7 +308,7 @@
                             </div>
                         </a>
                     </div>
-
+                    
                     <div class="polaroid-item">
                         <a href="rubik.html" class="polaroid-link">
                             <img src="images/bông hoa (1).png" class="pin-flower">
