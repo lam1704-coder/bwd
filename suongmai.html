@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học văn cùng cô Sương Mai - Portfolio</title>
+    
+    <!-- Nhúng Google Fonts để các font chữ hiển thị chuẩn và đẹp mắt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* TỔNG QUAN & MÀU SẮC */
+        :root {
+            --primary-green: #2e6f21; /* Màu xanh lá chủ đạo */
+            --accent-green: #006231;
+            --muted-green: #4f6f4c;
+            --bg-light: #f4f7f2;
+            --text-dark: #333;
+            --text-muted: #666;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #ffffff;
+            color: var(--text-dark);
+        }
+
+        /* BANNER PHÍA TRÊN */
+        .hero {
+            position: relative;
+            height: 580px;
+            background: url('images/smbbb.jpg') top center / cover no-repeat;
+            display: flex;
+            align-items: flex-end;
+            padding: 0 10% 80px;
+        }
+
+        /* Hiệu ứng mờ dần (Gradient) ở chân banner */
+        .hero::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(transparent, rgb(255, 255, 255));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* CHỈ SỐ THỐNG KÊ (STATS) */
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 40px 10%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* PHẦN GIỚI THIỆU */
+        .intro {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            padding: 40px 10%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .intro img {
+            width: 300px;
+            height: auto;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            flex-shrink: 0;
+        }
+
+        .intro p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #444;
+            font-weight: 400;
+            margin: 0;
+        }
+
+        /* LƯỚI 9 ẢNH (3x3) */
+        .grid-main {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px 10%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .img-card {
+            aspect-ratio: 4 / 3;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #f0f0f0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+        .img-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .img-card:hover img {
+            transform: scale(1.08);
+        }
+
+        /* DÒNG CHỮ CHẠY NGANG GIỮA */
+        .quote-divider {
+            font-size: 14px;
+            font-weight: 500;
+            font-style: italic;
+            color: var(--muted-green);
+            line-height: 1.8;
+            text-align: center;
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        /* LƯỚI 4 ẢNH PHỤ (1x4) */
+        .grid-footer {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 0 10% 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid #eee;
+            padding: 60px 10%;
+            display: flex;
+            justify-content: space-between;
+            background: #fafafa;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 80px;
+        }
+
+        .footer-col h4 {
+            font-size: 14px;
+            color: #bbb;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .footer-col p {
+            font-size: 14px;
+            margin: 5px 0;
+            color: #666;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .grid-main { grid-template-columns: repeat(2, 1fr); }
+            .grid-footer { grid-template-columns: repeat(2, 1fr); }
+            .intro { flex-direction: column; text-align: center; gap: 30px; }
+            .intro img { width: 80%; }
+            .stats { flex-wrap: wrap; gap: 20px; }
+            .hero-content h1 { font-size: 48px; }
+            .hero-content p { font-size: 32px; }
+            footer { flex-direction: column; gap: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BANNER HERO -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1 style="font-family: 'Anton', sans-serif; font-size: 64px; color: var(--primary-green); margin: 0 0 5px 0; letter-spacing: 1px;">
+                HỌC VĂN CÙNG
+            </h1>
+            <!-- Sử dụng Playfair Display mang tinh thần nghệ thuật, văn học -->
+            <p style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 48px; color: var(--accent-green); margin: 0; font-weight: 700;">
+                Cô Sương Mai
+            </p>
+        </div>
+    </header>
+
+    <!-- CHỈ SỐ THỐNG KÊ (STATS) -->
+    <section class="stats">
+        <div class="stat-item">
+            <strong style="font-size: 24px; color: var(--primary-green); font-weight: 700; margin-bottom: 5px;">5+ Năm</strong>
+            <span style="font-size: 12px; color: var(--text-muted); font-weight: 400; text-transform: uppercase; letter-spacing: 1px;">Kinh nghiệm luyện thi</span>
+        </div>
+        
+        <div class="stat-item">
+            <strong style="font-size: 24px; color: var(--primary-green); font-weight: 700; margin-bottom: 5px;">10.000+</strong>
+            <span style="font-size: 12px; color: var(--text-muted); font-weight: 400; text-transform: uppercase; letter-spacing: 1px;">Học viên theo học</span>
+        </div>
+        
+        <div class="stat-item">
+            <strong style="font-size: 24px; color: var(--primary-green); font-weight: 700; margin-bottom: 5px;">95%</strong>
+            <span style="font-size: 12px; color: var(--text-muted); font-weight: 400; text-transform: uppercase; letter-spacing: 1px;">Đạt điểm Giỏi (>8+)</span>
+        </div>
+        
+        <div class="stat-item">
+            <strong style="font-size: 24px; color: var(--primary-green); font-weight: 700; margin-bottom: 5px;">TOP 1</strong>
+            <span style="font-size: 12px; color: var(--text-muted); font-weight: 400; text-transform: uppercase; letter-spacing: 1px;">Cộng đồng học Văn sáng tạo</span>
+        </div>
+    </section>
+
+    <!-- PHẦN GIỚI THIỆU (INTRO) -->
+    <section class="intro">
+        <img src="images/smbb.jpg" alt="Cô Sương Mai">
+        <p>
+            Văn học không phải là những bài văn mẫu rập khuôn, mà là tấm gương phản chiếu tâm hồn và tư duy của chính bạn. Qua lăng kính của <strong>Cô Sương Mai</strong>, mỗi tác phẩm không còn là những dòng chữ khô khan trên trang giấy thi, mà trở thành một thế giới sống động, tràn ngập hơi thở thời đại và cảm xúc sâu lắng. Hãy cùng cô mở lòng, lắng nghe ngôn từ và đánh thức người nghệ sĩ bên trong bạn.
+        </p>
+    </section>
+
+    <!-- LƯỚI 9 ẢNH CHÍNH (3x3) -->
+    <section class="grid-main">
+        <div class="img-card"><img src="images/sm1.jpg" alt="Lớp học Văn"></div>
+        <div class="img-card"><img src="images/sm2.jpg" alt="Tài liệu ôn thi"></div>
+        <div class="img-card"><img src="images/sm3.jpg" alt="Khoảnh khắc học tập"></div>
+        
+        <div class="img-card"><img src="images/sm4.jpg" alt="Bài giảng sáng tạo"></div>
+        <div class="img-card"><img src="images/sm5.jpg" alt="Bí kíp đạt điểm cao"></div> 
+        <div class="img-card"><img src="images/sm6.jpg" alt="Nhật ký học văn"></div>
+        
+        <div class="img-card"><img src="images/sm7.jpg" alt="Cảm hứng văn chương"></div>
+        <div class="img-card"><img src="images/sm8.jpg" alt="Sách và những người bạn"></div>
+        <div class="img-card"><img src="images/sm9.jpg" alt="Sự tiến bộ của học viên"></div>
+    </section>
+
+    <!-- DÒNG CHỮ TRÍCH DẪN GIỮA TRANG -->
+    <div class="quote-divider">
+        "Nhiệm vụ của văn học là dẫn dắt chúng ta đi sâu vào thế giới nội tâm, học cách đồng cảm với những mảnh đời xa lạ, để rồi từ đó thấu hiểu chính bản thân mình. Học Văn cùng Sương Mai — nơi gieo mầm cho những tâm hồn yêu cái đẹp..."
+    </div>
+
+    <!-- LƯỚI 4 ẢNH PHỤ FOOTER (1x4) -->
+    <section class="grid-footer">
+        <div class="img-card"><img src="images/sm10.jpg" alt="Feedback học viên 1"></div>
+        <div class="img-card"><img src="images/sm11.jpg" alt="Feedback học viên 2"></div>
+        <div class="img-card"><img src="images/sm12.jpg" alt="Feedback học viên 3"></div>
+        <div class="img-card"><img src="images/sm13.jpg" alt="Feedback học viên 4"></div>
+    </section>
+
+   
+
+</body>
+</html>

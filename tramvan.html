@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thích Văn Học & Trạm Văn</title>
+    
+    <!-- Nhúng Google Fonts mang phong cách chuyên nghiệp, thanh lịch và truyền cảm hứng -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* TỔNG QUAN & MÀU SẮC (Tone xanh lá đậm kết hợp trắng ngà sang trọng) */
+        :root {
+            --primary-green: #2a4736; /* Màu xanh lục bảo trầm, uy tín và chuyên nghiệp */
+            --accent-green: #143222;
+            --muted-green: #4f6f52;
+            --bg-light: #f9fbf9;
+            --text-dark: #2b3730;
+            --text-muted: #6b7770;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #ffffff;
+            color: var(--text-dark);
+        }
+
+        /* BANNER PHÍA TRÊN */
+        .hero {
+            position: relative;
+            height: 580px;
+            background: url('images/tvbbb.jpg') top center / cover no-repeat;
+            display: flex;
+            align-items: flex-end;
+            padding: 0 10% 80px;
+        }
+
+        /* Hiệu ứng mờ dần (Gradient) ở chân banner */
+        .hero::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(transparent, rgb(255, 255, 255));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* CHỈ SỐ THỐNG KÊ (STATS) */
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 40px 10%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* PHẦN GIỚI THIỆU */
+        .intro {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            padding: 40px 10%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .intro img {
+            width: 300px;
+            height: auto;
+            border-radius: 16px;
+            box-shadow: 0 12px 35px rgba(42, 71, 54, 0.08);
+            flex-shrink: 0;
+        }
+
+        .intro p {
+            font-family: 'Lora', serif;
+            font-size: 16px;
+            line-height: 1.9;
+            color: var(--text-dark);
+            font-weight: 400;
+            margin: 0;
+        }
+
+        /* LƯỚI 9 ẢNH (3x3) */
+        .grid-main {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px 10%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .img-card {
+            aspect-ratio: 4 / 3;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #f4f6f4;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+
+        .img-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .img-card:hover img {
+            transform: scale(1.07);
+        }
+
+        /* DÒNG CHỮ TRÍCH DẪN GIỮA TRANG */
+        .quote-divider {
+            font-family: 'Lora', serif;
+            font-size: 15px;
+            font-weight: 500;
+            font-style: italic;
+            color: var(--muted-green);
+            line-height: 1.8;
+            text-align: center;
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        /* LƯỚI 4 ẢNH PHỤ (1x4) */
+        .grid-footer {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 0 10% 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid #edf0ee;
+            padding: 60px 10%;
+            display: flex;
+            justify-content: space-between;
+            background: #fafbfa;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 80px;
+        }
+
+        .footer-col h4 {
+            font-size: 13px;
+            color: #afb7b2;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .footer-col p {
+            font-size: 14px;
+            margin: 8px 0;
+            color: var(--text-muted);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .grid-main { grid-template-columns: repeat(2, 1fr); }
+            .grid-footer { grid-template-columns: repeat(2, 1fr); }
+            .intro { flex-direction: column; text-align: center; gap: 30px; }
+            .intro img { width: 80%; }
+            .stats { flex-wrap: wrap; gap: 20px; }
+            .hero-content h1 { font-size: 48px; }
+            .hero-content p { font-size: 32px; }
+            footer { flex-direction: column; gap: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BANNER HERO -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1 style="font-family: 'Anton', sans-serif; font-size: 64px; color: var(--primary-green); margin: 0 0 5px 0; letter-spacing: 1px;">
+                TRẠM VĂN
+            </h1>
+            <p style="font-family: 'Lora', serif; font-style: italic; font-size: 44px; color: var(--accent-green); margin: 0; font-weight: 700;">
+                Cô Ngọc Anh
+            </p>
+        </div>
+    </header>
+
+    <!-- CHỈ SỐ THỐNG KÊ (STATS) -->
+    <section class="stats">
+        <div class="stat-item">
+            <strong style="font-size: 24px; color: var(--primary-green); font-weight: 700; margin-bottom: 5px;">Tận Tâm</strong>
+            <span style="font-size: 11px; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 1px;">Phương pháp dạy thực chiến</span>
+        </div>
+        
+        <div class="stat-item">
+            <strong style="font-size: 24px; color: var(--primary-green); font-weight: 700; margin-bottom: 5px;">Hàng Ngàn</strong>
+            <span style="font-size: 11px; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 1px;">Học sinh bứt phá điểm số</span>
+        </div>
+        
+        <div class="stat-item">
+            <strong style="font-size: 24px; color: var(--primary-green); font-weight: 700; margin-bottom: 5px;">9+ Dễ Dàng</strong>
+            <span style="font-size: 11px; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 1px;">Chinh phục mọi dạng đề thi</span>
+        </div>
+        
+        <div class="stat-item">
+            <strong style="font-size: 24px; color: var(--primary-green); font-weight: 700; margin-bottom: 5px;">Chất Lượng</strong>
+            <span style="font-size: 11px; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 1px;">Luyện thi THPT Quốc Gia</span>
+        </div>
+    </section>
+
+    <!-- PHẦN GIỚI THIỆU (INTRO) -->
+    <section class="intro">
+        <img src="images/tvbb.jpg" alt="Luyện Thi Ngữ Văn Cô Ngọc Anh">
+        <p>
+            Đồng hành cùng hàng ngàn sĩ tử qua mỗi mùa thi, lớp học **Luyện thi Ngữ Văn của Cô Ngọc Anh** đã trở thành điểm tựa vững chắc giúp học sinh biến nỗi sợ môn Văn thành niềm đam mê và lợi thế cạnh tranh lớn. Với phương pháp giảng dạy hiện đại, tư duy logic, bám sát cấu trúc đề thi thực chiến và bộ tài liệu độc quyền, Cô Ngọc Anh không chỉ truyền tải kiến thức sâu sắc mà còn rèn luyện tư duy viết sắc bén, giúp các em tự tin chinh phục điểm số cao nhất trong các kỳ thi lớn.
+        </p>
+    </section>
+
+    <!-- LƯỚI 9 ẢNH CHÍNH (3x3) -->
+    <section class="grid-main">
+        <div class="img-card"><img src="images/tv1.jpg" alt="Kỹ năng phân tích đề bài"></div>
+        <div class="img-card"><img src="images/tv2.jpg" alt="Bí kíp làm văn đạt điểm cao"></div>
+        <div class="img-card"><img src="images/tv3.jpg" alt="Tài liệu ôn thi cô Ngọc Anh"></div>
+        
+        <div class="img-card"><img src="images/tv4.jpg" alt="Chuyên đề Nghị luận văn học"></div>
+        <div class="img-card"><img src="images/tv5.jpg" alt="Dẫn chứng liên hệ sáng tạo"></div> 
+        <div class="img-card"><img src="images/tv6.jpg" alt="Kỹ năng làm bài thực chiến"></div>
+        
+        
+    </section>
+
+    <!-- DÒNG CHỮ TRÍCH DẪN GIỮA TRANG -->
+    <div class="quote-divider">
+        "Học Văn không phải là ghi nhớ máy móc những bài văn mẫu, mà là học cách tư duy, lập luận khoa học và thể hiện cái tôi cá tính trên trang giấy. Điểm 9+ Ngữ Văn hoàn toàn nằm trong tầm tay các em..."
+    </div>
+
+    <!-- LƯỚI 4 ẢNH PHỤ FOOTER (1x4) -->
+    <section class="grid-footer">
+        <div class="img-card"><img src="images/tv7.jpg" alt="Tin nhắn báo điểm cao từ học sinh"></div>
+        <div class="img-card"><img src="images/tv8.jpg" alt="Cảm ơn cô Ngọc Anh từ học viên"></div>
+        <div class="img-card"><img src="images/tv9.jpg" alt="Thành tích học sinh cô Ngọc Anh"></div>
+        <div class="img-card"><img src="images/tv10.jpg" alt="Feedback lớp học Ngữ Văn"></div>
+    </section>
+
+    
+
+</body>
+</html>
