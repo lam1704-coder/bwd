@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chạm Văn Chương</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-main">
+<body> 
+        <img src="images/hoa 2.png" class="super1" alt="decor">
+        <img src="images/hoa 1.png" class="super2" alt="decor">
+        
+
+</body>
+
+    <section class="section-book min-h-screen flex flex-col justify-center py-20 relative">
+    
+    <div class="text-center mb-10 relative z-20">
+    <img src="images/CHỮ 2.png" alt="Logo" 
+         class="mx-auto w-[600px] h-[400px] object-cover object-center">
+</div>
+
+    <div class="max-w-[1500px] mx-auto w-[90%] bg-white/10 backdrop-blur-xl border border-white/30 rounded-[3rem] p-10 shadow-2xl relative z-10">
+        
+        <div class="flex items-center justify-between gap-5 md:gap-10">
+            <div id="prevBook" class="arrow-btn flex-shrink-0">
+                <div class="triangle left-tri"></div>
+            </div>
+            
+            <div id="bookSlider" class="flex gap-10 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth py-5 px-5">
+                <div class="snap-center book-card-item"><img src="images/anh1.jpg"></div>
+                <div class="snap-center book-card-item"><img src="images/anh2.jpg"></div>
+                <div class="snap-center book-card-item"><img src="images/anh3.jpg"></div>
+                <div class="snap-center book-card-item"><img src="images/anh4.jpg"></div>
+                <div class="snap-center book-card-item"><img src="images/anh5.jpg"></div>
+            </div>
+
+            <div id="nextBook" class="arrow-btn flex-shrink-0">
+                <div class="triangle"></div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+    <section class="section-podcast min-h-screen flex items-center py-20">
+        <div class="max-w-[1600px] mx-auto px-20 grid grid-cols-2 gap-32 items-center">
+            <div class="flex flex-col justify-center items-start">
+                <h2 class="text-[5rem] mb-6">PODCAST</h2>
+                <div class="podcast-desc">
+                    Chào mừng bạn đến với không gian Podcast của chúng mình. Tại đây, những trang sách không còn nằm yên trên giấy mà trở nên sống động qua từng giọng đọc và giai điệu.
+                </div>
+                <a href="xemthem.html" class="btn-primary">Xem thêm</a>
+            </div>
+            <div class="flex justify-center">
+                <div class="podcast-img-box">
+                    <img src="images/PODCAST.png" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-banner w-full relative h-[1000px]">
+    <button class="btn-primary absolute top-[650px] left-[20%]">
+        XEM CHI TIẾT
+    </button>
+</section>
+
+    <section class="section-lens min-h-screen py-20 overflow-hidden">
+        <div class="max-w-[1500px] mx-auto px-10">
+            <h2 class="text-6xl mb-20">Văn học là gì qua những lăng kính ?</h2>
+        </div>
+
+        <div id="lensSlider" class="flex gap-12 overflow-x-auto no-scrollbar snap-x snap-mandatory py-20 scroll-smooth">
+            <div class="flex-shrink-0 w-[calc((100vw-1500px)/2+40px)] md:block hidden"></div>
+            
+            <div class="snap-center lens-card flex-shrink-0" onclick="focusLens(this)">
+                <div class="lens-img-container"><img src="images/B1.jpg"></div>
+                <p>MÙA XUÂN NHỊP THỞ DỊU DÀNG TRONG THƠ CA</p>
+            </div>
+            <div class="snap-center lens-card flex-shrink-0" onclick="focusLens(this)">
+                <div class="lens-img-container"><img src="images/B2.jpg"></div>
+                <p>HÌNH ẢNH ẨN DỤ VỀ "NGỌN HẢI ĐĂNG"</p>
+            </div>
+            <div class="snap-center lens-card flex-shrink-0" onclick="focusLens(this)">
+                <div class="lens-img-container"><img src="images/B3.jpg"></div>
+                <p>KHÁM PHÁ BIỂU TƯỢNG CÂY TRE</p>
+            </div>
+
+            <div class="flex-shrink-0 w-[40vw]"></div>
+        </div>
+    </section>
+
+    <script>
+        const bookSlider = document.getElementById('bookSlider');
+        document.getElementById('nextBook').onclick = () => bookSlider.scrollBy({ left: 340, behavior: 'smooth' });
+        document.getElementById('prevBook').onclick = () => bookSlider.scrollBy({ left: -340, behavior: 'smooth' });
+
+        function focusLens(el) {
+            document.querySelectorAll('.lens-card').forEach(c => c.classList.remove('lens-focused'));
+            el.classList.add('lens-focused');
+            el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+        window.onload = () => { if(document.querySelector('.lens-card')) focusLens(document.querySelector('.lens-card')); }
+    </script>
+</body>
+</html>
