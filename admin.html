@@ -104,10 +104,14 @@
             
             if (response.ok) {
                 let pendingEssays = await response.json();
-                if(pendingEssays.length > 0) {
-                    currentEssayId = pendingEssays[0]._id;
-                    document.getElementById("noiDungBai").innerText = pendingEssays[0].originalContent;
-                } else {
+                // CODE MỚI: Lấy bài viết MỚI NHẤT (bài nằm cuối cùng trong danh sách)
+if(pendingEssays.length > 0) {
+    // Lấy index của phần tử cuối cùng
+    const baiMoiNhat = pendingEssays[pendingEssays.length - 1]; 
+    
+    currentEssayId = baiMoiNhat._id;
+    document.getElementById("noiDungBai").innerText = baiMoiNhat.originalContent;
+} else {
                     document.getElementById("noiDungBai").innerText = "Hiện chưa có bài nào cần chữa từ hệ thống học viên.";
                     currentEssayId = null;
                 }
